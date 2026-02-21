@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Platform {
+  ZORA
+  CATALOG
+  SOUND_XYZ
+  OPENSEA
+  HIGHLIGHT
+  BANDCAMP
+  YOUTUBE
+  APPLE_MUSIC
+  SPOTIFY
+}
+
+enum Chain {
+  ETHEREUM
+  BASE
+  OPTIMISM
+  POLYGON
+  NONE
+}
+
+enum MediaType {
+  AUDIO
+  VIDEO
+}
+
+model Track {
+  id              String        @id
+  title           String
+  slug            String        @unique
+  description     String?       @db.Text
+  lyrics          String?       @db.Text
+  mediaType       MediaType     @default(AUDIO)
+  coverImage      String
+  coverImageSmall String?
+  audioUrl        String?
+  videoUrl        String?
+  duration        Int?
+  album           String?
+  season          String?
+  episode         Int?
+  trackNumber     Int?
+  releaseDate     DateTime?
+  platform        Platform
+  chain           Chain         @default(NONE)
+  contractAddress String?
+  tokenId         String?
+  mintPrice       String?
+  mintUrl         String?
+  totalMints      Int?
+  editionSize     Int?
+  genre           String[]
+  bpm             Int?
+  musicalKey      String?
+  credits         Json?
+  externalLinks   Json?
+  artists         TrackArtist[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  indexedAt        DateTime      @default(now())
+
+  @@index([platform])
+  @@index([chain])
+  @@index([season])
+  @@index([releaseDate])
+  @@index([mediaType])
+}
+
+model Artist {
+  id        String        @id @default(cuid())
+  name      String
+  slug      String        @unique
+  bio       String?       @db.Text
+  avatarUrl String?
+  ensName   String?
+  twitter   String?
+  instagram String?
+  warpcast  String?
+  website   String?
+  tracks    TrackArtist[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([name])
+}
+
+model TrackArtist {
+  track     Track   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  trackId   String
+  artist    Artist  @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  artistId  String
+  role      String?
+  isPrimary Boolean @default(false)
+
+  @@id([trackId, artistId])
+  @@index([artistId])
+  @@index([trackId])
+}
+
+model FeaturedRelease {
+  id       String    @id @default(cuid())
+  trackId  String
+  position Int
+  headline String?
+  active   Boolean   @default(true)
+  startsAt DateTime?
+  endsAt   DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([active, position])
+}
+
+model SyncLog {
+  id            String   @id @default(cuid())
+  platform      Platform
+  status        String
+  tracksFound   Int      @default(0)
+  tracksAdded   Int      @default(0)
+  tracksUpdated Int      @default(0)
+  error         String?  @db.Text
+  duration      Int
+  createdAt     DateTime @default(now())
+
+  @@index([platform, createdAt])
+}
