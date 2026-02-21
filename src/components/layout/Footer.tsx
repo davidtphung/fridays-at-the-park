@@ -54,7 +54,15 @@ export function Footer() {
             &copy; {new Date().getFullYear()} {SITE_NAME}. Music lives onchain.
           </p>
           <p className="text-xs text-text-secondary">
-            Built with love for the culture.
+            Built by{' '}
+            <a
+              href="https://x.com/davidtphung"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-primary hover:text-accent transition-colors font-medium"
+            >
+              David T Phung
+            </a>
           </p>
         </div>
       </div>
