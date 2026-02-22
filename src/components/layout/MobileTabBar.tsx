@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Diamond, Play, Vote, Globe, Info } from 'lucide-react';
+import { Diamond, Play, Vote, Globe } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/constants';
 import { usePlayerStore } from '@/stores/playerStore';
 
@@ -11,7 +11,6 @@ const iconMap = {
   play: Play,
   vote: Vote,
   globe: Globe,
-  info: Info,
 } as const;
 
 export function MobileTabBar() {

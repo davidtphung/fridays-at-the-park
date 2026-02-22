@@ -38,10 +38,9 @@ export const CHAIN_COLORS: Record<Chain, string> = {
 
 export const NAV_ITEMS = [
   { label: 'Onchain', href: '/onchain', icon: 'diamond' as const, external: false },
-  { label: 'ORG', href: '/org', icon: 'globe' as const, external: false },
   { label: 'Episodes', href: '/episodes', icon: 'play' as const, external: false },
+  { label: 'ORG', href: '/org', icon: 'globe' as const, external: false },
   { label: 'DAO', href: '/dao', icon: 'vote' as const, external: false },
-  { label: 'About', href: '/about', icon: 'info' as const, external: false },
 ] as const;
 
 export const ITEMS_PER_PAGE = 20;
