@@ -18,37 +18,37 @@
   --overlay: rgba(0, 0, 0, 0.5);
 }
 
-/* Dark mode (default for web3 aesthetic) */
+/* Dark mode — bold black clean design */
 .dark {
-  --bg-primary: #0A0A0F;
-  --bg-secondary: #141420;
-  --bg-tertiary: #1C1C2E;
+  --bg-primary: #000000;
+  --bg-secondary: #0A0A0A;
+  --bg-tertiary: #141414;
   --text-primary: #FFFFFF;
-  --text-secondary: #A1A1AA;
+  --text-secondary: #888888;
   --accent: #E94560;
   --accent-hover: #FF6B81;
   --success: #22C55E;
-  --border: #27273A;
-  --player-bg: #141420;
-  --card-bg: #141420;
-  --overlay: rgba(0, 0, 0, 0.7);
+  --border: #1A1A1A;
+  --player-bg: #0A0A0A;
+  --card-bg: #0A0A0A;
+  --overlay: rgba(0, 0, 0, 0.85);
 }
 
 /* System preference fallback: default to dark */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
-    --bg-primary: #0A0A0F;
-    --bg-secondary: #141420;
-    --bg-tertiary: #1C1C2E;
+    --bg-primary: #000000;
+    --bg-secondary: #0A0A0A;
+    --bg-tertiary: #141414;
     --text-primary: #FFFFFF;
-    --text-secondary: #A1A1AA;
+    --text-secondary: #888888;
     --accent: #E94560;
     --accent-hover: #FF6B81;
     --success: #22C55E;
-    --border: #27273A;
-    --player-bg: #141420;
-    --card-bg: #141420;
-    --overlay: rgba(0, 0, 0, 0.7);
+    --border: #1A1A1A;
+    --player-bg: #0A0A0A;
+    --card-bg: #0A0A0A;
+    --overlay: rgba(0, 0, 0, 0.85);
   }
 }
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Diamond, Music, Play } from 'lucide-react';
+import { Diamond, Music, Play, Vote, Globe } from 'lucide-react';
 import { NAV_ITEMS } from '@/lib/constants';
 import { usePlayerStore } from '@/stores/playerStore';
 
@@ -10,6 +10,8 @@ const iconMap = {
   diamond: Diamond,
   music: Music,
   play: Play,
+  vote: Vote,
+  globe: Globe,
 } as const;
 
 export function MobileTabBar() {
@@ -28,7 +30,22 @@ export function MobileTabBar() {
       <div className="flex items-center justify-around h-14">
         {NAV_ITEMS.map((item) => {
           const Icon = iconMap[item.icon];
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          const isActive = !item.external && (pathname === item.href || pathname.startsWith(item.href + '/'));
+
+          if (item.external) {
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 min-h-[44px] transition-colors text-text-secondary"
+              >
+                <Icon size={20} aria-hidden="true" />
+                <span className="text-[10px] font-medium">{item.label}</span>
+              </a>
+            );
+          }
 
           return (
             <Link

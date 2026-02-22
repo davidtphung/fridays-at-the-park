@@ -1,7 +1,7 @@
 'use client';
 
 import { Track } from '@/types/track';
-import { X } from 'lucide-react';
+import { X, ExternalLink, Play } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { formatSeasonEpisode } from '@/lib/format';
 
@@ -10,24 +10,64 @@ interface VideoPlayerProps {
   onClose: () => void;
 }
 
+function getVideoEmbed(url?: string): { type: 'youtube' | 'zora' | 'none'; id?: string; url?: string } {
+  if (!url) return { type: 'none' };
+
+  if (url.includes('youtube.com/embed/')) {
+    const id = url.split('youtube.com/embed/')[1]?.split('?')[0];
+    return id ? { type: 'youtube', id } : { type: 'none' };
+  }
+
+  if (url.includes('zora.co') || url.includes('highlight.xyz')) {
+    return { type: 'zora', url };
+  }
+
+  return { type: 'none' };
+}
+
 export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
-  // Extract YouTube video ID from embed URL
-  const videoId = episode.videoUrl?.includes('youtube.com/embed/')
-    ? episode.videoUrl.split('youtube.com/embed/')[1]?.split('?')[0]
-    : null;
+  const embed = getVideoEmbed(episode.videoUrl);
 
   return (
     <div className="bg-bg-secondary rounded-2xl border border-border overflow-hidden mb-8">
-      {/* Video embed */}
+      {/* Video area */}
       <div className="relative aspect-video bg-black">
-        {videoId ? (
+        {embed.type === 'youtube' ? (
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+            src={`https://www.youtube.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1`}
             title={episode.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="absolute inset-0 w-full h-full"
           />
+        ) : embed.type === 'zora' ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+            {/* Cover image background */}
+            {episode.coverImage && (
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-30 blur-sm"
+                style={{ backgroundImage: `url(${episode.coverImage})` }}
+              />
+            )}
+            <div className="relative z-10 flex flex-col items-center gap-4 text-center">
+              <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center">
+                <Play size={32} className="text-accent ml-1" />
+              </div>
+              <div>
+                <p className="text-white font-semibold text-lg mb-1">{episode.title}</p>
+                <p className="text-white/60 text-sm mb-4">This episode lives onchain</p>
+              </div>
+              <a
+                href={embed.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent-hover transition-colors"
+              >
+                <ExternalLink size={16} />
+                Watch on {embed.url?.includes('highlight') ? 'Highlight' : 'Zora'}
+              </a>
+            </div>
+          </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-text-secondary">
             Video unavailable
@@ -42,6 +82,9 @@ export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
             <div className="flex items-center gap-2 mb-2">
               {episode.season && (
                 <Badge variant="season">{formatSeasonEpisode(episode.season, episode.episode)}</Badge>
+              )}
+              {embed.type === 'zora' && (
+                <Badge className="bg-chain-base/10 text-chain-base border border-chain-base/20">Onchain</Badge>
               )}
             </div>
             <h2 className="text-lg font-bold text-text-primary mb-1">{episode.title}</h2>

@@ -20,11 +20,12 @@ export const PLATFORM_URLS: Record<Platform, string> = {
 };
 
 export const SOCIAL_LINKS = {
-  twitter: 'https://x.com/fridayspark',
-  warpcast: 'https://warpcast.com/thepark',
+  twitter: 'https://x.com/thepark',
+  farcaster: 'https://farcaster.xyz/thepark',
   instagram: 'https://instagram.com/fridaysatthepark',
   zora: 'https://zora.co/@thepark',
   website: 'https://thepark.wtf',
+  org: 'https://fridaysatthepark.org/',
 };
 
 export const CHAIN_COLORS: Record<Chain, string> = {
@@ -36,9 +37,11 @@ export const CHAIN_COLORS: Record<Chain, string> = {
 };
 
 export const NAV_ITEMS = [
-  { label: 'Onchain', href: '/onchain', icon: 'diamond' as const },
-  { label: 'Bandcamp', href: '/bandcamp', icon: 'music' as const },
-  { label: 'Episodes', href: '/episodes', icon: 'play' as const },
+  { label: 'Onchain', href: '/onchain', icon: 'diamond' as const, external: false },
+  { label: 'Bandcamp', href: 'https://thepark.bandcamp.com/music', icon: 'music' as const, external: true },
+  { label: 'Episodes', href: '/episodes', icon: 'play' as const, external: false },
+  { label: 'DAO', href: '/dao', icon: 'vote' as const, external: false },
+  { label: 'ORG', href: '/org', icon: 'globe' as const, external: false },
 ] as const;
 
 export const ITEMS_PER_PAGE = 20;

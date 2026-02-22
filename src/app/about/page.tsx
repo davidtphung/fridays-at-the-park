@@ -36,7 +36,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <ExternalLink href={SOCIAL_LINKS.website} className="text-base">thepark.wtf</ExternalLink>
             <ExternalLink href={SOCIAL_LINKS.twitter} className="text-base">X / Twitter</ExternalLink>
-            <ExternalLink href={SOCIAL_LINKS.warpcast} className="text-base">Warpcast</ExternalLink>
+            <ExternalLink href={SOCIAL_LINKS.farcaster} className="text-base">Farcaster</ExternalLink>
+            <ExternalLink href={SOCIAL_LINKS.org} className="text-base">Fridays at The Park ORG</ExternalLink>
             <ExternalLink href={SOCIAL_LINKS.instagram} className="text-base">Instagram</ExternalLink>
             <ExternalLink href={PLATFORM_URLS[Platform.ZORA]} className="text-base">Zora</ExternalLink>
             <ExternalLink href={PLATFORM_URLS[Platform.BANDCAMP]} className="text-base">Bandcamp</ExternalLink>

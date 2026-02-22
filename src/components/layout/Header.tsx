@@ -29,7 +29,22 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
             {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+              const isActive = !item.external && (pathname === item.href || pathname.startsWith(item.href + '/'));
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative px-4 py-2 text-sm font-medium rounded-lg transition-colors min-h-[44px] flex items-center text-text-secondary hover:text-text-primary"
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}
@@ -92,7 +107,23 @@ export function Header() {
           >
             <div className="px-4 py-3 space-y-1">
               {NAV_ITEMS.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = !item.external && pathname === item.href;
+
+                if (item.external) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block px-4 py-3 text-sm font-medium rounded-lg transition-colors text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
+                    >
+                      {item.label}
+                    </a>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.href}
