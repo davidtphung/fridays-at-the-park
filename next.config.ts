@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'is1-ssl.mzstatic.com' },
       { protocol: 'https', hostname: 'zora.co' },
       { protocol: 'https', hostname: '*.zora.co' },
+      { protocol: 'https', hostname: 'api.zora.co' },
       { protocol: 'https', hostname: 'i.scdn.co' },
       { protocol: 'https', hostname: 'nftstorage.link' },
     ],
