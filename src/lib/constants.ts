@@ -38,7 +38,7 @@ export const CHAIN_COLORS: Record<Chain, string> = {
 
 export const NAV_ITEMS = [
   { label: 'Onchain', href: '/onchain', icon: 'diamond' as const, external: false },
-  { label: 'Episodes', href: 'https://www.youtube.com/@fridaysatthepark', icon: 'play' as const, external: true },
+  { label: 'Episodes', href: '/episodes', icon: 'play' as const, external: false },
   { label: 'ORG', href: '/org', icon: 'globe' as const, external: false },
   { label: 'DAO', href: '/dao', icon: 'vote' as const, external: false },
 ] as const;
