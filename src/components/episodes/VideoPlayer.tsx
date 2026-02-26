@@ -10,14 +10,21 @@ interface VideoPlayerProps {
   onClose: () => void;
 }
 
-function getVideoEmbed(url?: string): { type: 'youtube' | 'zora' | 'none'; id?: string; url?: string } {
+function getVideoEmbed(url?: string): { type: 'youtube' | 'ipfs' | 'zora' | 'none'; id?: string; url?: string } {
   if (!url) return { type: 'none' };
 
+  // YouTube embed URLs
   if (url.includes('youtube.com/embed/')) {
     const id = url.split('youtube.com/embed/')[1]?.split('?')[0];
     return id ? { type: 'youtube', id } : { type: 'none' };
   }
 
+  // IPFS gateway URLs (direct video files)
+  if (url.includes('gateway.pinata.cloud/ipfs/') || url.includes('ipfs.io/ipfs/') || url.includes('nftstorage.link')) {
+    return { type: 'ipfs', url };
+  }
+
+  // Zora / Highlight links (external)
   if (url.includes('zora.co') || url.includes('highlight.xyz')) {
     return { type: 'zora', url };
   }
@@ -40,6 +47,17 @@ export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
             allowFullScreen
             className="absolute inset-0 w-full h-full"
           />
+        ) : embed.type === 'ipfs' ? (
+          <video
+            src={embed.url}
+            controls
+            autoPlay
+            playsInline
+            className="absolute inset-0 w-full h-full object-contain"
+            poster={episode.coverImage}
+          >
+            Your browser does not support the video element.
+          </video>
         ) : embed.type === 'zora' ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
             {/* Cover image background */}
@@ -83,7 +101,7 @@ export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
               {episode.season && (
                 <Badge variant="season">{formatSeasonEpisode(episode.season, episode.episode)}</Badge>
               )}
-              {embed.type === 'zora' && (
+              {(embed.type === 'zora' || embed.type === 'ipfs') && (
                 <Badge className="bg-chain-base/10 text-chain-base border border-chain-base/20">Onchain</Badge>
               )}
             </div>

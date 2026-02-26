@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '*.ipfs.nftstorage.link' },
       { protocol: 'https', hostname: 'ipfs.io' },
       { protocol: 'https', hostname: 'arweave.net' },
+      { protocol: 'https', hostname: '*.arweave.net' },
       { protocol: 'https', hostname: 'i.ytimg.com' },
       { protocol: 'https', hostname: 'f4.bcbits.com' },
       { protocol: 'https', hostname: 'img.youtube.com' },
