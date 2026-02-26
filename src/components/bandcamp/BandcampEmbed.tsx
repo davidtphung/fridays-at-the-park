@@ -22,7 +22,7 @@ export function BandcampEmbed({ album, onClose }: BandcampEmbedProps) {
             variant="primary"
             size="sm"
             rightIcon={<ExternalLink size={14} />}
-            onClick={() => window.open(`https://thepark.bandcamp.com/album/${album.slug}`, '_blank')}
+            onClick={() => window.open(`https://thepark.bandcamp.com/album/${album.slug}`, '_blank', 'noopener,noreferrer')}
           >
             Buy on Bandcamp
           </Button>

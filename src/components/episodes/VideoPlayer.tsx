@@ -45,6 +45,7 @@ export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
             title={episode.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
             className="absolute inset-0 w-full h-full"
           />
         ) : embed.type === 'ipfs' ? (
