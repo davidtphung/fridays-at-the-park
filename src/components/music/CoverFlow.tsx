@@ -121,26 +121,32 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                         priority={absOffset <= 1}
                       />
 
-                      {/* Play/Pause overlay for active item */}
+                      {/* Always-visible play button on active cover */}
                       {isActive && hasAudio && (
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-200 flex items-center justify-center">
-                          <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
-                            isThisTrackPlaying
-                              ? 'bg-accent/90 scale-100 opacity-100'
-                              : 'bg-white/90 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100'
-                          }`}>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          {/* Dim background on hover for extra contrast */}
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
+                          <button
+                            onClick={(e) => { e.stopPropagation(); onSelect?.(track); }}
+                            className={`relative z-10 w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
+                              isThisTrackPlaying
+                                ? 'bg-accent scale-100 hover:scale-105 hover:bg-accent-hover'
+                                : 'bg-white/95 hover:bg-white hover:scale-105'
+                            }`}
+                            aria-label={isThisTrackPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
+                          >
                             {isThisTrackPlaying ? (
                               <Pause size={28} className="text-white" />
                             ) : (
                               <Play size={28} className="text-black ml-1" />
                             )}
-                          </div>
+                          </button>
                         </div>
                       )}
 
-                      {/* Now playing indicator */}
+                      {/* Now playing indicator pill */}
                       {isThisTrackPlaying && (
-                        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-accent/90 text-white text-xs font-medium px-2.5 py-1 rounded-full">
+                        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-accent/90 text-white text-xs font-medium px-2.5 py-1 rounded-full shadow-md">
                           <Volume2 size={12} className="animate-pulse" />
                           Playing
                         </div>
@@ -154,7 +160,7 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                       )}
 
                       {isActive && (
-                        <div className="absolute inset-0 ring-2 ring-accent/30 rounded-xl" />
+                        <div className="absolute inset-0 ring-2 ring-accent/30 rounded-xl pointer-events-none" />
                       )}
                     </motion.div>
 
@@ -192,27 +198,29 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
             <ChevronLeft size={20} />
           </button>
 
-          {/* Track info with play button */}
-          <div className="text-center min-w-[200px]">
-            <div className="flex items-center justify-center gap-2">
+          {/* Track info with prominent play button */}
+          <div className="text-center min-w-[240px]">
+            <div className="flex items-center justify-center gap-3">
               {activeTrack?.audioUrl && (
                 <button
                   onClick={() => onSelect?.(activeTrack)}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 shadow-md ${
                     isActiveTrackPlaying
-                      ? 'bg-accent text-white'
-                      : 'bg-bg-tertiary text-text-primary hover:bg-accent hover:text-white'
+                      ? 'bg-accent text-white hover:bg-accent-hover scale-100'
+                      : 'bg-bg-tertiary text-text-primary hover:bg-accent hover:text-white hover:scale-105'
                   }`}
-                  aria-label={isActiveTrackPlaying ? 'Pause' : 'Play'}
+                  aria-label={isActiveTrackPlaying ? `Pause ${activeTrack.title}` : `Play ${activeTrack.title}`}
                 >
-                  {isActiveTrackPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+                  {isActiveTrackPlaying ? <Pause size={18} /> : <Play size={18} className="ml-0.5" />}
                 </button>
               )}
-              <Link href={`/track/${activeTrack?.id}`} className="block text-base font-semibold text-text-primary hover:underline">
-                {activeTrack?.title}
-              </Link>
+              <div className="text-left">
+                <Link href={`/track/${activeTrack?.id}`} className="block text-base font-semibold text-text-primary hover:underline truncate max-w-[180px]">
+                  {activeTrack?.title}
+                </Link>
+                <p className="text-sm text-text-secondary truncate max-w-[180px]">{artistNames}</p>
+              </div>
             </div>
-            <p className="text-sm text-text-secondary">{artistNames}</p>
           </div>
 
           <button
@@ -265,12 +273,13 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                     sizes="260px"
                     priority={i < 2}
                   />
+                  {/* Always-visible play button on mobile */}
                   {hasAudio && (
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 active:bg-black/30 transition-all flex items-center justify-center">
-                      <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
                         isThisPlaying
-                          ? 'bg-accent/90 scale-100 opacity-100'
-                          : 'bg-white/90 scale-90 opacity-0 group-hover:opacity-100 group-active:opacity-100 group-hover:scale-100 group-active:scale-100'
+                          ? 'bg-accent scale-100'
+                          : 'bg-white/90 active:scale-95'
                       }`}>
                         {isThisPlaying ? (
                           <Pause size={24} className="text-white" />
@@ -281,19 +290,40 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                     </div>
                   )}
                   {isThisPlaying && (
-                    <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-accent/90 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                    <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-accent/90 text-white text-xs font-medium px-2 py-0.5 rounded-full shadow-sm">
                       <Volume2 size={10} className="animate-pulse" />
                       Playing
                     </div>
                   )}
+                  {!hasAudio && (
+                    <div className="absolute bottom-2 left-2 bg-black/60 text-white/60 text-xs px-2 py-0.5 rounded-full">
+                      Streaming only
+                    </div>
+                  )}
                 </div>
-                <div className="mt-3 text-center">
-                  <Link href={`/track/${track.id}`} className="block text-sm font-semibold text-text-primary truncate hover:underline">
-                    {track.title}
-                  </Link>
-                  <p className="text-xs text-text-secondary truncate">
-                    {track.artists.map(a => a.artist.name).join(', ')}
-                  </p>
+                {/* Track info + play button below artwork */}
+                <div className="mt-3 flex items-center gap-2">
+                  {hasAudio && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onSelect?.(track); }}
+                      className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${
+                        isThisPlaying
+                          ? 'bg-accent text-white'
+                          : 'bg-bg-tertiary text-text-primary hover:bg-accent hover:text-white'
+                      }`}
+                      aria-label={isThisPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
+                    >
+                      {isThisPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+                    </button>
+                  )}
+                  <div className="min-w-0">
+                    <Link href={`/track/${track.id}`} className="block text-sm font-semibold text-text-primary truncate hover:underline">
+                      {track.title}
+                    </Link>
+                    <p className="text-xs text-text-secondary truncate">
+                      {track.artists.map(a => a.artist.name).join(', ')}
+                    </p>
+                  </div>
                 </div>
               </div>
             );
