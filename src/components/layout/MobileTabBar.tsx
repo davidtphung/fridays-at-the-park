@@ -2,12 +2,18 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Diamond, Play, Vote, Globe } from 'lucide-react';
+import { Play, Vote, Globe } from 'lucide-react';
+import { Zorb } from '@/components/ui/Zorb';
 import { NAV_ITEMS } from '@/lib/constants';
 import { usePlayerStore } from '@/stores/playerStore';
 
+// Wrapper to match lucide icon component signature
+function ZorbIcon({ size }: { size?: number }) {
+  return <Zorb size={size} />;
+}
+
 const iconMap = {
-  diamond: Diamond,
+  diamond: ZorbIcon,
   play: Play,
   vote: Vote,
   globe: Globe,

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Search, Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { Zorb } from '@/components/ui/Zorb';
 import { NAV_ITEMS, SITE_NAME } from '@/lib/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -21,7 +22,7 @@ export function Header() {
             href="/"
             className="flex items-center gap-2 text-text-primary font-bold text-lg shrink-0"
           >
-            <span className="text-accent" aria-hidden="true">&#9670;</span>
+            <Zorb size={22} />
             <span className="hidden sm:inline">{SITE_NAME}</span>
             <span className="sm:hidden">The Park</span>
           </Link>
