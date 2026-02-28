@@ -13,6 +13,7 @@ export enum Platform {
 export enum Chain {
   ETHEREUM = 'ETHEREUM',
   BASE = 'BASE',
+  ZORA = 'ZORA',
   OPTIMISM = 'OPTIMISM',
   POLYGON = 'POLYGON',
   NONE = 'NONE',
@@ -46,6 +47,7 @@ export const PLATFORM_LABELS: Record<Platform, string> = {
 export const CHAIN_LABELS: Record<Chain, string> = {
   [Chain.ETHEREUM]: 'Ethereum',
   [Chain.BASE]: 'Base',
+  [Chain.ZORA]: 'Zora',
   [Chain.OPTIMISM]: 'Optimism',
   [Chain.POLYGON]: 'Polygon',
   [Chain.NONE]: '',

@@ -31,6 +31,7 @@ export const SOCIAL_LINKS = {
 export const CHAIN_COLORS: Record<Chain, string> = {
   [Chain.ETHEREUM]: '#627EEA',
   [Chain.BASE]: '#0052FF',
+  [Chain.ZORA]: '#2B5DF0',
   [Chain.OPTIMISM]: '#FF0420',
   [Chain.POLYGON]: '#8247E5',
   [Chain.NONE]: 'transparent',

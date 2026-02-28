@@ -22,6 +22,7 @@ const variantStyles: Record<BadgeVariant, string> = {
 const chainColors: Record<Chain, string> = {
   [Chain.ETHEREUM]: 'bg-chain-eth',
   [Chain.BASE]: 'bg-chain-base',
+  [Chain.ZORA]: 'bg-[#2B5DF0]',
   [Chain.OPTIMISM]: 'bg-[#FF0420]',
   [Chain.POLYGON]: 'bg-[#8247E5]',
   [Chain.NONE]: 'bg-bg-tertiary',
