@@ -51,13 +51,15 @@ export function GlobalPlayer() {
 
     const howl = new Howl({
       src: [currentTrack.audioUrl],
-      html5: true,
+      html5: false,
+      preload: true,
       volume: isMuted ? 0 : volume,
       onload: () => {
         setDuration(howl.duration());
         setIsLoading(false);
       },
       onplay: () => {
+        setIsLoading(false);
         animFrameRef.current = requestAnimationFrame(updateProgress);
       },
       onpause: () => {
@@ -74,6 +76,19 @@ export function GlobalPlayer() {
       },
       onloaderror: () => {
         setIsLoading(false);
+        // Fallback to html5 mode for CORS-restricted IPFS audio
+        const fallback = new Howl({
+          src: [currentTrack.audioUrl!],
+          html5: true,
+          volume: isMuted ? 0 : volume,
+          onload: () => { setDuration(fallback.duration()); setIsLoading(false); },
+          onplay: () => { setIsLoading(false); animFrameRef.current = requestAnimationFrame(updateProgress); },
+          onpause: () => { cancelAnimationFrame(animFrameRef.current); },
+          onend: () => { cancelAnimationFrame(animFrameRef.current); if (repeatMode === 'one') { fallback.seek(0); fallback.play(); } else { handleNext(); } },
+          onloaderror: () => { setIsLoading(false); },
+        });
+        howlRef.current = fallback;
+        fallback.play();
       },
     });
 

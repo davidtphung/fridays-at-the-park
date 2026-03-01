@@ -442,14 +442,27 @@ export function EpisodesContent() {
               {/* Video player - 16:9 aspect ratio */}
               <div className="relative aspect-video bg-black">
                 {embed.type === 'youtube' ? (
-                  <iframe
-                    src={`https://www.youtube.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-                    title={activeEpisode.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-                    className="absolute inset-0 w-full h-full"
-                  />
+                  <>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                      title={activeEpisode.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                      className="absolute inset-0 w-full h-full"
+                    />
+                    {/* YouTube external link overlay button */}
+                    <a
+                      href={`https://www.youtube.com/watch?v=${embed.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute top-4 left-4 z-20 px-3 py-1.5 bg-black/70 backdrop-blur-sm text-white/80 hover:text-white hover:bg-black/90 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5"
+                      aria-label="Open on YouTube"
+                    >
+                      <ExternalLink size={12} />
+                      YouTube
+                    </a>
+                  </>
                 ) : embed.type === 'ipfs' ? (
                   <video
                     src={embed.url}
@@ -510,17 +523,30 @@ export function EpisodesContent() {
                       {activeEpisode.artists.map(a => a.artist.name).join(', ')}
                     </p>
                   </div>
-                  {activeEpisode.mintUrl && (
-                    <a
-                      href={activeEpisode.mintUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="shrink-0 px-4 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 transition-colors hidden sm:flex items-center gap-1.5"
-                    >
-                      <ExternalLink size={14} />
-                      Collect
-                    </a>
-                  )}
+                  <div className="flex items-center gap-2 shrink-0">
+                    {embed.type === 'youtube' && embed.id && (
+                      <a
+                        href={`https://www.youtube.com/watch?v=${embed.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 bg-red-500/10 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/20 transition-colors hidden sm:flex items-center gap-1.5"
+                      >
+                        <ExternalLink size={14} />
+                        YouTube
+                      </a>
+                    )}
+                    {activeEpisode.mintUrl && (
+                      <a
+                        href={activeEpisode.mintUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 transition-colors hidden sm:flex items-center gap-1.5"
+                      >
+                        <ExternalLink size={14} />
+                        Collect
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
