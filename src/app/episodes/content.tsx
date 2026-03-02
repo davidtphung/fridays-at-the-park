@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Tv, Film, Music, ExternalLink, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Tv, Film, Music, ExternalLink, X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { getMockEpisodes, getSeasons } from '@/lib/mock-data';
 import { Track } from '@/types/track';
 import { Badge } from '@/components/ui/Badge';
@@ -430,13 +430,14 @@ export function EpisodesContent() {
             transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           >
             <div className="relative rounded-2xl overflow-hidden bg-black shadow-2xl border border-border/50">
-              {/* Close button */}
+              {/* Back button */}
               <button
                 onClick={() => setActiveEpisode(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/60 text-white/80 hover:text-white hover:bg-black/80 transition-colors"
-                aria-label="Close player"
+                className="absolute top-4 right-4 z-20 px-3 py-2 rounded-lg bg-black/60 backdrop-blur-sm text-white/80 hover:text-white hover:bg-black/80 transition-colors flex items-center gap-1.5 text-sm font-medium"
+                aria-label="Back to episodes"
               >
-                <X size={20} />
+                <ArrowLeft size={16} />
+                Back
               </button>
 
               {/* Video player - 16:9 aspect ratio */}

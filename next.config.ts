@@ -25,7 +25,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
@@ -44,6 +43,7 @@ const nextConfig: NextConfig = {
               "media-src 'self' https://gateway.pinata.cloud https://ipfs.io https://nftstorage.link https://arweave.net https://*.arweave.net https://catalog.myfilebase.com",
               "connect-src 'self' https://gateway.pinata.cloud https://ipfs.io https://arweave.net https://*.arweave.net https://mainnet.base.org https://eth.llamarpc.com",
               "font-src 'self' data:",
+              "frame-ancestors *",
             ].join('; '),
           },
         ],
