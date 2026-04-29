@@ -68,8 +68,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   setVolume: (volume) => set({ volume, isMuted: volume === 0 }),
 
   toggleMute: () => {
-    const { isMuted } = get();
-    set({ isMuted: !isMuted });
+    const { isMuted, volume } = get();
+    if (isMuted && volume === 0) {
+      set({ isMuted: false, volume: 0.7 });
+    } else {
+      set({ isMuted: !isMuted });
+    }
   },
 
   toggleExpanded: () => {

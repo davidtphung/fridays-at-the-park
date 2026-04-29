@@ -41,11 +41,12 @@ export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
       <div className="relative aspect-video bg-black">
         {embed.type === 'youtube' ? (
           <iframe
-            src={`https://www.youtube.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1`}
+            src={`https://www.youtube-nocookie.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
             title={episode.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
             allowFullScreen
-            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+            loading="eager"
+            referrerPolicy="strict-origin-when-cross-origin"
             className="absolute inset-0 w-full h-full"
           />
         ) : embed.type === 'ipfs' ? (
@@ -54,6 +55,7 @@ export function VideoPlayer({ episode, onClose }: VideoPlayerProps) {
             controls
             autoPlay
             playsInline
+            preload="auto"
             className="absolute inset-0 w-full h-full object-contain"
             poster={episode.coverImage}
           >

@@ -449,9 +449,9 @@ export const MOCK_TRACKS: Track[] = [
   // --- Onchain: Sound.xyz ---
   {
     id: 'sound-do-it',
-    title: 'do it',
+    title: 'Do It',
     slug: 'do-it',
-    description: 'A vibrant, collaborative track from The Park released as an edition on Sound.xyz.',
+    description: 'A collaborative track from The Park and Being There, released as an edition on Sound.xyz.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://arweave.net/B25YGAoNvEw8RrVzz7tsnYoh1MK2-eGGBC357B1rTng',
     coverImageSmall: 'https://arweave.net/B25YGAoNvEw8RrVzz7tsnYoh1MK2-eGGBC357B1rTng',
@@ -467,15 +467,13 @@ export const MOCK_TRACKS: Track[] = [
     editionSize: 100,
     genre: ['R&B', 'Electronic'],
     credits: {
-      producer: ['WaveIQ', 'Tim Anderson'],
-      vocalist: ['Julius Rodriguez'],
-      engineer: ['Ariel Klevecz'],
+      vocalist: ['Being There'],
     },
     externalLinks: {
       soundxyz: 'https://sound.xyz/thepark/do-it',
     },
     artists: makeArtists([
-      'artist-the-park', 'artist-julius-rodriguez', 'artist-waveiq'
+      'artist-the-park', 'artist-being-there'
     ], 'artist-the-park'),
     releaseDate: '2023-09-22T00:00:00Z',
     createdAt: '2023-09-22T00:00:00Z',
@@ -2429,8 +2427,8 @@ export const MOCK_TRACKS: Track[] = [
 
 // ===== FEATURED RELEASES (for Cover Flow) =====
 export const MOCK_FEATURED_IDS = [
-  'zora-becky-v2',
   'zora-onchain-summer',
+  'zora-becky-v2',
   'catalog-belle',
   'sound-do-it',
   'zora-s002-last-straw',

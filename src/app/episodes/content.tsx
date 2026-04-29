@@ -445,11 +445,12 @@ export function EpisodesContent() {
                 {embed.type === 'youtube' ? (
                   <>
                     <iframe
-                      src={`https://www.youtube.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                      src={`https://www.youtube-nocookie.com/embed/${embed.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
                       title={activeEpisode.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                       allowFullScreen
-                      sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                      loading="eager"
+                      referrerPolicy="strict-origin-when-cross-origin"
                       className="absolute inset-0 w-full h-full"
                     />
                     {/* YouTube external link overlay button */}
@@ -470,6 +471,7 @@ export function EpisodesContent() {
                     controls
                     autoPlay
                     playsInline
+                    preload="auto"
                     className="absolute inset-0 w-full h-full object-contain"
                     poster={activeEpisode.coverImage}
                   />

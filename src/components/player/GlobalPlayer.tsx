@@ -53,6 +53,8 @@ export function GlobalPlayer() {
       src: [currentTrack.audioUrl],
       html5: false,
       preload: true,
+      // Tell Howler to use the browser's HTTP cache aggressively
+      xhr: { withCredentials: false },
       volume: isMuted ? 0 : volume,
       onload: () => {
         setDuration(howl.duration());
@@ -265,6 +267,13 @@ export function GlobalPlayer() {
                 {currentTrack.title} <span className="text-text-secondary font-normal">— {artistNames}</span>
               </p>
             </div>
+            <VolumeControl
+              volume={volume}
+              isMuted={isMuted}
+              onVolumeChange={setVolume}
+              onToggleMute={toggleMute}
+              iconOnly
+            />
             <PlayerControls
               isPlaying={isPlaying}
               repeatMode={repeatMode}

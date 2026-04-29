@@ -17,10 +17,29 @@ interface CoverFlowProps {
 export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: CoverFlowProps) {
   const [activeIndex, setActiveIndex] = useState(Math.floor(tracks.length / 2));
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefetchedRef = useRef<Set<string>>(new Set());
 
   const goTo = useCallback((index: number) => {
     setActiveIndex(Math.max(0, Math.min(tracks.length - 1, index)));
   }, [tracks.length]);
+
+  // Prefetch active track audio so it plays instantly when user hits play.
+  // Uses a hidden <audio preload="auto"> to warm the HTTP cache.
+  useEffect(() => {
+    const active = tracks[activeIndex];
+    const url = active?.audioUrl;
+    if (!url || prefetchedRef.current.has(url)) return;
+    prefetchedRef.current.add(url);
+    const audio = document.createElement('audio');
+    audio.preload = 'auto';
+    audio.src = url;
+    audio.style.display = 'none';
+    audio.muted = true;
+    document.body.appendChild(audio);
+    // Trigger fetch then drop the element after a short delay; bytes stay in HTTP cache.
+    const t = window.setTimeout(() => { audio.remove(); }, 8000);
+    return () => { window.clearTimeout(t); audio.remove(); };
+  }, [activeIndex, tracks]);
 
   const handleDragEnd = useCallback((_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50;
