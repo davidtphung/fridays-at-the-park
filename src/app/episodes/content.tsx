@@ -10,14 +10,21 @@ import { Badge } from '@/components/ui/Badge';
 import { formatDuration, formatSeasonEpisode } from '@/lib/format';
 
 // ─── Video embed resolver ───
-function getVideoEmbed(url?: string): { type: 'youtube' | 'ipfs' | 'zora' | 'none'; id?: string; url?: string } {
+type EmbedType = 'youtube' | 'ipfs' | 'image' | 'zora' | 'none';
+function getVideoEmbed(url?: string, mime?: string): { type: EmbedType; id?: string; url?: string; mime?: string } {
   if (!url) return { type: 'none' };
   if (url.includes('youtube.com/embed/')) {
     const id = url.split('youtube.com/embed/')[1]?.split('?')[0];
     return id ? { type: 'youtube', id } : { type: 'none' };
   }
-  if (url.includes('gateway.pinata.cloud/ipfs/') || url.includes('ipfs.io/ipfs/') || url.includes('nftstorage.link')) {
-    return { type: 'ipfs', url };
+  const isIpfs =
+    url.includes('gateway.pinata.cloud/ipfs/') ||
+    url.includes('ipfs.io/ipfs/') ||
+    url.includes('nftstorage.link') ||
+    url.includes('arweave.net');
+  if (isIpfs) {
+    if (mime && mime.startsWith('image/')) return { type: 'image', url, mime };
+    return { type: 'ipfs', url, mime };
   }
   if (url.includes('zora.co') || url.includes('highlight.xyz')) {
     return { type: 'zora', url };
@@ -126,7 +133,7 @@ function EpisodeCoverFlow({
           if (absOffset > 5) return null; // Don't render far-off covers
 
           const isCenter = offset === 0;
-          const isPlayable = getVideoEmbed(episode.videoUrl).type !== 'none';
+          const isPlayable = getVideoEmbed(episode.videoUrl, episode.videoMime).type !== 'none';
 
           // Position math inspired by coverflow-media
           let x = 0;
@@ -345,7 +352,7 @@ export function EpisodesContent() {
     setCoverFlowIndex(index);
   }, []);
 
-  const embed = activeEpisode ? getVideoEmbed(activeEpisode.videoUrl) : { type: 'none' as const };
+  const embed = activeEpisode ? getVideoEmbed(activeEpisode.videoUrl, activeEpisode.videoMime) : { type: 'none' as const };
 
   return (
     <div className="space-y-8">
@@ -475,6 +482,16 @@ export function EpisodesContent() {
                     className="absolute inset-0 w-full h-full object-contain"
                     poster={activeEpisode.coverImage}
                   />
+                ) : embed.type === 'image' ? (
+                  // Onchain still-image / GIF collectible — render as <img>; GIFs animate natively.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={embed.url}
+                    alt={activeEpisode.title}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    loading="eager"
+                    decoding="async"
+                  />
                 ) : embed.type === 'zora' ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 p-8">
                     {activeEpisode.coverImage && (
@@ -564,8 +581,8 @@ export function EpisodesContent() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
             {displayEpisodes.map((episode, index) => {
               const isActive = activeEpisode?.id === episode.id;
-              const epEmbed = getVideoEmbed(episode.videoUrl);
-              const isPlayable = epEmbed.type === 'youtube' || epEmbed.type === 'ipfs';
+              const epEmbed = getVideoEmbed(episode.videoUrl, episode.videoMime);
+              const isPlayable = epEmbed.type === 'youtube' || epEmbed.type === 'ipfs' || epEmbed.type === 'image';
               const artistNames = episode.artists.map(a => a.artist.name).join(', ');
 
               return (
