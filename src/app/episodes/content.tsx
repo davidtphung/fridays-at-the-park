@@ -8,6 +8,7 @@ import { getMockEpisodes, getSeasons } from '@/lib/mock-data';
 import { Track } from '@/types/track';
 import { Badge } from '@/components/ui/Badge';
 import { formatDuration, formatSeasonEpisode } from '@/lib/format';
+import { fastIpfsUrl } from '@/lib/fast-ipfs';
 
 // ─── Video embed resolver ───
 type EmbedType = 'youtube' | 'ipfs' | 'image' | 'zora' | 'none';
@@ -20,11 +21,13 @@ function getVideoEmbed(url?: string, mime?: string): { type: EmbedType; id?: str
   const isIpfs =
     url.includes('gateway.pinata.cloud/ipfs/') ||
     url.includes('ipfs.io/ipfs/') ||
+    url.includes('dweb.link/ipfs/') ||
     url.includes('nftstorage.link') ||
     url.includes('arweave.net');
   if (isIpfs) {
-    if (mime && mime.startsWith('image/')) return { type: 'image', url, mime };
-    return { type: 'ipfs', url, mime };
+    const fast = fastIpfsUrl(url);
+    if (mime && mime.startsWith('image/')) return { type: 'image', url: fast, mime };
+    return { type: 'ipfs', url: fast, mime };
   }
   if (url.includes('zora.co') || url.includes('highlight.xyz')) {
     return { type: 'zora', url };

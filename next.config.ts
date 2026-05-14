@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'gateway.pinata.cloud' },
+      { protocol: 'https', hostname: 'dweb.link' },
+      { protocol: 'https', hostname: '*.ipfs.dweb.link' },
       { protocol: 'https', hostname: '*.ipfs.nftstorage.link' },
       { protocol: 'https', hostname: 'ipfs.io' },
       { protocol: 'https', hostname: 'arweave.net' },
@@ -38,10 +40,10 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://gateway.pinata.cloud https://*.ipfs.nftstorage.link https://ipfs.io https://arweave.net https://*.arweave.net https://i.ytimg.com https://f4.bcbits.com https://img.youtube.com https://is1-ssl.mzstatic.com https://zora.co https://*.zora.co https://i.scdn.co https://nftstorage.link https://catalog.myfilebase.com",
+              "img-src 'self' data: blob: https://gateway.pinata.cloud https://dweb.link https://*.ipfs.dweb.link https://*.ipfs.nftstorage.link https://ipfs.io https://arweave.net https://*.arweave.net https://i.ytimg.com https://f4.bcbits.com https://img.youtube.com https://is1-ssl.mzstatic.com https://zora.co https://*.zora.co https://i.scdn.co https://nftstorage.link https://catalog.myfilebase.com",
               "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://youtube.com https://zora.co https://*.zora.co https://highlight.xyz https://*.highlight.xyz",
-              "media-src 'self' https://gateway.pinata.cloud https://ipfs.io https://nftstorage.link https://arweave.net https://*.arweave.net https://catalog.myfilebase.com",
-              "connect-src 'self' https://gateway.pinata.cloud https://ipfs.io https://arweave.net https://*.arweave.net https://mainnet.base.org https://eth.llamarpc.com",
+              "media-src 'self' https://gateway.pinata.cloud https://dweb.link https://*.ipfs.dweb.link https://ipfs.io https://nftstorage.link https://arweave.net https://*.arweave.net https://catalog.myfilebase.com",
+              "connect-src 'self' https://gateway.pinata.cloud https://dweb.link https://*.ipfs.dweb.link https://ipfs.io https://arweave.net https://*.arweave.net https://mainnet.base.org https://eth.llamarpc.com",
               "font-src 'self' data:",
               "frame-ancestors *",
             ].join('; '),

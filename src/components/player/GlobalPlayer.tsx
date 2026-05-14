@@ -7,6 +7,7 @@ import { Howl } from 'howler';
 import { ListMusic, ChevronUp } from 'lucide-react';
 import { usePlayerStore } from '@/stores/playerStore';
 import { useQueueStore } from '@/stores/queueStore';
+import { fastIpfsUrl } from '@/lib/fast-ipfs';
 import { ProgressBar } from './ProgressBar';
 import { VolumeControl } from './VolumeControl';
 import { PlayerControls } from './PlayerControls';
@@ -49,11 +50,13 @@ export function GlobalPlayer() {
       howlRef.current.unload();
     }
 
+    const fastUrl = fastIpfsUrl(currentTrack.audioUrl);
     const howl = new Howl({
-      src: [currentTrack.audioUrl],
-      html5: false,
+      // html5: true → streams as it downloads (plays in ~200ms even for large files).
+      // Web Audio (html5: false) would force a full download first.
+      src: [fastUrl],
+      html5: true,
       preload: true,
-      // Tell Howler to use the browser's HTTP cache aggressively
       xhr: { withCredentials: false },
       volume: isMuted ? 0 : volume,
       onload: () => {
@@ -77,20 +80,22 @@ export function GlobalPlayer() {
         }
       },
       onloaderror: () => {
+        // Fall back to original URL (in case dweb.link rejects the CID)
         setIsLoading(false);
-        // Fallback to html5 mode for CORS-restricted IPFS audio
-        const fallback = new Howl({
-          src: [currentTrack.audioUrl!],
-          html5: true,
-          volume: isMuted ? 0 : volume,
-          onload: () => { setDuration(fallback.duration()); setIsLoading(false); },
-          onplay: () => { setIsLoading(false); animFrameRef.current = requestAnimationFrame(updateProgress); },
-          onpause: () => { cancelAnimationFrame(animFrameRef.current); },
-          onend: () => { cancelAnimationFrame(animFrameRef.current); if (repeatMode === 'one') { fallback.seek(0); fallback.play(); } else { handleNext(); } },
-          onloaderror: () => { setIsLoading(false); },
-        });
-        howlRef.current = fallback;
-        fallback.play();
+        if (fastUrl !== currentTrack.audioUrl) {
+          const fallback = new Howl({
+            src: [currentTrack.audioUrl!],
+            html5: true,
+            volume: isMuted ? 0 : volume,
+            onload: () => { setDuration(fallback.duration()); setIsLoading(false); },
+            onplay: () => { setIsLoading(false); animFrameRef.current = requestAnimationFrame(updateProgress); },
+            onpause: () => { cancelAnimationFrame(animFrameRef.current); },
+            onend: () => { cancelAnimationFrame(animFrameRef.current); if (repeatMode === 'one') { fallback.seek(0); fallback.play(); } else { handleNext(); } },
+            onloaderror: () => { setIsLoading(false); },
+          });
+          howlRef.current = fallback;
+          fallback.play();
+        }
       },
     });
 

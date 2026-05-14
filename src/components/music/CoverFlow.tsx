@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, PanInfo } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Pause, Volume2 } from 'lucide-react';
 import { Track } from '@/types/track';
+import { fastIpfsUrl } from '@/lib/fast-ipfs';
 
 interface CoverFlowProps {
   tracks: Track[];
@@ -23,22 +24,38 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
     setActiveIndex(Math.max(0, Math.min(tracks.length - 1, index)));
   }, [tracks.length]);
 
-  // Prefetch active track audio so it plays instantly when user hits play.
-  // Uses a hidden <audio preload="auto"> to warm the HTTP cache.
+  // Prefetch active track + immediate neighbors so playback starts in <1s no matter
+  // which direction the user navigates next. We use a hidden <audio preload="auto"> for
+  // each — the bytes land in the browser HTTP cache (and dweb.link's Cloudflare edge
+  // cache), so Howler's later request hits a warm cache.
   useEffect(() => {
-    const active = tracks[activeIndex];
-    const url = active?.audioUrl;
-    if (!url || prefetchedRef.current.has(url)) return;
-    prefetchedRef.current.add(url);
-    const audio = document.createElement('audio');
-    audio.preload = 'auto';
-    audio.src = url;
-    audio.style.display = 'none';
-    audio.muted = true;
-    document.body.appendChild(audio);
-    // Trigger fetch then drop the element after a short delay; bytes stay in HTTP cache.
-    const t = window.setTimeout(() => { audio.remove(); }, 8000);
-    return () => { window.clearTimeout(t); audio.remove(); };
+    const elements: HTMLAudioElement[] = [];
+    const indicesToPrefetch = [activeIndex - 1, activeIndex, activeIndex + 1].filter(
+      (i) => i >= 0 && i < tracks.length
+    );
+    for (const i of indicesToPrefetch) {
+      const url = tracks[i]?.audioUrl;
+      if (!url) continue;
+      const fastUrl = fastIpfsUrl(url);
+      if (prefetchedRef.current.has(fastUrl)) continue;
+      prefetchedRef.current.add(fastUrl);
+      const audio = document.createElement('audio');
+      audio.preload = 'auto';
+      audio.crossOrigin = 'anonymous';
+      audio.src = fastUrl;
+      audio.style.display = 'none';
+      audio.muted = true;
+      document.body.appendChild(audio);
+      elements.push(audio);
+    }
+    if (elements.length === 0) return;
+    const t = window.setTimeout(() => {
+      elements.forEach((el) => el.remove());
+    }, 10000);
+    return () => {
+      window.clearTimeout(t);
+      elements.forEach((el) => el.remove());
+    };
   }, [activeIndex, tracks]);
 
   const handleDragEnd = useCallback((_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
