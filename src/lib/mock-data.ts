@@ -2467,15 +2467,20 @@ export function getMockTracksByPlatform(platform: string): Track[] {
   return MOCK_TRACKS.filter(t => t.platform === platform);
 }
 
-// The /episodes page only surfaces canonical Season 001 + Season 002 episodes.
-// Music videos, trailers, and one-off Zora drops without an explicit S001/S002
-// season tag stay in the catalog (track detail pages, search) but don't appear
-// on /episodes.
+// The /episodes page only surfaces S001/S002 episodes that have a public
+// YouTube embed. IPFS-only episodes (S002 Ep4 Honduras, Ep5 Superchain,
+// Ep6 FWB Fest 2024) are hidden until YouTube URLs are provided — they
+// stay in the catalog for direct track-detail / search hits.
 const ALLOWED_EPISODE_SEASONS = new Set(['S001', 'S002']);
+const isYouTubeEmbed = (url?: string) => !!url && url.includes('youtube.com/embed/');
 
 export function getMockEpisodes(season?: string): Track[] {
   let episodes = MOCK_TRACKS.filter(
-    (t) => t.mediaType === MediaType.VIDEO && t.season && ALLOWED_EPISODE_SEASONS.has(t.season)
+    (t) =>
+      t.mediaType === MediaType.VIDEO &&
+      t.season &&
+      ALLOWED_EPISODE_SEASONS.has(t.season) &&
+      isYouTubeEmbed(t.videoUrl)
   );
   if (season) {
     episodes = episodes.filter((t) => t.season === season);
