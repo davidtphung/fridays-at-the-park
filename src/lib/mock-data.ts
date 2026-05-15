@@ -2467,10 +2467,18 @@ export function getMockTracksByPlatform(platform: string): Track[] {
   return MOCK_TRACKS.filter(t => t.platform === platform);
 }
 
+// The /episodes page only surfaces canonical Season 001 + Season 002 episodes.
+// Music videos, trailers, and one-off Zora drops without an explicit S001/S002
+// season tag stay in the catalog (track detail pages, search) but don't appear
+// on /episodes.
+const ALLOWED_EPISODE_SEASONS = new Set(['S001', 'S002']);
+
 export function getMockEpisodes(season?: string): Track[] {
-  let episodes = MOCK_TRACKS.filter(t => t.mediaType === MediaType.VIDEO);
+  let episodes = MOCK_TRACKS.filter(
+    (t) => t.mediaType === MediaType.VIDEO && t.season && ALLOWED_EPISODE_SEASONS.has(t.season)
+  );
   if (season) {
-    episodes = episodes.filter(t => t.season === season);
+    episodes = episodes.filter((t) => t.season === season);
   }
   return episodes.sort((a, b) => (a.episode || 0) - (b.episode || 0));
 }
@@ -2504,8 +2512,8 @@ export function searchMockData(query: string) {
 
 export function getSeasons(): string[] {
   const seasons = new Set<string>();
-  MOCK_TRACKS.forEach(t => {
-    if (t.season) seasons.add(t.season);
+  MOCK_TRACKS.forEach((t) => {
+    if (t.season && ALLOWED_EPISODE_SEASONS.has(t.season)) seasons.add(t.season);
   });
   return Array.from(seasons).sort();
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Wallet, Vote, Hash, Box, ArrowUpRight } from 'lucide-react';
 
@@ -10,12 +11,55 @@ const DAO_DATA = {
   treasuryAddress: '0x67bd465536f12da48b0c638c9df8475659797825',
   governorAddress: '0x22479e378ee2ae4c5f8ac6fa1c4aa83731e391cf',
   auctionAddress: '0xe95bc20728fb6be4e695c47517f4eecbee5cc21c',
+  latestTokenId: 604,
   totalSupply: 410,
   ownerCount: 136,
   proposals: 9,
   nounsBuilderUrl: 'https://nouns.build/dao/base/0x72b31421a462996f559ffb7fc5dfaca94e754d89/604',
   basescanUrl: 'https://basescan.org/address/0x72b31421a462996f559ffb7fc5dfaca94e754d89',
 };
+
+interface TokenArtwork {
+  name: string;
+  image: string;
+  description: string;
+}
+
+// Fetches the latest auction token's artwork from the on-chain tokenURI.
+// Nouns Builder tokens return `data:application/json;base64,…` and the image
+// field is a `https://nouns.build/api/renderer/stack-images?…` URL composed
+// from the on-chain trait IPFS paths.
+async function fetchTokenArtwork(tokenId: number): Promise<TokenArtwork | null> {
+  const hexId = tokenId.toString(16).padStart(64, '0');
+  try {
+    const resp = await fetch('https://mainnet.base.org', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_call',
+        params: [{ to: DAO_DATA.tokenAddress, data: '0xc87b56dd' + hexId }, 'latest'],
+        id: 1,
+      }),
+    });
+    const json = await resp.json();
+    if (!json.result) return null;
+    // Decode ABI-encoded string return value.
+    const raw = json.result.slice(2);
+    const length = parseInt(raw.slice(64, 128), 16);
+    const bytes = new Uint8Array(length);
+    for (let i = 0; i < length; i++) {
+      bytes[i] = parseInt(raw.slice(128 + i * 2, 130 + i * 2), 16);
+    }
+    const uri = new TextDecoder().decode(bytes);
+    const prefix = 'data:application/json;base64,';
+    if (!uri.startsWith(prefix)) return null;
+    const meta = JSON.parse(atob(uri.slice(prefix.length)));
+    return { name: meta.name ?? '', image: meta.image ?? '', description: meta.description ?? '' };
+  } catch {
+    return null;
+  }
+}
 
 const statsCards = [
   { label: 'Total Supply', value: DAO_DATA.totalSupply.toString(), icon: Box, color: 'text-chain-base' },
@@ -32,6 +76,16 @@ const contractLinks = [
 ];
 
 export function DAOContent() {
+  const [artwork, setArtwork] = useState<TokenArtwork | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchTokenArtwork(DAO_DATA.latestTokenId).then((a) => {
+      if (!cancelled) setArtwork(a);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
   return (
     <div className="space-y-8">
       {/* Stats Grid */}
@@ -74,12 +128,30 @@ export function DAOContent() {
               <ArrowUpRight size={14} />
             </a>
           </div>
-          <div className="aspect-square max-w-[280px] mx-auto bg-bg-tertiary rounded-xl flex items-center justify-center mb-6 overflow-hidden border border-border">
-            <div className="text-center p-6">
-              <p className="text-7xl font-bold text-text-primary mb-3">#604</p>
-              <p className="text-text-secondary text-sm font-medium">Latest Token</p>
-            </div>
+          <div className="aspect-square max-w-[280px] mx-auto bg-bg-tertiary rounded-xl mb-6 overflow-hidden border border-border relative">
+            {artwork?.image ? (
+              // External Nouns Builder renderer (`https://nouns.build/api/renderer/...`),
+              // not in next/image remotePatterns — use a plain <img>.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={artwork.image}
+                alt={artwork.name}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center p-6">
+                  <p className="text-7xl font-bold text-text-primary mb-3">#{DAO_DATA.latestTokenId}</p>
+                  <p className="text-text-secondary text-sm font-medium">Loading…</p>
+                </div>
+              </div>
+            )}
           </div>
+          {artwork?.name && (
+            <p className="text-center text-text-primary font-semibold mb-4">{artwork.name}</p>
+          )}
           <div className="flex items-center justify-center">
             <a
               href={DAO_DATA.nounsBuilderUrl}

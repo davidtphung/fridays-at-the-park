@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import { SkipNav } from '@/components/layout/SkipNav';
 import { GlobalPlayer } from '@/components/player/GlobalPlayer';
 import { Providers } from './providers';
+import { EmbedChrome } from '@/components/layout/EmbedChrome';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -43,14 +44,19 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-bg-primary text-text-primary`}>
         <Providers>
+          {/* EmbedChrome reads ?embed=1 / ?embed=true from the URL on the client
+              and toggles a `data-embed="1"` attribute on <html>. CSS in
+              globals.css hides .embed-hide elements when that attribute is
+              present — perfect for hosting inside fridaysatthepark.org. */}
+          <EmbedChrome />
           <SkipNav />
-          <Header />
+          <div className="embed-hide"><Header /></div>
           <main id="main-content" role="main" className="min-h-screen pb-[72px] md:pb-[72px]">
             {children}
           </main>
-          <Footer />
+          <div className="embed-hide"><Footer /></div>
           <GlobalPlayer />
-          <MobileTabBar />
+          <div className="embed-hide"><MobileTabBar /></div>
         </Providers>
       </body>
     </html>

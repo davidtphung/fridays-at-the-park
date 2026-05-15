@@ -233,3 +233,11 @@ body {
   -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 60%);
   pointer-events: none;
 }
+
+/* ─── Embed mode ───
+   Activated by ?embed=1 in the URL (see components/layout/EmbedChrome.tsx).
+   Hides Header, Footer, and MobileTabBar so the site can be iframed inside
+   fridaysatthepark.org without duplicate navigation. The bottom GlobalPlayer
+   bar stays visible so embedded playback is still controllable. */
+html[data-embed='1'] .embed-hide { display: none !important; }
+html[data-embed='1'] main { padding-bottom: 88px !important; }
