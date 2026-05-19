@@ -1327,12 +1327,12 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep5-video',
-    title: 'S002 Ep5 — Superchain',
+    title: 'S002 Ep5 — Jesse Boykins, Chloe Angelides, Leo Pastel',
     slug: 's002-ep5-video',
-    description: 'Season 002 Episode 5 — the Superchain episode on Base.',
+    description: 'Season 002 Episode 5 — live session with Jesse Boykins, Chloe Angelides, and Leo Pastel.',
     mediaType: MediaType.VIDEO,
-    coverImage: 'https://gateway.pinata.cloud/ipfs/bafybeiemgfpyr24lskyqxbpxpvxp44wsk7kyouov53hvymbftvbalmlvzq',
-    videoUrl: 'https://gateway.pinata.cloud/ipfs/bafybeihbkh7reqjhq7i4a4pcxjhiqeorgidcaew4vw6q4ks555eid2jyuy',
+    coverImage: 'https://i.ytimg.com/vi/Kfa3tPEdnns/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/Kfa3tPEdnns',
     duration: 1800,
     season: 'S002',
     episode: 5,
@@ -1350,7 +1350,7 @@ export const MOCK_TRACKS: Track[] = [
     id: 'yt-s002-ep6-video',
     title: 'S002 Ep6 — FWB Fest 2024',
     slug: 's002-ep6-video',
-    description: 'Season 002 Episode 6 — recorded live at FWB Fest 2024.',
+    description: 'Season 002 Episode 6 — recorded live at FWB Fest 2024 with friends of The Park.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/laPE4iv7gwU/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/laPE4iv7gwU',
@@ -1366,6 +1366,25 @@ export const MOCK_TRACKS: Track[] = [
     releaseDate: '2024-03-08T00:00:00Z',
     createdAt: '2024-03-08T00:00:00Z',
     updatedAt: '2024-06-01T00:00:00Z',
+  },
+  // --- Season 003 (YouTube) ---
+  {
+    id: 'yt-s003-vale',
+    title: 'S003 — VALÉ',
+    slug: 's003-vale',
+    description: 'Season 003 — VALÉ. The opening episode of Season 003 on the Fridays at the Park YouTube channel.',
+    mediaType: MediaType.VIDEO,
+    coverImage: 'https://i.ytimg.com/vi/mtOP9cPQhwA/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/mtOP9cPQhwA',
+    season: 'S003',
+    episode: 1,
+    platform: Platform.YOUTUBE,
+    chain: Chain.NONE,
+    genre: ['Session Video'],
+    artists: makeArtists(['artist-the-park']),
+    releaseDate: '2025-03-28T00:00:00Z',
+    createdAt: '2025-03-28T00:00:00Z',
+    updatedAt: '2026-05-19T00:00:00Z',
   },
   // --- Season 001 Video Episodes (YouTube) ---
   {
@@ -2471,7 +2490,7 @@ export function getMockTracksByPlatform(platform: string): Track[] {
 // YouTube embed. IPFS-only episodes (S002 Ep4 Honduras, Ep5 Superchain,
 // Ep6 FWB Fest 2024) are hidden until YouTube URLs are provided — they
 // stay in the catalog for direct track-detail / search hits.
-const ALLOWED_EPISODE_SEASONS = new Set(['S001', 'S002']);
+const ALLOWED_EPISODE_SEASONS = new Set(['S001', 'S002', 'S003']);
 const isYouTubeEmbed = (url?: string) => !!url && url.includes('youtube.com/embed/');
 
 export function getMockEpisodes(season?: string): Track[] {
