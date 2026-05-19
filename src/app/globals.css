@@ -2,6 +2,16 @@
 
 /* ===== DESIGN SYSTEM: Fridays at the Park ===== */
 
+/* ─── Brand palette ───
+ * --accent is The Park's signature lime green (extracted from
+ * https://thepark.wtf's RainbowKit accent token --rk-colors-accentColor).
+ *   #4FD929 — primary accent (button fills, active nav, equalizer bars)
+ *   --accent-hover — slightly lighter on dark / slightly darker on light
+ *   for legible contrast on both surfaces.
+ * --success keeps its semantic emerald so confirmation UI reads distinct
+ * from the brand accent.
+ */
+
 /* Light mode (base) */
 :root {
   --bg-primary: #FFFFFF;
@@ -9,8 +19,8 @@
   --bg-tertiary: #E8E8ED;
   --text-primary: #1D1D1F;
   --text-secondary: #6E6E73;
-  --accent: #E94560;
-  --accent-hover: #C73A52;
+  --accent: #4FD929;
+  --accent-hover: #3FB820;
   --success: #16A34A;
   --border: #D1D1D6;
   --player-bg: #F5F5F7;
@@ -25,8 +35,8 @@
   --bg-tertiary: #141414;
   --text-primary: #FFFFFF;
   --text-secondary: #888888;
-  --accent: #E94560;
-  --accent-hover: #FF6B81;
+  --accent: #4FD929;
+  --accent-hover: #6FE54B;
   --success: #22C55E;
   --border: #1A1A1A;
   --player-bg: #0A0A0A;
@@ -42,8 +52,8 @@
     --bg-tertiary: #141414;
     --text-primary: #FFFFFF;
     --text-secondary: #888888;
-    --accent: #E94560;
-    --accent-hover: #FF6B81;
+    --accent: #4FD929;
+    --accent-hover: #6FE54B;
     --success: #22C55E;
     --border: #1A1A1A;
     --player-bg: #0A0A0A;

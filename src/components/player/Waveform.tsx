@@ -19,6 +19,13 @@ export function Waveform({ analyserNode, isPlaying, className = '' }: WaveformPr
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Read the live --accent / --accent-hover values so the waveform follows
+    // the theme tokens (no hardcoded brand color — flips automatically when
+    // we change the palette in globals.css).
+    const rootStyle = getComputedStyle(document.documentElement);
+    const accent = rootStyle.getPropertyValue('--accent').trim() || '#4FD929';
+    const accentHover = rootStyle.getPropertyValue('--accent-hover').trim() || '#6FE54B';
+
     const draw = () => {
       const width = canvas.width;
       const height = canvas.height;
@@ -38,8 +45,8 @@ export function Waveform({ analyserNode, isPlaying, className = '' }: WaveformPr
           const barHeight = (value / 255) * height * 0.85;
 
           const gradient = ctx.createLinearGradient(0, height - barHeight, 0, height);
-          gradient.addColorStop(0, '#E94560');
-          gradient.addColorStop(1, '#FF6B81');
+          gradient.addColorStop(0, accent);
+          gradient.addColorStop(1, accentHover);
 
           ctx.fillStyle = gradient;
           ctx.fillRect(
