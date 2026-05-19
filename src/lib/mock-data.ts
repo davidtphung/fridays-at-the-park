@@ -1311,7 +1311,7 @@ export const MOCK_TRACKS: Track[] = [
     description: 'Season 002 Episode 4 — special episode recorded in Honduras with Nevada Tyler, Canelo, and Chia Casanova.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://gateway.pinata.cloud/ipfs/bafybeieuoefvqpues43v5qejbeivyfhfhwn4fdj7363alut2wi6adin3fu',
-    videoUrl: 'https://gateway.pinata.cloud/ipfs/bafybeiehlbaio2ew72okmah5h5hkpg4ndmsqorw3dq4sxydg2sg3ttn6ta',
+    videoUrl: 'https://www.youtube.com/embed/XBM--ZBMBow',
     duration: 1950,
     season: 'S002',
     episode: 4,
