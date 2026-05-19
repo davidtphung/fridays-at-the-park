@@ -42,19 +42,26 @@ export function GlobalPlayer() {
     animFrameRef.current = requestAnimationFrame(updateProgress);
   }, [setProgress]);
 
-  // Create/destroy Howl when track changes
+  // ─── Create / tear down the Howl when the track changes ───
+  //
+  // The body of this effect ONLY creates the Howl. It does NOT call
+  // `howl.play()` — that's the job of the play/pause-sync effect below.
+  // Doing it here used to race with the sync effect: both could call
+  // play() on the same Howl in quick succession, and with html5: true
+  // Howler would register two starts → audible double playback.
   useEffect(() => {
     if (!currentTrack?.audioUrl) return;
 
-    // Destroy previous
+    // Make sure we don't have a stale Howl (or stale fallback Howl from a
+    // prior onloaderror) still hanging around with audio attached.
     if (howlRef.current) {
       howlRef.current.unload();
+      howlRef.current = null;
     }
 
     const fastUrl = fastIpfsUrl(currentTrack.audioUrl);
     const howl = new Howl({
       // html5: true → streams as it downloads (plays in ~200ms even for large files).
-      // Web Audio (html5: false) would force a full download first.
       src: [fastUrl],
       html5: true,
       preload: true,
@@ -63,8 +70,6 @@ export function GlobalPlayer() {
       onload: () => {
         setDuration(howl.duration());
         setIsLoading(false);
-        // If we rehydrated mid-track from localStorage, jump to that position
-        // before the user presses play so resuming is seamless.
         const pending = usePlayerStore.getState().pendingSeek;
         if (pending != null && pending > 0 && pending < 1) {
           howl.seek(pending * howl.duration());
@@ -89,8 +94,11 @@ export function GlobalPlayer() {
         }
       },
       onloaderror: () => {
-        // Fall back to original URL (in case dweb.link rejects the CID)
         setIsLoading(false);
+        // Fall back to the raw IPFS URL (in case dweb.link rejects the CID).
+        // We do call fallback.play() directly here when isPlaying, because
+        // the sync effect below has already run for this track and won't
+        // fire again for the swapped Howl.
         if (fastUrl !== currentTrack.audioUrl) {
           const fallback = new Howl({
             src: [currentTrack.audioUrl!],
@@ -102,6 +110,11 @@ export function GlobalPlayer() {
             onend: () => { cancelAnimationFrame(animFrameRef.current); if (repeatMode === 'one') { fallback.seek(0); fallback.play(); } else { handleNext(); } },
             onloaderror: () => { setIsLoading(false); },
           });
+          // Make sure any earlier Howl we set into the ref is fully torn
+          // down before swapping in the fallback.
+          if (howlRef.current && howlRef.current !== fallback) {
+            howlRef.current.unload();
+          }
           howlRef.current = fallback;
           if (usePlayerStore.getState().isPlaying) {
             fallback.play();
@@ -111,13 +124,6 @@ export function GlobalPlayer() {
     });
 
     howlRef.current = howl;
-    // Only kick off playback if the store says we should be playing. On a
-    // fresh page load (rehydrate from localStorage) isPlaying is forced false
-    // so we respect browser autoplay policies; the user pressing play will
-    // flip isPlaying → true, and the sync effect below will start the Howl.
-    if (usePlayerStore.getState().isPlaying) {
-      howl.play();
-    }
 
     // MediaSession API
     if ('mediaSession' in navigator) {
@@ -134,26 +140,67 @@ export function GlobalPlayer() {
 
     return () => {
       cancelAnimationFrame(animFrameRef.current);
-      howl.unload();
+      // Unload whatever is *currently* in the ref (the original Howl OR a
+      // fallback that onloaderror swapped in), not the closure-captured
+      // original. Then null out the ref so the next effect run can't see
+      // a dead instance.
+      if (howlRef.current) {
+        howlRef.current.unload();
+        howlRef.current = null;
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTrack?.id]);
 
-  // Sync play/pause state
+  // ─── Single play/pause sync ───
+  //
+  // This is the ONLY place we call howl.play() for the primary Howl. It
+  // fires when isPlaying flips OR when the track changes (so the freshly
+  // created Howl from effect 1 above gets played here, never in effect 1's
+  // body — eliminating the double-play race).
   useEffect(() => {
-    if (!howlRef.current) return;
-    if (isPlaying && !howlRef.current.playing()) {
-      howlRef.current.play();
-    } else if (!isPlaying && howlRef.current.playing()) {
-      howlRef.current.pause();
+    const howl = howlRef.current;
+    if (!howl) return;
+    if (isPlaying && !howl.playing()) {
+      howl.play();
+    } else if (!isPlaying && howl.playing()) {
+      howl.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, currentTrack?.id]);
 
   // Sync volume
   useEffect(() => {
     if (!howlRef.current) return;
     howlRef.current.volume(isMuted ? 0 : volume);
   }, [volume, isMuted]);
+
+  // ─── Multi-tab coordination ───
+  //
+  // When the user opens the same site in two tabs and presses play in one,
+  // the other tab would otherwise keep its own audio running — double
+  // playback. We use BroadcastChannel to broadcast "this tab is now the
+  // playback owner"; every other tab receiving that message pauses itself.
+  // No-op in environments without BroadcastChannel (older Safari, SSR).
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') return;
+    const channel = new BroadcastChannel('fatp-player-leader');
+    channel.onmessage = (event) => {
+      if (event.data?.type === 'claim' && usePlayerStore.getState().isPlaying) {
+        // Another tab claimed playback while we were playing — pause us.
+        pause();
+      }
+    };
+    return () => channel.close();
+  }, [pause]);
+
+  // Claim playback ownership whenever this tab transitions to playing.
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') return;
+    if (!isPlaying) return;
+    const channel = new BroadcastChannel('fatp-player-leader');
+    channel.postMessage({ type: 'claim', at: Date.now() });
+    channel.close();
+  }, [isPlaying]);
 
   const handleSeek = useCallback((newProgress: number) => {
     if (!howlRef.current) return;

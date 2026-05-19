@@ -552,7 +552,7 @@ export function EpisodesContent() {
                         href={`https://www.youtube.com/watch?v=${embed.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 bg-red-500/10 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/20 transition-colors hidden sm:flex items-center gap-1.5"
+                        className="px-4 py-2 bg-accent/10 text-accent rounded-lg text-sm font-medium hover:bg-accent/20 transition-colors hidden sm:flex items-center gap-1.5"
                       >
                         <ExternalLink size={14} />
                         YouTube
