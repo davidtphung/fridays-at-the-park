@@ -22,6 +22,7 @@ export function GlobalPlayer() {
     pause, resume, togglePlay, setProgress, setDuration,
     setVolume, toggleMute, toggleExpanded, setExpanded,
     cycleRepeat, toggleShuffle, setIsLoading, play,
+    pendingSeek, clearPendingSeek,
   } = usePlayerStore();
 
   const { getNext, getPrevious, addToHistory, isOpen: isQueueOpen, toggleOpen: toggleQueue } = useQueueStore();
@@ -62,6 +63,14 @@ export function GlobalPlayer() {
       onload: () => {
         setDuration(howl.duration());
         setIsLoading(false);
+        // If we rehydrated mid-track from localStorage, jump to that position
+        // before the user presses play so resuming is seamless.
+        const pending = usePlayerStore.getState().pendingSeek;
+        if (pending != null && pending > 0 && pending < 1) {
+          howl.seek(pending * howl.duration());
+          setProgress(pending);
+          clearPendingSeek();
+        }
       },
       onplay: () => {
         setIsLoading(false);
@@ -94,13 +103,21 @@ export function GlobalPlayer() {
             onloaderror: () => { setIsLoading(false); },
           });
           howlRef.current = fallback;
-          fallback.play();
+          if (usePlayerStore.getState().isPlaying) {
+            fallback.play();
+          }
         }
       },
     });
 
     howlRef.current = howl;
-    howl.play();
+    // Only kick off playback if the store says we should be playing. On a
+    // fresh page load (rehydrate from localStorage) isPlaying is forced false
+    // so we respect browser autoplay policies; the user pressing play will
+    // flip isPlaying → true, and the sync effect below will start the Howl.
+    if (usePlayerStore.getState().isPlaying) {
+      howl.play();
+    }
 
     // MediaSession API
     if ('mediaSession' in navigator) {
