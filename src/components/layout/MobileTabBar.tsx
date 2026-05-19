@@ -25,7 +25,7 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-bg-primary/90 backdrop-blur-xl border-t border-border"
+      className="fixed bottom-0 left-0 right-0 z-40 md:hidden glass border-t border-border/60"
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         bottom: currentTrack ? 'var(--spacing-player-mobile)' : '0',
@@ -44,10 +44,10 @@ export function MobileTabBar() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 min-h-[44px] transition-colors text-text-secondary"
+                className="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 min-h-[48px] transition-all duration-200 text-text-secondary active:scale-[0.92] active:opacity-70"
               >
-                <Icon size={20} aria-hidden="true" />
-                <span className="text-[10px] font-medium">{item.label}</span>
+                <Icon size={22} aria-hidden="true" />
+                <span className="text-[11px] font-medium tracking-tight">{item.label}</span>
               </a>
             );
           }
@@ -57,14 +57,14 @@ export function MobileTabBar() {
               key={item.href}
               href={item.href}
               className={`
-                flex flex-col items-center justify-center gap-0.5 flex-1 py-2 min-h-[44px]
-                transition-colors
+                flex flex-col items-center justify-center gap-0.5 flex-1 py-2 min-h-[48px]
+                transition-all duration-200 active:scale-[0.92]
                 ${isActive ? 'text-accent' : 'text-text-secondary'}
               `}
               aria-current={isActive ? 'page' : undefined}
             >
-              <Icon size={20} aria-hidden="true" />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <Icon size={22} aria-hidden="true" />
+              <span className="text-[11px] font-medium tracking-tight">{item.label}</span>
             </Link>
           );
         })}

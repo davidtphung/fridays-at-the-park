@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
@@ -33,6 +33,33 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Fridays at the Park',
   },
+  // PWA / iOS Safari address-bar tinting
+  appleWebApp: {
+    capable: true,
+    title: 'The Park',
+    statusBarStyle: 'black-translucent',
+  },
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
+};
+
+// `viewport-fit=cover` lets the page paint behind the iOS notch / home indicator;
+// CSS uses `env(safe-area-inset-*)` to keep critical chrome out of those areas.
+// `color-scheme: dark` tells the browser to use dark form controls and scrollbars.
+// `themeColor` paints the iOS status bar / Android URL bar to match the app shell.
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  colorScheme: 'dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+  ],
 };
 
 export default function RootLayout({
@@ -42,6 +69,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        {/* Preconnect to the hosts we hit on first interaction so DNS + TLS happen
+            before the user presses play. Saves 100–300 ms on the first audio /
+            video / thumbnail fetch in cold-cache conditions. */}
+        <link rel="preconnect" href="https://dweb.link" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://i.ytimg.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+        <link rel="dns-prefetch" href="https://arweave.net" />
+        <link rel="dns-prefetch" href="https://gateway.pinata.cloud" />
+        <link rel="dns-prefetch" href="https://nouns.build" />
+      </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-bg-primary text-text-primary`}>
         <Providers>
           {/* EmbedChrome reads ?embed=1 / ?embed=true from the URL on the client

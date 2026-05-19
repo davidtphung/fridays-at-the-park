@@ -196,7 +196,8 @@ export function GlobalPlayer() {
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className="fixed bottom-0 left-0 right-0 z-30 bg-player-bg/95 backdrop-blur-xl border-t border-border"
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="fixed bottom-0 left-0 right-0 z-30 glass border-t border-border/60"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
         role="complementary"
         aria-label="Audio player"
