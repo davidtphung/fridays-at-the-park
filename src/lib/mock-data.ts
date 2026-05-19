@@ -327,6 +327,15 @@ export const MOCK_ARTISTS: Artist[] = [
     updatedAt: '2026-05-19T00:00:00Z',
   },
   {
+    id: 'artist-shwento',
+    name: 'Shwento',
+    slug: 'shwento',
+    bio: 'Kampala-based collective featured on "becky v2" with The Park. Cross-continent collaboration of 14 musicians from Uganda to Los Angeles.',
+    avatarUrl: '/icons/artist-placeholder.svg',
+    createdAt: '2024-03-15T00:00:00Z',
+    updatedAt: '2026-05-19T00:00:00Z',
+  },
+  {
     id: 'artist-darondo',
     name: 'Darondo',
     slug: 'darondo',
@@ -493,7 +502,10 @@ export const MOCK_TRACKS: Track[] = [
     id: 'zora-becky-v2',
     title: 'becky v2',
     slug: 'becky-v2',
-    description: 'An African pop collaboration from Season 002, recorded with artists from Kampala, Uganda.',
+    // Description sourced from the on-chain metadata at
+    // ipfs://bafkreic3njagt7dez3b3w4ep3cr3jnvrlhgj7s4fvup6gr5hp6e7bxrpiq —
+    // the canonical credits list lives on Base, not in our cache.
+    description: '"becky v2" is the park + shwento. Fridays at the Park goes from Los Angeles, CA to Kampala, Uganda and back to LA — collective creation across nations, continents, and chains. Cross-continent, cross-chain collaboration with 14 humans.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://gateway.pinata.cloud/ipfs/bafybeiarmctkp4lynl4mvtxhpfy3jueotdlkqgpfakrwtabopdmedzkbni',
     coverImageSmall: 'https://gateway.pinata.cloud/ipfs/bafybeiarmctkp4lynl4mvtxhpfy3jueotdlkqgpfakrwtabopdmedzkbni',
@@ -510,20 +522,30 @@ export const MOCK_TRACKS: Track[] = [
     editionSize: undefined,
     genre: ['Afropop', 'R&B'],
     credits: {
-      producer: ['Tim Anderson', 'WaveIQ'],
-      vocalist: ['TOBi'],
-      engineer: ['Maddi StJohn'],
-      film: ['Ryan Kontra'],
+      // Verbatim from the on-chain credit list (14 humans).
+      producer: ['Tim Anderson'],
+      vocalist: ['Bowman A.', 'Ishe Simba', 'Viktor B.', 'Ti Steele', 'David T Phung'],
+      drums: ['Xammy M.', 'Derek G Taylor'],
+      bass: ['Josh Lippi', 'Viktor B.'],
+      keys: ['Ben Schwier', 'Viktor B.'],
+      engineer: ['Chief D.', 'Maddi St John'],
+      songwriter: ['David Makueta'],
+      park: ['Davin Oyesigye'],
     },
     externalLinks: {
       zora: 'https://zora.co/collect/base:0xb5ce496d53d7440a5c18de9322b6837c9a518e21/1',
     },
-    artists: makeArtists([
-      'artist-the-park', 'artist-tobi', 'artist-waveiq', 'artist-tim-anderson'
-    ], 'artist-the-park'),
+    // Primary artists: The Park + Shwento (the Kampala collective).
+    // Note: TOBi and WaveIQ were incorrectly attributed before — neither
+    // appears in the on-chain credit list. Tim Anderson IS credited as
+    // producer.
+    artists: makeArtists(
+      ['artist-the-park', 'artist-shwento', 'artist-tim-anderson'],
+      'artist-the-park',
+    ),
     releaseDate: '2024-03-15T00:00:00Z',
     createdAt: '2024-03-15T00:00:00Z',
-    updatedAt: '2024-06-01T00:00:00Z',
+    updatedAt: '2026-05-19T00:00:00Z',
   },
   // --- S002 "Last Straw" (Token 3 on main contract) ---
   {
@@ -2541,6 +2563,111 @@ export function searchMockData(query: string) {
   );
   const episodes = tracks.filter(t => t.mediaType === MediaType.VIDEO);
   return { tracks, artists, episodes };
+}
+
+// ===== CURATED PLAYLISTS =====
+//
+// Editorial playlists of onchain audio. Each one is a curated lens onto the
+// existing MOCK_TRACKS catalog — no extra data, just a slug + ordering. The
+// /onchain page exposes them as a horizontal rail so listeners can dive into
+// themed listening sessions instead of scrolling the raw track grid.
+
+export interface Playlist {
+  slug: string;
+  title: string;
+  description: string;
+  emoji: string;
+  /** Ordered list of track IDs. Tracks resolved at read time so any data
+   *  changes (new metadata, deleted track) are picked up automatically. */
+  trackIds: string[];
+}
+
+export const MOCK_PLAYLISTS: Playlist[] = [
+  {
+    slug: 'onchain-essentials',
+    title: 'Onchain Essentials',
+    description: 'The flagship Fridays at the Park onchain releases — the front door for anyone new to The Park.',
+    emoji: '◨-◨',
+    trackIds: [
+      'zora-onchain-summer',
+      'zora-becky-v2',
+      'sound-do-it',
+      'catalog-belle',
+      'zora-happy-friday-v2',
+      'zora-the-park-with-the-park',
+      'catalog-rooms-in-the-house',
+    ],
+  },
+  {
+    slug: 'season-002',
+    title: 'Season 002',
+    description: 'Every Season 002 onchain audio drop, in release order — from "Last Straw" to "Right Here, Right Noun".',
+    emoji: '⌐Ⓗ-Ⓕ',
+    trackIds: [
+      'zora-s002-last-straw',
+      'zora-s002-the-caller',
+      'zora-s002-heaven-v2',
+      'zora-s002-llamame-v5',
+      'zora-s002-everything-v8',
+      'zora-s002-right-here-right-noun',
+    ],
+  },
+  {
+    slug: 'cross-continent',
+    title: 'Cross Continent',
+    description: 'Los Angeles ↔ Kampala, Uganda. The collaborations recorded across continents and chains.',
+    emoji: '🌍',
+    trackIds: ['zora-becky-v2'],
+  },
+  {
+    slug: 'happy-friday',
+    title: 'Happy Friday',
+    description: 'The Park\'s signature greeting, onchain. Studio Fridays, Royale Fridays, and everything between.',
+    emoji: '🌳',
+    trackIds: [
+      'zora-happy-friday-v2',
+      'zora-the-park-with-the-park',
+      'sound-do-it',
+    ],
+  },
+  {
+    slug: 'instrumentals',
+    title: 'Instrumentals',
+    description: 'The instrumental side of The Park. Jazz keys, lo-fi beats, and beat tape moments.',
+    emoji: '🎹',
+    // Filtered dynamically below — placeholder so the slug exists at module
+    // scope; the getMockPlaylist() helper resolves the real list.
+    trackIds: [],
+  },
+];
+
+/**
+ * Get a playlist by slug, with its `trackIds` resolved into full Track
+ * objects (in order). The "instrumentals" playlist is dynamically computed
+ * from the catalog so it never goes stale as new instrumentals ship.
+ */
+export function getMockPlaylist(slug: string): { playlist: Playlist; tracks: Track[] } | null {
+  const playlist = MOCK_PLAYLISTS.find((p) => p.slug === slug);
+  if (!playlist) return null;
+  let trackIds = playlist.trackIds;
+  if (slug === 'instrumentals') {
+    trackIds = MOCK_TRACKS.filter(
+      (t) =>
+        t.mediaType === MediaType.AUDIO &&
+        t.genre?.some((g) => /instrumental|jazz|lo[- ]?fi|beat/i.test(g)) &&
+        [Platform.ZORA, Platform.CATALOG, Platform.SOUND_XYZ, Platform.HIGHLIGHT].includes(t.platform),
+    )
+      .slice(0, 12)
+      .map((t) => t.id);
+  }
+  const tracks = trackIds
+    .map((id) => MOCK_TRACKS.find((t) => t.id === id))
+    .filter((t): t is Track => !!t);
+  return { playlist, tracks };
+}
+
+export function getMockPlaylists(): Playlist[] {
+  return MOCK_PLAYLISTS;
 }
 
 export function getSeasons(): string[] {

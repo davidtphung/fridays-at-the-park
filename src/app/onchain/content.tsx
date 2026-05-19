@@ -3,7 +3,8 @@
 import { useState, useMemo } from 'react';
 import { TrackGrid } from '@/components/music/TrackGrid';
 import { FilterBar } from '@/components/music/FilterBar';
-import { getMockTracksByPlatform, getSeasons } from '@/lib/mock-data';
+import { PlaylistRail } from '@/components/music/PlaylistRail';
+import { getMockTracksByPlatform, getSeasons, getMockPlaylists } from '@/lib/mock-data';
 import { Platform, Chain } from '@/types/platform';
 
 export function OnchainContent() {
@@ -48,8 +49,16 @@ export function OnchainContent() {
     return tracks;
   }, [allTracks, platform, chain, season, sort]);
 
+  const playlists = getMockPlaylists();
+
   return (
     <>
+      {/* Curated playlists rail — themed listening sessions over the catalog.
+          Sits above the filter bar so casual visitors can dive into a curated
+          set before drilling into raw filters. */}
+      <div className="mb-8">
+        <PlaylistRail playlists={playlists} />
+      </div>
       <FilterBar
         platform={platform}
         chain={chain}
