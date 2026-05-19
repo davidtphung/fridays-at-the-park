@@ -25,7 +25,7 @@ export function Footer() {
               <li><ExternalLink href="https://thepark.bandcamp.com/music" className="text-sm text-text-secondary hover:text-text-primary">Bandcamp</ExternalLink></li>
               <li><a href="/episodes" className="text-sm text-text-secondary hover:text-text-primary transition-colors">Episodes</a></li>
               <li><a href="/dao" className="text-sm text-text-secondary hover:text-text-primary transition-colors">DAO</a></li>
-              <li><a href="/org" className="text-sm text-text-secondary hover:text-text-primary transition-colors">ORG</a></li>
+              <li><a href="/org" target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary hover:text-text-primary transition-colors">ORG</a></li>
             </ul>
           </div>
 
