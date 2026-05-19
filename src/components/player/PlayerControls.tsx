@@ -34,8 +34,18 @@ export function PlayerControls({
   const playBtn = 'rounded-full bg-text-primary text-bg-primary transition-all duration-150 hover:opacity-90 active:scale-[0.92] flex items-center justify-center';
 
   if (compact) {
+    // Compact = the always-visible mini player bar. Includes Back (previous
+    // track) and Forward (next) on both sides of the play button so the
+    // mini player has full transport controls without expanding.
     return (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5 sm:gap-1">
+        <button
+          onClick={onPrevious}
+          className={`${iconBtn} text-text-secondary hover:text-text-primary`}
+          aria-label="Previous track"
+        >
+          <SkipBack size={18} />
+        </button>
         <button
           onClick={onPlayPause}
           className={`${playBtn} p-2 min-w-[44px] min-h-[44px]`}
