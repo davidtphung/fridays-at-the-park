@@ -1,8 +1,12 @@
 import { CoverFlowSection } from './cover-flow-section';
 import { FeaturedGrid } from './featured-grid';
+import { PlaylistRail } from '@/components/music/PlaylistRail';
+import { getMockPlaylists } from '@/lib/mock-data';
 import { SITE_NAME } from '@/lib/constants';
 
 export default function HomePage() {
+  const playlists = getMockPlaylists();
+
   return (
     <div>
       {/* Hero section */}
@@ -16,6 +20,11 @@ export default function HomePage() {
           </p>
         </div>
         <CoverFlowSection />
+      </section>
+
+      {/* Curated playlists rail — themed listening sessions over the catalog */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pb-8">
+        <PlaylistRail playlists={playlists} />
       </section>
 
       {/* Featured tracks */}
