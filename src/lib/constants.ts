@@ -38,8 +38,8 @@ export const CHAIN_COLORS: Record<Chain, string> = {
 };
 
 export const NAV_ITEMS = [
-  { label: 'Onchain', href: '/onchain', icon: 'diamond' as const, external: false },
   { label: 'Episodes', href: '/episodes', icon: 'play' as const, external: false },
+  { label: 'Onchain', href: '/onchain', icon: 'diamond' as const, external: false },
   // ORG opens the embedded fridaysatthepark.org iframe page in a fresh tab
   // so the current listening session (audio + queue + scroll position)
   // stays untouched. Relative href resolves to /org on whichever origin the
