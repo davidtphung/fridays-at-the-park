@@ -180,26 +180,55 @@ export function GlobalPlayer() {
   // the other tab would otherwise keep its own audio running — double
   // playback. We use BroadcastChannel to broadcast "this tab is now the
   // playback owner"; every other tab receiving that message pauses itself.
+  //
+  // Two important correctness details:
+  //
+  // 1. SAME instance for send + listen. Per spec, a BroadcastChannel does
+  //    NOT receive messages from ITSELF — but it DOES receive messages from
+  //    other BroadcastChannel instances in the same tab. Earlier we created
+  //    a separate channel for the sender effect, which meant the listener
+  //    in the same tab heard our own "claim" and paused us immediately —
+  //    so pressing play looked like "music player not working". Fix:
+  //    keep one channel in a ref, reuse it for both directions.
+  //
+  // 2. tabId guard. Defensive: we still tag our messages with a stable
+  //    per-tab id and ignore messages whose tabId matches our own — covers
+  //    any edge cases where multiple channel instances exist (StrictMode
+  //    double-mount, future refactors, etc.).
+  //
   // No-op in environments without BroadcastChannel (older Safari, SSR).
+  const tabIdRef = useRef<string>('');
+  if (!tabIdRef.current && typeof window !== 'undefined') {
+    tabIdRef.current = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
+  const channelRef = useRef<BroadcastChannel | null>(null);
+
   useEffect(() => {
     if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') return;
     const channel = new BroadcastChannel('fatp-player-leader');
     channel.onmessage = (event) => {
-      if (event.data?.type === 'claim' && usePlayerStore.getState().isPlaying) {
-        // Another tab claimed playback while we were playing — pause us.
+      const data = event.data;
+      if (!data) return;
+      if (data.tabId === tabIdRef.current) return; // ignore self
+      if (data.type === 'claim' && usePlayerStore.getState().isPlaying) {
         pause();
       }
     };
-    return () => channel.close();
+    channelRef.current = channel;
+    return () => {
+      channel.close();
+      channelRef.current = null;
+    };
   }, [pause]);
 
   // Claim playback ownership whenever this tab transitions to playing.
+  // Reuses the channel above so the spec's same-instance exclusion applies
+  // (and we don't pause ourselves).
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') return;
     if (!isPlaying) return;
-    const channel = new BroadcastChannel('fatp-player-leader');
-    channel.postMessage({ type: 'claim', at: Date.now() });
-    channel.close();
+    const ch = channelRef.current;
+    if (!ch) return;
+    ch.postMessage({ type: 'claim', tabId: tabIdRef.current, at: Date.now() });
   }, [isPlaying]);
 
   const handleSeek = useCallback((newProgress: number) => {
