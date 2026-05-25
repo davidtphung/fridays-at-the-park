@@ -1,6 +1,7 @@
 import { CoverFlowSection } from './cover-flow-section';
 import { FeaturedGrid } from './featured-grid';
 import { PlaylistRail } from '@/components/music/PlaylistRail';
+import { LatestAuction } from '@/components/dao/LatestAuction';
 import { getMockPlaylists } from '@/lib/mock-data';
 import { SITE_NAME } from '@/lib/constants';
 
@@ -20,6 +21,12 @@ export default function HomePage() {
           </p>
         </div>
         <CoverFlowSection />
+      </section>
+
+      {/* Live DAO auction strip — surfaces the current Nouns Builder
+          auction token so visitors can mint without first navigating to /dao */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pb-6">
+        <LatestAuction variant="compact" />
       </section>
 
       {/* Curated playlists rail — themed listening sessions over the catalog */}

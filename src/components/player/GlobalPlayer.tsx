@@ -77,12 +77,21 @@ export function GlobalPlayer() {
           clearPendingSeek();
         }
       },
+      // ── Howler → store sync (two-way) ──
+      // The store is the "should we be playing" intent. Howler is the
+      // "are we actually playing" truth. They can diverge in cases the
+      // user doesn't control: browser autoplay block, background-tab
+      // auto-pause, end of queue, network stall. When that happens the
+      // play/pause button shows the wrong icon. Push Howler's state
+      // back to the store so the UI always reflects reality.
       onplay: () => {
         setIsLoading(false);
+        resume();
         animFrameRef.current = requestAnimationFrame(updateProgress);
       },
       onpause: () => {
         cancelAnimationFrame(animFrameRef.current);
+        pause();
       },
       onend: () => {
         cancelAnimationFrame(animFrameRef.current);
@@ -90,7 +99,16 @@ export function GlobalPlayer() {
           howl.seek(0);
           howl.play();
         } else {
-          handleNext();
+          // Try to advance to the next queued track. If the queue is empty,
+          // explicitly mark the store paused so the play button flips back
+          // to its play-state icon (otherwise it'd show "pause" forever).
+          const nextTrack = useQueueStore.getState().queue[0];
+          if (nextTrack) {
+            handleNext();
+          } else {
+            pause();
+            setProgress(0);
+          }
         }
       },
       onloaderror: () => {
@@ -105,10 +123,21 @@ export function GlobalPlayer() {
             html5: true,
             volume: isMuted ? 0 : volume,
             onload: () => { setDuration(fallback.duration()); setIsLoading(false); },
-            onplay: () => { setIsLoading(false); animFrameRef.current = requestAnimationFrame(updateProgress); },
-            onpause: () => { cancelAnimationFrame(animFrameRef.current); },
-            onend: () => { cancelAnimationFrame(animFrameRef.current); if (repeatMode === 'one') { fallback.seek(0); fallback.play(); } else { handleNext(); } },
-            onloaderror: () => { setIsLoading(false); },
+            onplay: () => { setIsLoading(false); resume(); animFrameRef.current = requestAnimationFrame(updateProgress); },
+            onpause: () => { cancelAnimationFrame(animFrameRef.current); pause(); },
+            onend: () => {
+              cancelAnimationFrame(animFrameRef.current);
+              if (repeatMode === 'one') {
+                fallback.seek(0);
+                fallback.play();
+              } else if (useQueueStore.getState().queue[0]) {
+                handleNext();
+              } else {
+                pause();
+                setProgress(0);
+              }
+            },
+            onloaderror: () => { setIsLoading(false); pause(); },
           });
           // Make sure any earlier Howl we set into the ref is fully torn
           // down before swapping in the fallback.
