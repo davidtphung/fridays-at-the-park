@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Tv, Film, Music, ExternalLink, X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Play, Tv, Film, ExternalLink, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import { getMockEpisodes, getSeasons } from '@/lib/mock-data';
 import { Track } from '@/types/track';
 import { Badge } from '@/components/ui/Badge';
@@ -320,20 +320,21 @@ export function EpisodesContent() {
   const [activeSeason, setActiveSeason] = useState('');
   const [activeEpisode, setActiveEpisode] = useState<Track | null>(null);
   const [coverFlowIndex, setCoverFlowIndex] = useState(0);
-  const [showCategory, setShowCategory] = useState<'sessions' | 'videos' | 'all'>('all');
+  const [showCategory, setShowCategory] = useState<'sessions' | 'all'>('all');
   const playerRef = useRef<HTMLDivElement>(null);
 
   const allEpisodes = useMemo(() => {
     return getMockEpisodes(activeSeason || undefined);
   }, [activeSeason]);
 
-  const { sessionEps, musicVideos, extras } = useMemo(() => categorizeEpisodes(allEpisodes), [allEpisodes]);
+  // Music videos now live exclusively on /onchain → Music Videos tab.
+  // Episodes is sessions + extras (trailers, ending credits, genesis) only.
+  const { sessionEps, extras } = useMemo(() => categorizeEpisodes(allEpisodes), [allEpisodes]);
 
   const displayEpisodes = useMemo(() => {
     if (showCategory === 'sessions') return sessionEps;
-    if (showCategory === 'videos') return [...musicVideos, ...extras];
-    return allEpisodes;
-  }, [showCategory, sessionEps, musicVideos, extras, allEpisodes]);
+    return [...sessionEps, ...extras];
+  }, [showCategory, sessionEps, extras]);
 
   // Reset cover flow index when episodes change
   useEffect(() => {
@@ -401,14 +402,6 @@ export function EpisodesContent() {
             }`}
           >
             <Film size={12} /> Sessions
-          </button>
-          <button
-            onClick={() => setShowCategory('videos')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 ${
-              showCategory === 'videos' ? 'bg-text-primary text-bg-primary' : 'bg-bg-tertiary text-text-secondary hover:text-text-primary'
-            }`}
-          >
-            <Music size={12} /> Music Videos
           </button>
         </div>
       </div>
