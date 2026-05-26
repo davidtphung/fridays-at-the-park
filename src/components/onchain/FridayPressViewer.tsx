@@ -6,6 +6,36 @@ import { X, ExternalLink, Download, ChevronLeft, ChevronRight } from 'lucide-rea
 import { Track } from '@/types/track';
 import { fastIpfsUrl } from '@/lib/fast-ipfs';
 
+/**
+ * Convert any IPFS URL we hold to the `<cid>.ipfs.inbrowser.link/` subdomain
+ * gateway. Brave Shields' default lists block iframes hosted on dweb.link's
+ * subdomain CID format — confirmed in the wild (PDF viewer was returning
+ * "This page has been blocked by Brave" on 2026-05-25). inbrowser.link is
+ * Cloudflare-fronted, supports HTTP byte-range, CORS-permissive, and isn't
+ * on the default Brave blocklist.
+ *
+ * The site continues to store dweb.link URLs as the canonical form (it's
+ * still the fastest gateway for non-iframe contexts and works in every
+ * browser); this helper only switches the gateway at the iframe site.
+ */
+function toInbrowserLink(url: string): string {
+  // dweb.link/ipfs/<cid>[/path] → <cid>.ipfs.inbrowser.link/[path]
+  const m = url.match(/^https?:\/\/dweb\.link\/ipfs\/([^/?#]+)([/?#].*)?$/);
+  if (m) {
+    const cid = m[1];
+    const rest = m[2] || '/';
+    return `https://${cid}.ipfs.inbrowser.link${rest.startsWith('/') ? rest : '/' + rest}`;
+  }
+  // gateway.pinata.cloud/ipfs/<cid>[/path] → same
+  const p = url.match(/^https?:\/\/gateway\.pinata\.cloud\/ipfs\/([^/?#]+)([/?#].*)?$/);
+  if (p) {
+    const cid = p[1];
+    const rest = p[2] || '/';
+    return `https://${cid}.ipfs.inbrowser.link${rest.startsWith('/') ? rest : '/' + rest}`;
+  }
+  return url;
+}
+
 interface FridayPressViewerProps {
   /** All Friday Press tracks — used so the viewer can navigate between issues. */
   tracks: Track[];
@@ -27,8 +57,10 @@ interface FridayPressViewerProps {
  * viewer that handles touch gestures and accessibility correctly. The
  * iframe's `sandbox` keeps the PDF context isolated from our origin.
  *
- * The CSP allows `frame-src https://dweb.link https://*.ipfs.dweb.link`
- * (set in next.config.ts) so the iframe is permitted to load.
+ * The CSP allows `frame-src https://*.ipfs.inbrowser.link` (set in
+ * next.config.ts) so the iframe is permitted to load. We use
+ * inbrowser.link rather than dweb.link because Brave Shields blocks
+ * dweb.link iframes by default — see `toInbrowserLink` above.
  */
 export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: FridayPressViewerProps) {
   const currentIndex = tracks.findIndex((t) => t.id === openId);
@@ -55,11 +87,20 @@ export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: Frida
 
   if (!current) return null;
   // PDF lives in track.videoUrl (videoMime: 'application/pdf').
-  // fastIpfsUrl rewrites pinata → dweb.link if needed.
-  const pdfUrl = fastIpfsUrl(current.videoUrl || '');
+  // Two URLs:
+  //   1. `dwebPdfUrl` — raw PDF bytes from dweb.link. Used by the Download
+  //      button so users get the actual file (inbrowser.link's service-
+  //      worker gateway returns a bootstrap HTML page when saved, see
+  //      commentary on toInbrowserLink above — that's a Chromium bug
+  //      the SW gateway can't work around).
+  //   2. `viewerUrl` — inbrowser.link service-worker gateway. Used as
+  //      the iframe src so Brave Shields doesn't block the embed.
+  const dwebPdfUrl = fastIpfsUrl(current.videoUrl || '');
+  const viewerUrl = toInbrowserLink(dwebPdfUrl);
   // `#view=FitH` is a PDF Open Parameter most native renderers respect —
-  // fits the page width to the viewport for the first paint.
-  const iframeSrc = pdfUrl ? `${pdfUrl}#view=FitH&toolbar=1&navpanes=0` : '';
+  // fits the page width to the viewport for the first paint. The SW
+  // gateway forwards the hash through to the underlying PDF renderer.
+  const iframeSrc = viewerUrl ? `${viewerUrl}#view=FitH&toolbar=1&navpanes=0` : '';
 
   return (
     <AnimatePresence>
@@ -95,9 +136,10 @@ export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: Frida
             <p className="text-sm sm:text-base font-semibold text-white truncate">{current.title}</p>
           </div>
           <div className="flex items-center gap-1 shrink-0">
-            {/* Direct download / open in new tab */}
+            {/* Direct download / open in new tab — use dweb.link so the
+                user actually gets the PDF bytes, not the SW bootstrap HTML. */}
             <a
-              href={pdfUrl}
+              href={dwebPdfUrl}
               download
               target="_blank"
               rel="noopener noreferrer"
@@ -152,7 +194,7 @@ export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: Frida
 
         {/* PDF iframe — flex-1 to take all remaining height */}
         <div className="flex-1 relative bg-[#525659]">
-          {pdfUrl ? (
+          {viewerUrl ? (
             <iframe
               key={current.id}
               src={iframeSrc}
