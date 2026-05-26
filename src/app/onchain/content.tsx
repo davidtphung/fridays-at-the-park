@@ -6,6 +6,7 @@ import { TrackGrid } from '@/components/music/TrackGrid';
 import { FilterBar } from '@/components/music/FilterBar';
 import { PlaylistRail } from '@/components/music/PlaylistRail';
 import { MusicVideoGrid } from '@/components/music/MusicVideoGrid';
+import { FridayPressGrid } from '@/components/onchain/FridayPressGrid';
 import {
   getMockTracksByPlatform,
   getSeasons,
@@ -239,7 +240,7 @@ function FridayPressSection({ tracks }: { tracks: ReturnType<typeof getMockFrida
       </div>
 
       {tracks.length > 0 ? (
-        <TrackGrid tracks={tracks} variant="onchain" />
+        <FridayPressGrid tracks={tracks} />
       ) : (
         <div className="rounded-2xl border border-dashed border-border p-8 sm:p-12 text-center">
           <Newspaper size={32} className="mx-auto text-text-secondary mb-3" aria-hidden="true" />
