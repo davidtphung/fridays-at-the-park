@@ -7,9 +7,11 @@ import { Wallet, ArrowUpRight } from 'lucide-react';
 
 const DAO = {
   tokenAddress: '0x72b31421a462996f559ffb7fc5dfaca94e754d89',
-  latestTokenId: 604,
-  nounsBuilderUrl:
-    'https://nouns.build/dao/base/0x72b31421a462996f559ffb7fc5dfaca94e754d89/604',
+  // Baseline known-good tokenId. Real live tokenId is resolved at runtime
+  // by probing tokenURI(baseline + n) — see findLiveAuctionTokenId() below.
+  baselineTokenId: 610,
+  nounsBuilderBase:
+    'https://nouns.build/dao/base/0x72b31421a462996f559ffb7fc5dfaca94e754d89',
 };
 
 interface TokenArtwork {
@@ -18,11 +20,7 @@ interface TokenArtwork {
   description: string;
 }
 
-// Pulled out of /dao/content.tsx so the same fetch logic can be reused on
-// the home page. Reads tokenURI(latestTokenId) from the Nouns Builder token
-// contract on Base, decodes the `data:application/json;base64,…` payload,
-// and surfaces the Nouns Builder renderer image inline.
-async function fetchTokenArtwork(tokenId: number): Promise<TokenArtwork | null> {
+async function rpcCallTokenURI(tokenId: number): Promise<{ ok: boolean; meta?: TokenArtwork }> {
   const hexId = tokenId.toString(16).padStart(64, '0');
   try {
     const resp = await fetch('https://mainnet.base.org', {
@@ -36,21 +34,55 @@ async function fetchTokenArtwork(tokenId: number): Promise<TokenArtwork | null> 
       }),
     });
     const json = await resp.json();
-    if (!json.result) return null;
+    if (!json.result || json.error) return { ok: false };
     const raw = json.result.slice(2);
+    if (raw.length < 128) return { ok: false };
     const length = parseInt(raw.slice(64, 128), 16);
+    if (length === 0) return { ok: false };
     const bytes = new Uint8Array(length);
     for (let i = 0; i < length; i++) {
       bytes[i] = parseInt(raw.slice(128 + i * 2, 130 + i * 2), 16);
     }
     const uri = new TextDecoder().decode(bytes);
     const prefix = 'data:application/json;base64,';
-    if (!uri.startsWith(prefix)) return null;
+    if (!uri.startsWith(prefix)) return { ok: false };
     const meta = JSON.parse(atob(uri.slice(prefix.length)));
-    return { name: meta.name ?? '', image: meta.image ?? '', description: meta.description ?? '' };
+    return {
+      ok: true,
+      meta: { name: meta.name ?? '', image: meta.image ?? '', description: meta.description ?? '' },
+    };
   } catch {
-    return null;
+    return { ok: false };
   }
+}
+
+// Probe upward from a baseline tokenId in parallel to find the highest
+// currently-minted token. Nouns Builder DAOs mint one auction token per
+// cycle (usually 24 h) so this stays small in practice — only a handful
+// of new IDs since `baselineTokenId` was last shipped. Stops on the first
+// gap so we don't probe beyond the live edge.
+async function findLiveAuctionTokenId(baseline: number, lookahead = 10): Promise<{
+  tokenId: number;
+  meta: TokenArtwork | null;
+}> {
+  const candidates = Array.from({ length: lookahead + 1 }, (_, i) => baseline + i);
+  const results = await Promise.all(candidates.map((id) => rpcCallTokenURI(id)));
+  // Find the highest contiguous tokenId that exists starting from baseline.
+  // (Nouns Builder reserves some IDs for founders, but in practice the
+  // public auction IDs are contiguous from a known point onward.)
+  let highest = -1;
+  let bestMeta: TokenArtwork | null = null;
+  for (let i = 0; i < results.length; i++) {
+    if (results[i].ok) {
+      highest = candidates[i];
+      bestMeta = results[i].meta ?? bestMeta;
+    } else if (highest !== -1) {
+      // First gap — auction edge found, stop.
+      break;
+    }
+  }
+  if (highest === -1) return { tokenId: baseline, meta: null };
+  return { tokenId: highest, meta: bestMeta };
 }
 
 interface LatestAuctionProps {
@@ -62,14 +94,19 @@ interface LatestAuctionProps {
 
 export function LatestAuction({ variant = 'card' }: LatestAuctionProps) {
   const [artwork, setArtwork] = useState<TokenArtwork | null>(null);
+  const [tokenId, setTokenId] = useState<number>(DAO.baselineTokenId);
 
   useEffect(() => {
     let cancelled = false;
-    fetchTokenArtwork(DAO.latestTokenId).then((a) => {
-      if (!cancelled) setArtwork(a);
+    findLiveAuctionTokenId(DAO.baselineTokenId).then(({ tokenId: id, meta }) => {
+      if (cancelled) return;
+      setTokenId(id);
+      setArtwork(meta);
     });
     return () => { cancelled = true; };
   }, []);
+
+  const nounsBuilderUrl = `${DAO.nounsBuilderBase}/${tokenId}`;
 
   if (variant === 'compact') {
     return (
@@ -95,14 +132,14 @@ export function LatestAuction({ variant = 'card' }: LatestAuctionProps) {
         <div className="min-w-0 flex-1">
           <p className="text-[10px] uppercase tracking-widest font-semibold text-accent">Live Auction</p>
           <p className="font-bold text-text-primary text-base sm:text-lg truncate">
-            {artwork?.name || `the park dao #${DAO.latestTokenId}`}
+            {artwork?.name || `the park dao #${tokenId}`}
           </p>
           <Link href="/dao" className="text-xs text-text-secondary hover:text-text-primary transition-colors">
             View DAO details →
           </Link>
         </div>
         <a
-          href={DAO.nounsBuilderUrl}
+          href={nounsBuilderUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-accent text-bg-primary rounded-full font-semibold text-xs sm:text-sm transition-all hover:bg-accent-hover active:scale-95 min-h-[40px]"
@@ -142,7 +179,7 @@ export function LatestAuction({ variant = 'card' }: LatestAuctionProps) {
       )}
       <div className="flex items-center justify-center">
         <a
-          href={DAO.nounsBuilderUrl}
+          href={nounsBuilderUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="px-8 py-3.5 bg-accent text-bg-primary rounded-lg font-semibold hover:bg-accent-hover transition-colors flex items-center gap-2"

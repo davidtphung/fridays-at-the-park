@@ -2578,6 +2578,147 @@ export const MOCK_TRACKS: Track[] = [
     createdAt: '2024-08-02T00:00:00Z',
     updatedAt: '2026-05-25T00:00:00Z',
   },
+  // ─── MUSIC VIDEOS (Zora 1155 on Base) ───
+  // Order matters here — user-curated sequence: Happy Friday → Onchain
+  // Summer → Crash → Becky (lyric video wall) → Becky (short music film).
+  // getMockMusicVideoTracks() preserves catalog order, not release-date
+  // sort, because this sequence is editorial.
+  // Created by HVDSON + The Park for the FWB Fest 2024 live video wall.
+  {
+    id: 'zora-mv-happy-friday',
+    title: 'Happy Friday — Lyric Video Wall',
+    slug: 'happy-friday-lyric-video',
+    description: 'Video created by HVDSON at The Park for FWB FEST 2024 Live Video Wall ⌐Ⓗ-Ⓕ',
+    mediaType: MediaType.VIDEO,
+    coverImage: 'https://dweb.link/ipfs/bafybeia7dk7qa4isb6oaxykiokqk6dp35dc2xhkzxauxv6rsnsyw44h4fy',
+    videoUrl: 'https://dweb.link/ipfs/bafybeifxcik3b3ocrodyhzj3homevhhvfaklurb33pnj4s7dxvsh27dibi',
+    videoMime: 'video/mp4',
+    duration: 0,
+    platform: Platform.ZORA,
+    chain: Chain.BASE,
+    contractAddress: '0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93',
+    tokenId: '7',
+    mintUrl: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/7?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    genre: ['Music Video', 'Lyric Video'],
+    externalLinks: {
+      zora: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/7?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    },
+    artists: makeArtists(['artist-the-park'], 'artist-the-park'),
+    series: 'music-videos',
+    releaseDate: '2024-08-02T00:00:00Z',
+    createdAt: '2024-08-02T00:00:00Z',
+    updatedAt: '2026-05-25T00:00:00Z',
+  },
+  {
+    id: 'zora-mv-onchain-summer',
+    title: 'Onchain Summer — Lyric Video Wall',
+    slug: 'onchain-summer-lyric-video',
+    description: 'Created by HVDSON and The Park for FWB Fest 2024 live stage video wall ⌐Ⓗ-Ⓕ',
+    mediaType: MediaType.VIDEO,
+    coverImage: 'https://dweb.link/ipfs/bafybeiavzgbjxbbwvmjilbuqi3kv2kgz6rqfdlg7boaclphvywrzqnhypa',
+    videoUrl: 'https://dweb.link/ipfs/bafybeigd7dtz7bpzlttmwtq6ps6vbecpcid3wgsmyolncbj5dlteaftfda',
+    videoMime: 'video/mp4',
+    duration: 0,
+    platform: Platform.ZORA,
+    chain: Chain.BASE,
+    contractAddress: '0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93',
+    tokenId: '2',
+    mintUrl: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/2?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    genre: ['Music Video', 'Lyric Video'],
+    externalLinks: {
+      zora: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/2?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    },
+    artists: makeArtists(['artist-the-park'], 'artist-the-park'),
+    series: 'music-videos',
+    releaseDate: '2024-08-02T00:00:00Z',
+    createdAt: '2024-08-02T00:00:00Z',
+    updatedAt: '2026-05-25T00:00:00Z',
+  },
+  {
+    id: 'zora-mv-crash',
+    title: 'CRASH — Lyric Video',
+    slug: 'crash-lyric-video',
+    description: 'Video created by HVDSON and The Park for FWB FEST 2024 Live Video Wall ⌐Ⓗ-Ⓕ. Song for the world\'s internet native airline ✈️ 747 Airlines. Made with friends on a Friday.',
+    mediaType: MediaType.VIDEO,
+    coverImage: 'https://dweb.link/ipfs/bafkreifspulhc7kkmyadtzcfz544v4s4kgcw2llors4e52vopbynjchpey',
+    videoUrl: 'https://dweb.link/ipfs/bafybeie25e7xja5jcvctvr2aoo3otfye5omsrekjewmpawvt5ccylx5vmy',
+    videoMime: 'video/mp4',
+    duration: 0,
+    platform: Platform.ZORA,
+    chain: Chain.BASE,
+    contractAddress: '0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93',
+    tokenId: '4',
+    mintUrl: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/4?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    genre: ['Music Video', 'Lyric Video'],
+    externalLinks: {
+      zora: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/4?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    },
+    artists: makeArtists(['artist-the-park'], 'artist-the-park'),
+    series: 'music-videos',
+    releaseDate: '2024-08-02T00:00:00Z',
+    createdAt: '2024-08-02T00:00:00Z',
+    updatedAt: '2026-05-25T00:00:00Z',
+  },
+  {
+    id: 'zora-mv-becky-lyric',
+    title: 'Becky v2 — Lyric Video Wall',
+    slug: 'becky-v2-lyric-video',
+    description: 'Video created by HVDSON + Schwento Crew at The Park for FWB FEST 2024 Live Video Wall ⌐Ⓗ-Ⓕ. Videographer/Director: IVY league Collective Team (Liper, Pepah Arnold, Essie, Gyagenda).',
+    mediaType: MediaType.VIDEO,
+    coverImage: 'https://dweb.link/ipfs/bafybeigtunsiywv53t6yqgsgoyap6uytfo2klspvrvn76msfj3shzwcfdu',
+    videoUrl: 'https://dweb.link/ipfs/bafybeid3og6frhqm7olter55zor5ptqfw46g2yrbva7zbdlt656vai7rwy',
+    videoMime: 'video/mp4',
+    duration: 0,
+    platform: Platform.ZORA,
+    chain: Chain.BASE,
+    contractAddress: '0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93',
+    tokenId: '6',
+    mintUrl: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/6?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    genre: ['Music Video', 'Lyric Video'],
+    externalLinks: {
+      zora: 'https://zora.co/collect/base:0xd0eab4a0c1752b29cfa0afcdd1141eb0b5527d93/6?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    },
+    credits: {
+      videographer: ['IVY League Collective Team'],
+      crew: ['Liper', 'Pepah Arnold', 'Essie', 'Gyagenda'],
+    },
+    artists: makeArtists(['artist-the-park', 'artist-shwento'], 'artist-the-park'),
+    series: 'music-videos',
+    releaseDate: '2024-08-02T00:00:00Z',
+    createdAt: '2024-08-02T00:00:00Z',
+    updatedAt: '2026-05-25T00:00:00Z',
+  },
+  {
+    id: 'zora-mv-becky-shortfilm',
+    title: 'Becky v2 — The Short Music Film',
+    slug: 'becky-v2-short-music-film',
+    description: 'Becky v2 — the short music film. Written and directed by Daniel Nuwagaba (Danny Shots XL), edited by Baryaija Arnold. Starring Gorreti as Becky, Elvis Okello as Becky\'s. Music performance by Shwento + The Park.',
+    mediaType: MediaType.VIDEO,
+    coverImage: 'https://dweb.link/ipfs/bafybeid7zwwrfqrdhpfbrlrqyzflejl4vqendsffwgory6rlrrd4avwqnq',
+    videoUrl: 'https://dweb.link/ipfs/bafybeihjdpuwuuk5s2hpxadimuewot6ddvmnrr3t4hp7ogghmyy5kwhdpq',
+    videoMime: 'video/mp4',
+    duration: 0,
+    platform: Platform.ZORA,
+    chain: Chain.BASE,
+    contractAddress: '0xb5ce496d53d7440a5c18de9322b6837c9a518e21',
+    tokenId: '4',
+    mintUrl: 'https://zora.co/collect/base:0xb5ce496d53d7440a5c18de9322b6837c9a518e21/4?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    genre: ['Music Video', 'Short Film'],
+    externalLinks: {
+      zora: 'https://zora.co/collect/base:0xb5ce496d53d7440a5c18de9322b6837c9a518e21/4?referrer=0x1a1c37c145a1eab58c43f003ebb55c18083b5987',
+    },
+    credits: {
+      director: ['Daniel Nuwagaba (Danny Shots XL)'],
+      editor: ['Baryaija Arnold'],
+      starring: ['Gorreti', 'Elvis Okello'],
+      performance: ['Shwento', 'The Park'],
+    },
+    artists: makeArtists(['artist-the-park', 'artist-shwento'], 'artist-the-park'),
+    series: 'music-videos',
+    releaseDate: '2024-03-15T00:00:00Z',
+    createdAt: '2024-03-15T00:00:00Z',
+    updatedAt: '2026-05-25T00:00:00Z',
+  },
 ];
 
 // ===== FEATURED RELEASES (for Cover Flow) =====
@@ -2616,6 +2757,14 @@ export function getMockArtist(slug: string): Artist | undefined {
 export function getMockFridayPressTracks(): Track[] {
   return MOCK_TRACKS.filter((t) => t.series === 'friday-press')
     .sort((a, b) => new Date(b.releaseDate || 0).getTime() - new Date(a.releaseDate || 0).getTime());
+}
+
+// Music videos preserve catalog order — NOT date-sorted — because the
+// user-curated sequence (Happy Friday → Onchain Summer → Crash → Becky)
+// is editorially intentional. Just filter and return as-found in the
+// MOCK_TRACKS array.
+export function getMockMusicVideoTracks(): Track[] {
+  return MOCK_TRACKS.filter((t) => t.series === 'music-videos');
 }
 
 export function getMockTracksByPlatform(platform: string): Track[] {

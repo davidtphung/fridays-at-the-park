@@ -1,18 +1,20 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Newspaper, Sparkles } from 'lucide-react';
+import { Newspaper, Sparkles, Film } from 'lucide-react';
 import { TrackGrid } from '@/components/music/TrackGrid';
 import { FilterBar } from '@/components/music/FilterBar';
 import { PlaylistRail } from '@/components/music/PlaylistRail';
+import { MusicVideoGrid } from '@/components/music/MusicVideoGrid';
 import {
   getMockTracksByPlatform,
   getSeasons,
   getMockPlaylists,
   getMockFridayPressTracks,
+  getMockMusicVideoTracks,
 } from '@/lib/mock-data';
 
-type Tab = 'all' | 'friday-press';
+type Tab = 'all' | 'music-videos' | 'friday-press';
 
 export function OnchainContent() {
   const [tab, setTab] = useState<Tab>('all');
@@ -24,6 +26,7 @@ export function OnchainContent() {
   const allTracks = getMockTracksByPlatform('onchain');
   const seasons = getSeasons();
   const fridayPressTracks = getMockFridayPressTracks();
+  const musicVideoTracks = getMockMusicVideoTracks();
 
   const filteredTracks = useMemo(() => {
     let tracks = [...allTracks];
@@ -82,6 +85,29 @@ export function OnchainContent() {
         <button
           type="button"
           role="tab"
+          aria-selected={tab === 'music-videos'}
+          onClick={() => setTab('music-videos')}
+          className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-150 active:scale-[0.97] flex items-center gap-1.5 min-h-[40px] ${
+            tab === 'music-videos'
+              ? 'bg-accent text-bg-primary'
+              : 'bg-bg-tertiary text-text-secondary hover:text-text-primary'
+          }`}
+        >
+          <Film size={14} aria-hidden="true" />
+          Music Videos
+          {musicVideoTracks.length > 0 && (
+            <span
+              className={`ml-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[10px] font-bold ${
+                tab === 'music-videos' ? 'bg-bg-primary/20 text-bg-primary' : 'bg-accent/15 text-accent'
+              }`}
+            >
+              {musicVideoTracks.length}
+            </span>
+          )}
+        </button>
+        <button
+          type="button"
+          role="tab"
           aria-selected={tab === 'friday-press'}
           onClick={() => setTab('friday-press')}
           className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-150 active:scale-[0.97] flex items-center gap-1.5 min-h-[40px] ${
@@ -104,7 +130,7 @@ export function OnchainContent() {
         </button>
       </div>
 
-      {tab === 'all' ? (
+      {tab === 'all' && (
         <>
           {/* Curated playlists rail */}
           <div className="mb-8">
@@ -123,10 +149,55 @@ export function OnchainContent() {
           />
           <TrackGrid tracks={filteredTracks} variant="onchain" />
         </>
-      ) : (
-        <FridayPressSection tracks={fridayPressTracks} />
       )}
+      {tab === 'music-videos' && <MusicVideosSection tracks={musicVideoTracks} />}
+      {tab === 'friday-press' && <FridayPressSection tracks={fridayPressTracks} />}
     </>
+  );
+}
+
+/**
+ * Music Videos — onchain video drops with inline press-to-play playback.
+ * The grid uses dweb.link gateway URLs so first-byte is ~250 ms; clicking
+ * play swaps the poster card for a real <video> element with `autoplay`.
+ */
+function MusicVideosSection({ tracks }: { tracks: ReturnType<typeof getMockMusicVideoTracks> }) {
+  return (
+    <section aria-label="Music videos">
+      {/* Header card */}
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card-bg p-6 sm:p-8 mb-6">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-accent/5 pointer-events-none" />
+        <div className="relative flex items-start gap-4 max-w-2xl">
+          <div className="w-12 h-12 rounded-xl bg-accent/15 text-accent flex items-center justify-center shrink-0">
+            <Film size={22} aria-hidden="true" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] uppercase tracking-widest font-semibold text-accent mb-1">
+              Onchain Series
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-text-primary leading-tight">Music Videos</h2>
+            <p className="text-sm text-text-secondary mt-2 leading-relaxed">
+              Onchain music videos and lyric video walls. Press play — they stream from a fast
+              IPFS gateway so first frame lands in under a second.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {tracks.length > 0 ? (
+        <MusicVideoGrid tracks={tracks} />
+      ) : (
+        <div className="rounded-2xl border border-dashed border-border p-8 sm:p-12 text-center">
+          <Film size={32} className="mx-auto text-text-secondary mb-3" aria-hidden="true" />
+          <h3 className="text-base sm:text-lg font-semibold text-text-primary">
+            Music videos coming soon
+          </h3>
+          <p className="text-sm text-text-secondary max-w-md mx-auto mt-2 leading-relaxed">
+            Drop Zora collect URLs to populate this section.
+          </p>
+        </div>
+      )}
+    </section>
   );
 }
 
