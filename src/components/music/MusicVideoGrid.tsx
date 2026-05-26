@@ -81,7 +81,15 @@ function MusicVideoCard({ track, isPlaying, onPlay, onPause }: CardProps) {
             playsInline
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover"
-            onPause={onPause}
+            // NOTE: deliberately not wiring `onPause` → parent's `onPause`.
+            // The HTML `pause` event fires during scrubbing/seeking (browsers
+            // pause briefly while seeking, then resume) and when entering or
+            // exiting fullscreen on some platforms. Wiring it would unmount
+            // the <video> on every scrub — kicking the user out of fullscreen
+            // mid-skip. The inline pause/close button in the card header is
+            // the explicit signal to return to the poster, and the parent's
+            // "only one card plays at a time" useEffect uses imperative
+            // `videoRef.current.pause()` so we don't depend on this event.
             onEnded={onPause}
             aria-label={`${track.title} by ${artistNames}`}
           />
