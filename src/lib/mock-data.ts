@@ -2507,6 +2507,18 @@ export function getMockArtist(slug: string): Artist | undefined {
   return MOCK_ARTISTS.find(a => a.slug === slug);
 }
 
+// ─── Series filters ───
+// FRIDAY PRESS is The Park's onchain publication series on Zora
+// (https://zora.co/@thepark — visible as the "friday-press" tab on
+// their profile). Tracks/artifacts are tagged with `series:
+// 'friday-press'` in MOCK_TRACKS once their Zora collect URLs +
+// on-chain metadata are wired in. Until then this returns an empty
+// list and the /onchain tab strip renders an empty state.
+export function getMockFridayPressTracks(): Track[] {
+  return MOCK_TRACKS.filter((t) => t.series === 'friday-press')
+    .sort((a, b) => new Date(b.releaseDate || 0).getTime() - new Date(a.releaseDate || 0).getTime());
+}
+
 export function getMockTracksByPlatform(platform: string): Track[] {
   if (platform === 'onchain') {
     return MOCK_TRACKS.filter(t =>

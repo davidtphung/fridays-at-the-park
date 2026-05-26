@@ -55,6 +55,9 @@ export interface Track {
   videoUrl?: string;
   /** Optional media MIME hint — used when videoUrl points to a non-mp4 asset (e.g. image/gif, image/jpeg, video/quicktime) so the player can choose <video> vs <img>. */
   videoMime?: string;
+  /** Editorial series this track belongs to. Used by the /onchain tab strip
+   *  to group artifacts (e.g. all FRIDAY PRESS issues into one view). */
+  series?: 'friday-press';
   duration?: number;
   album?: string;
   season?: string;
