@@ -28,7 +28,7 @@ export function PlayerControls({
 }: PlayerControlsProps) {
   const RepeatIcon = repeatMode === 'one' ? Repeat1 : Repeat;
 
-  // Shared Apple-style transition for icon buttons — color crossfade + brief
+  // Shared Apple-style transition for icon buttons - color crossfade + brief
   // tap scale that gives obvious feedback on touch without being chatty.
   const iconBtn = 'p-2 rounded-lg transition-all duration-150 active:scale-[0.9] min-w-[44px] min-h-[44px] flex items-center justify-center';
   const playBtn = 'rounded-full bg-text-primary text-bg-primary transition-all duration-150 hover:opacity-90 active:scale-[0.92] flex items-center justify-center';

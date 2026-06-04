@@ -13,7 +13,7 @@ const DAO_DATA = {
   auctionAddress: '0xe95bc20728fb6be4e695c47517f4eecbee5cc21c',
   // Baseline tokenId. Real live tokenId is resolved via on-chain probe at
   // mount time, so this number only needs to be ≤ the actual current
-  // auction — it'll advance forward automatically as new tokens are minted.
+  // auction - it'll advance forward automatically as new tokens are minted.
   baselineTokenId: 610,
   totalSupply: 411,
   ownerCount: 136,
@@ -66,7 +66,7 @@ async function rpcCallTokenURI(tokenId: number): Promise<{ ok: boolean; meta?: T
 
 // Probe baseline + (0..lookahead) in parallel, return the highest minted
 // tokenId. Stops at the first gap to avoid hammering RPC past the auction
-// edge. Same logic mirrored in components/dao/LatestAuction.tsx — keep them
+// edge. Same logic mirrored in components/dao/LatestAuction.tsx - keep them
 // in sync, or extract a shared lib if a third caller appears.
 async function findLiveAuctionTokenId(baseline: number, lookahead = 10): Promise<{
   tokenId: number;
@@ -163,7 +163,7 @@ export function DAOContent() {
           <div className="aspect-square max-w-[280px] mx-auto bg-bg-tertiary rounded-xl mb-6 overflow-hidden border border-border relative">
             {artwork?.image ? (
               // External Nouns Builder renderer (`https://nouns.build/api/renderer/...`),
-              // not in next/image remotePatterns — use a plain <img>.
+              // not in next/image remotePatterns - use a plain <img>.
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={artwork.image}

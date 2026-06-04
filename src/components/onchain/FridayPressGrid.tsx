@@ -38,18 +38,18 @@ export function FridayPressGrid({ tracks }: FridayPressGridProps) {
                 type="button"
                 onClick={() => setOpenId(track.id)}
                 className="block w-full relative aspect-[4/5] sm:aspect-[3/4] bg-bg-tertiary text-left"
-                aria-label={`View ${track.title} — full PDF`}
+                aria-label={`View ${track.title} - full PDF`}
               >
                 <Image
                   src={track.coverImage}
-                  alt={`${track.title} — cover`}
+                  alt={`${track.title} - cover`}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 {/* Subtle bottom gradient for legibility of the View badge */}
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
-                {/* "View Issue" CTA — always-visible at the bottom of the cover */}
+                {/* "View Issue" CTA - always-visible at the bottom of the cover */}
                 <div className="absolute inset-x-0 bottom-0 p-4 flex items-center justify-between gap-2">
                   <div className="min-w-0">
                     <p className="text-[10px] uppercase tracking-widest font-semibold text-accent">

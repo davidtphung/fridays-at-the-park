@@ -26,7 +26,7 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
 
   // Prefetch active track + immediate neighbors so playback starts in <1s no matter
   // which direction the user navigates next. We use a hidden <audio preload="auto"> for
-  // each — the bytes land in the browser HTTP cache (and dweb.link's Cloudflare edge
+  // each - the bytes land in the browser HTTP cache (and dweb.link's Cloudflare edge
   // cache), so Howler's later request hits a warm cache.
   useEffect(() => {
     const elements: HTMLAudioElement[] = [];
@@ -123,7 +123,7 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                   key={track.id}
                   role="option"
                   aria-selected={isActive}
-                  aria-label={`${track.title} by ${track.artists.map(a => a.artist.name).join(', ')}${hasAudio ? ' — click to play' : ''}`}
+                  aria-label={`${track.title} by ${track.artists.map(a => a.artist.name).join(', ')}${hasAudio ? ' - click to play' : ''}`}
                   className="absolute cursor-pointer"
                   animate={{
                     x: offset * 200,
@@ -150,7 +150,7 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                     >
                       <Image
                         src={track.coverImage}
-                        alt={`${track.title} — album cover`}
+                        alt={`${track.title} - album cover`}
                         fill
                         className="object-cover"
                         sizes="280px"
@@ -303,7 +303,7 @@ export function CoverFlow({ tracks, onSelect, currentTrackId, isPlaying }: Cover
                 >
                   <Image
                     src={track.coverImage}
-                    alt={`${track.title} — album cover`}
+                    alt={`${track.title} - album cover`}
                     fill
                     className="object-cover"
                     sizes="260px"

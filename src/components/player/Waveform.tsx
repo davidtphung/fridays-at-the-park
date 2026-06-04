@@ -20,7 +20,7 @@ export function Waveform({ analyserNode, isPlaying, className = '' }: WaveformPr
     if (!ctx) return;
 
     // Read the live --accent / --accent-hover values so the waveform follows
-    // the theme tokens (no hardcoded brand color — flips automatically when
+    // the theme tokens (no hardcoded brand color - flips automatically when
     // we change the palette in globals.css).
     const rootStyle = getComputedStyle(document.documentElement);
     const accent = rootStyle.getPropertyValue('--accent').trim() || '#4FD929';

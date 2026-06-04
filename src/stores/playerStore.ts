@@ -15,7 +15,7 @@ interface PlayerState {
   repeatMode: RepeatMode;
   isShuffled: boolean;
   isLoading: boolean;
-  /** Position (0..1) to seek to once the audio is ready — set when the
+  /** Position (0..1) to seek to once the audio is ready - set when the
    *  store is rehydrated from localStorage so playback resumes mid-track. */
   pendingSeek: number | null;
 
@@ -138,7 +138,7 @@ export const usePlayerStore = create<PlayerState>()(
         typeof window !== 'undefined' ? window.localStorage : (undefined as unknown as Storage),
       ),
       // Persist only what survives a hard reload. We deliberately drop
-      // `progress` (it ticks ~60 fps from rAF — persisting every frame would
+      // `progress` (it ticks ~60 fps from rAF - persisting every frame would
       // hammer localStorage), `duration` (re-derived on load), `isPlaying`
       // (autoplay needs a user gesture), `isLoading`, `isExpanded`, and
       // `pendingSeek` (managed at runtime). Soft navigation preserves the

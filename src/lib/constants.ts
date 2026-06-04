@@ -41,7 +41,7 @@ export const NAV_ITEMS = [
   { label: 'Episodes', href: '/episodes', icon: 'play' as const, external: false },
   { label: 'Onchain', href: '/onchain', icon: 'diamond' as const, external: false },
   // ORG now jumps straight to the canonical fridaysatthepark.org site
-  // (Gamma-hosted) in a fresh tab — the in-app iframe wrapper was
+  // (Gamma-hosted) in a fresh tab - the in-app iframe wrapper was
   // disrupting the listening session and the user prefers the real site.
   // The /org route also redirects server-side for bookmarks / direct
   // visits (see src/app/org/page.tsx).

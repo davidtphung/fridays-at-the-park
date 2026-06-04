@@ -27,7 +27,7 @@ export function TrackCard({ track, variant, showPlatform = true, priority = fals
   const isCurrentTrack = currentTrack?.id === track.id;
   const isVideo = track.mediaType === MediaType.VIDEO;
   // Zora content coins from @thepark live in the All Onchain grid and route
-  // to their own detail page (which plays the video / shows the image) — not
+  // to their own detail page (which plays the video / shows the image) - not
   // to /episodes like the season videos do.
   const isZoraCoin = track.series === 'zora-coin';
   const artistNames = track.artists.map(a => a.artist.name).join(', ');
@@ -64,7 +64,7 @@ export function TrackCard({ track, variant, showPlatform = true, priority = fals
         <div className={`relative ${isVideo ? 'aspect-video' : 'aspect-square'} rounded-card overflow-hidden bg-bg-tertiary mb-3`}>
           <Image
             src={track.coverImageSmall || track.coverImage}
-            alt={`${track.title} by ${artistNames} — ${isVideo ? 'video thumbnail' : 'album cover'}`}
+            alt={`${track.title} by ${artistNames} - ${isVideo ? 'video thumbnail' : 'album cover'}`}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
             sizes="(max-width: 424px) 100vw, (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
@@ -88,7 +88,7 @@ export function TrackCard({ track, variant, showPlatform = true, priority = fals
             </div>
           )}
 
-          {/* Zora content-coin video — show a play affordance; the whole
+          {/* Zora content-coin video - show a play affordance; the whole
               card links to the detail page where the video streams. */}
           {isZoraCoin && isVideo && track.videoUrl && (
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">

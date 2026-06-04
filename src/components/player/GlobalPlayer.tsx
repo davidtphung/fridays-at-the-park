@@ -45,7 +45,7 @@ export function GlobalPlayer() {
   // ─── Create / tear down the Howl when the track changes ───
   //
   // The body of this effect ONLY creates the Howl. It does NOT call
-  // `howl.play()` — that's the job of the play/pause-sync effect below.
+  // `howl.play()` - that's the job of the play/pause-sync effect below.
   // Doing it here used to race with the sync effect: both could call
   // play() on the same Howl in quick succession, and with html5: true
   // Howler would register two starts → audible double playback.
@@ -186,7 +186,7 @@ export function GlobalPlayer() {
   // This is the ONLY place we call howl.play() for the primary Howl. It
   // fires when isPlaying flips OR when the track changes (so the freshly
   // created Howl from effect 1 above gets played here, never in effect 1's
-  // body — eliminating the double-play race).
+  // body - eliminating the double-play race).
   useEffect(() => {
     const howl = howlRef.current;
     if (!howl) return;
@@ -206,22 +206,22 @@ export function GlobalPlayer() {
   // ─── Multi-tab coordination ───
   //
   // When the user opens the same site in two tabs and presses play in one,
-  // the other tab would otherwise keep its own audio running — double
+  // the other tab would otherwise keep its own audio running - double
   // playback. We use BroadcastChannel to broadcast "this tab is now the
   // playback owner"; every other tab receiving that message pauses itself.
   //
   // Two important correctness details:
   //
   // 1. SAME instance for send + listen. Per spec, a BroadcastChannel does
-  //    NOT receive messages from ITSELF — but it DOES receive messages from
+  //    NOT receive messages from ITSELF - but it DOES receive messages from
   //    other BroadcastChannel instances in the same tab. Earlier we created
   //    a separate channel for the sender effect, which meant the listener
-  //    in the same tab heard our own "claim" and paused us immediately —
+  //    in the same tab heard our own "claim" and paused us immediately -
   //    so pressing play looked like "music player not working". Fix:
   //    keep one channel in a ref, reuse it for both directions.
   //
   // 2. tabId guard. Defensive: we still tag our messages with a stable
-  //    per-tab id and ignore messages whose tabId matches our own — covers
+  //    per-tab id and ignore messages whose tabId matches our own - covers
   //    any edge cases where multiple channel instances exist (StrictMode
   //    double-mount, future refactors, etc.).
   //
@@ -392,7 +392,7 @@ export function GlobalPlayer() {
             </button>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-text-primary truncate">
-                {currentTrack.title} <span className="text-text-secondary font-normal">— {artistNames}</span>
+                {currentTrack.title} <span className="text-text-secondary font-normal">- {artistNames}</span>
               </p>
             </div>
             <VolumeControl

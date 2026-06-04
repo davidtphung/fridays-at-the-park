@@ -1,5 +1,5 @@
 /**
- * Zorb — A glossy black sphere icon used as the site's logo mark.
+ * Zorb - A glossy black sphere icon used as the site's logo mark.
  * Inspired by Zora's zorb but rendered as a dark glass orb to match
  * the Fridays at the Park brand (black/dark aesthetic).
  */

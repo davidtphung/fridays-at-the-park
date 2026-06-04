@@ -14,7 +14,7 @@ export function BuyButton({ url, price }: BuyButtonProps) {
       rightIcon={<ExternalLink size={14} />}
       onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
     >
-      {price ? `Buy — ${price}` : 'Buy on Bandcamp'}
+      {price ? `Buy - ${price}` : 'Buy on Bandcamp'}
     </Button>
   );
 }

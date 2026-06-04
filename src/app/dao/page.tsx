@@ -3,7 +3,7 @@ import { DAOContent } from './content';
 
 export const metadata: Metadata = {
   title: 'DAO',
-  description: 'The Park DAO — an experiment supporting music onchain through creation, curation, collection, and great coffee.',
+  description: 'The Park DAO - an experiment supporting music onchain through creation, curation, collection, and great coffee.',
 };
 
 export default function DAOPage() {

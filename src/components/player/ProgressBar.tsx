@@ -14,7 +14,7 @@ interface ProgressBarProps {
  * Scrub-mode progress bar.
  *
  * While the user is actively dragging, we track a LOCAL `scrubProgress` for
- * instant visual feedback but DO NOT call `onSeek` — calling it on every
+ * instant visual feedback but DO NOT call `onSeek` - calling it on every
  * pointer move fires `howl.seek()` per frame, causing the HTMLAudioElement
  * (html5: true) to re-buffer and stutter. We commit exactly once on pointer
  * up. Result: smooth Apple-Music-style scrub with the audio jumping once at
@@ -87,7 +87,7 @@ export function ProgressBar({ progress, duration, onSeek, compact = false }: Pro
       >
         {/* Track */}
         <div className="absolute inset-0 rounded-full bg-border overflow-hidden">
-          {/* Filled — no width transition while scrubbing so the thumb tracks
+          {/* Filled - no width transition while scrubbing so the thumb tracks
               the finger 1:1. Re-enable the transition when not scrubbing for
               the gentle catch-up after the rAF progress tick lands. */}
           <div
@@ -95,7 +95,7 @@ export function ProgressBar({ progress, duration, onSeek, compact = false }: Pro
             style={{ width: `${percentage}%` }}
           />
         </div>
-        {/* Thumb — bigger + always visible while scrubbing for tactile feel,
+        {/* Thumb - bigger + always visible while scrubbing for tactile feel,
             invisible-until-hover otherwise so the bar stays clean. */}
         {!compact && (
           <div

@@ -41,7 +41,7 @@ export function TrackDetail({ track }: TrackDetailProps) {
       <div className="relative h-[300px] sm:h-[400px] lg:h-[450px] overflow-hidden">
         <Image
           src={track.coverImage}
-          alt={`${track.title} by ${artistNames} — album cover`}
+          alt={`${track.title} by ${artistNames} - album cover`}
           fill
           className="object-cover blur-sm scale-110"
           sizes="100vw"
@@ -93,7 +93,7 @@ export function TrackDetail({ track }: TrackDetailProps) {
 
       {/* Actions and details */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-8 space-y-8">
-        {/* Inline video player — Zora content coins / video drops */}
+        {/* Inline video player - Zora content coins / video drops */}
         {inlineVideoUrl && (
           <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-border/50">
             <video

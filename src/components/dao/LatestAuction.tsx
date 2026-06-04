@@ -8,7 +8,7 @@ import { Wallet, ArrowUpRight } from 'lucide-react';
 const DAO = {
   tokenAddress: '0x72b31421a462996f559ffb7fc5dfaca94e754d89',
   // Baseline known-good tokenId. Real live tokenId is resolved at runtime
-  // by probing tokenURI(baseline + n) — see findLiveAuctionTokenId() below.
+  // by probing tokenURI(baseline + n) - see findLiveAuctionTokenId() below.
   baselineTokenId: 610,
   nounsBuilderBase:
     'https://nouns.build/dao/base/0x72b31421a462996f559ffb7fc5dfaca94e754d89',
@@ -58,7 +58,7 @@ async function rpcCallTokenURI(tokenId: number): Promise<{ ok: boolean; meta?: T
 
 // Probe upward from a baseline tokenId in parallel to find the highest
 // currently-minted token. Nouns Builder DAOs mint one auction token per
-// cycle (usually 24 h) so this stays small in practice — only a handful
+// cycle (usually 24 h) so this stays small in practice - only a handful
 // of new IDs since `baselineTokenId` was last shipped. Stops on the first
 // gap so we don't probe beyond the live edge.
 async function findLiveAuctionTokenId(baseline: number, lookahead = 10): Promise<{
@@ -77,7 +77,7 @@ async function findLiveAuctionTokenId(baseline: number, lookahead = 10): Promise
       highest = candidates[i];
       bestMeta = results[i].meta ?? bestMeta;
     } else if (highest !== -1) {
-      // First gap — auction edge found, stop.
+      // First gap - auction edge found, stop.
       break;
     }
   }
@@ -153,7 +153,7 @@ export function LatestAuction({ variant = 'card' }: LatestAuctionProps) {
     );
   }
 
-  // Default 'card' variant — kept for /dao to reuse in the future, identical
+  // Default 'card' variant - kept for /dao to reuse in the future, identical
   // shape to the existing inline card in /dao/content.tsx.
   return (
     <div className="bg-card-bg border border-border rounded-xl p-6">

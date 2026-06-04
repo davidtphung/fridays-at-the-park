@@ -11,7 +11,7 @@
  * URIs to `dweb.link/ipfs/<cid>[/path]`. All other URLs pass through unchanged
  * (including Arweave, YouTube, Zora, etc.).
  *
- * dweb.link is Protocol Labs' Cloudflare-fronted gateway — sends
+ * dweb.link is Protocol Labs' Cloudflare-fronted gateway - sends
  * `access-control-allow-origin: *` and supports HTTP byte-range, which is
  * required for browser <audio>/<video> streaming.
  */

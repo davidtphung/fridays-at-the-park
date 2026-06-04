@@ -57,7 +57,7 @@ export function NowPlaying({
       aria-modal="true"
       aria-label="Now playing"
     >
-      {/* Header — explicit Back button on the left, label centered. The
+      {/* Header - explicit Back button on the left, label centered. The
           left-pointing chevron + word "Back" reads as a navigation control
           (matches Apple Music + iOS HIG), while still collapsing the
           expanded view back to the mini player. */}
@@ -83,7 +83,7 @@ export function NowPlaying({
         >
           <Image
             src={track.coverImage}
-            alt={`${track.title} by ${artistNames} — album cover`}
+            alt={`${track.title} by ${artistNames} - album cover`}
             fill
             className="object-cover"
             sizes="320px"

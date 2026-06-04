@@ -23,13 +23,13 @@ export default function HomePage() {
         <CoverFlowSection />
       </section>
 
-      {/* Live DAO auction strip — surfaces the current Nouns Builder
+      {/* Live DAO auction strip - surfaces the current Nouns Builder
           auction token so visitors can mint without first navigating to /dao */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pb-6">
         <LatestAuction variant="compact" />
       </section>
 
-      {/* Curated playlists rail — themed listening sessions over the catalog */}
+      {/* Curated playlists rail - themed listening sessions over the catalog */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 pb-8">
         <PlaylistRail playlists={playlists} />
       </section>

@@ -25,7 +25,7 @@ export function EpisodeCard({ episode, onClick, isActive = false }: EpisodeCardP
       <div className="relative aspect-video rounded-card overflow-hidden bg-bg-tertiary mb-3">
         <Image
           src={episode.coverImage}
-          alt={`${episode.title} — video thumbnail`}
+          alt={`${episode.title} - video thumbnail`}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"

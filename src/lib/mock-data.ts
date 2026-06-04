@@ -321,7 +321,7 @@ export const MOCK_ARTISTS: Artist[] = [
     id: 'artist-jonathan-alcaron',
     name: 'Jonathan Alcaron',
     slug: 'jonathan-alcaron',
-    bio: 'Artist and musician — Fridays at the Park S002 Ep4 (Honduras).',
+    bio: 'Artist and musician - Fridays at the Park S002 Ep4 (Honduras).',
     avatarUrl: '/icons/artist-placeholder.svg',
     createdAt: '2026-05-19T00:00:00Z',
     updatedAt: '2026-05-19T00:00:00Z',
@@ -503,9 +503,9 @@ export const MOCK_TRACKS: Track[] = [
     title: 'becky v2',
     slug: 'becky-v2',
     // Description sourced from the on-chain metadata at
-    // ipfs://bafkreic3njagt7dez3b3w4ep3cr3jnvrlhgj7s4fvup6gr5hp6e7bxrpiq —
+    // ipfs://bafkreic3njagt7dez3b3w4ep3cr3jnvrlhgj7s4fvup6gr5hp6e7bxrpiq -
     // the canonical credits list lives on Base, not in our cache.
-    description: '"becky v2" is the park + shwento. Fridays at the Park goes from Los Angeles, CA to Kampala, Uganda and back to LA — collective creation across nations, continents, and chains. Cross-continent, cross-chain collaboration with 14 humans.',
+    description: '"becky v2" is the park + shwento. Fridays at the Park goes from Los Angeles, CA to Kampala, Uganda and back to LA - collective creation across nations, continents, and chains. Cross-continent, cross-chain collaboration with 14 humans.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://gateway.pinata.cloud/ipfs/bafybeiarmctkp4lynl4mvtxhpfy3jueotdlkqgpfakrwtabopdmedzkbni',
     coverImageSmall: 'https://gateway.pinata.cloud/ipfs/bafybeiarmctkp4lynl4mvtxhpfy3jueotdlkqgpfakrwtabopdmedzkbni',
@@ -536,7 +536,7 @@ export const MOCK_TRACKS: Track[] = [
       zora: 'https://zora.co/collect/base:0xb5ce496d53d7440a5c18de9322b6837c9a518e21/1',
     },
     // Primary artists: The Park + Shwento (the Kampala collective).
-    // Note: TOBi and WaveIQ were incorrectly attributed before — neither
+    // Note: TOBi and WaveIQ were incorrectly attributed before - neither
     // appears in the on-chain credit list. Tim Anderson IS credited as
     // producer.
     artists: makeArtists(
@@ -752,7 +752,7 @@ export const MOCK_TRACKS: Track[] = [
     createdAt: '2024-04-01T00:00:00Z',
     updatedAt: '2024-06-01T00:00:00Z',
   },
-  // --- Onchain: Zora — Fridays at the Park 006 (Valentine Recording Studios, LA) ---
+  // --- Onchain: Zora - Fridays at the Park 006 (Valentine Recording Studios, LA) ---
   {
     id: 'zora-006-valentine',
     title: 'Fridays at the Park 006',
@@ -779,12 +779,12 @@ export const MOCK_TRACKS: Track[] = [
     createdAt: '2023-07-14T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
   },
-  // --- Onchain: Zora — The Park DAO ---
+  // --- Onchain: Zora - The Park DAO ---
   {
     id: 'zora-the-park-dao',
     title: 'The Park DAO',
     slug: 'the-park-dao',
-    description: 'The Park DAO — an experiment supporting music on chain. Membership token.',
+    description: 'The Park DAO - an experiment supporting music on chain. Membership token.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://gateway.pinata.cloud/ipfs/bafybeibarawmcql724nufftadir52qwj36t7bwycrq7seuajaugxfdriwu/dall__e_2022-09-26_15.05.42_-_golden_gate_park_black_and_white_photo_san_francisco_.png',
     audioUrl: '',
@@ -801,12 +801,12 @@ export const MOCK_TRACKS: Track[] = [
     createdAt: '2023-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
   },
-  // --- Onchain: Zora — Onchain Summer (standalone Zora mint) ---
+  // --- Onchain: Zora - Onchain Summer (standalone Zora mint) ---
   {
     id: 'zora-onchain-summer',
     title: 'Onchain Summer',
     slug: 'onchain-summer',
-    description: 'Created in Idyllwild, California on a Friday during FWB Fest 2023 — a disco song in the woods inspired by the creaking of a ceiling fan in tempo around 127 BPMs.',
+    description: 'Created in Idyllwild, California on a Friday during FWB Fest 2023 - a disco song in the woods inspired by the creaking of a ceiling fan in tempo around 127 BPMs.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://gateway.pinata.cloud/ipfs/bafkreiglq36nhcynmbhc44yk7otbdjmontqhrob5cgn5l6arjxnslqxuqe',
     audioUrl: 'https://gateway.pinata.cloud/ipfs/bafybeifanvcvgd3vuia2rgxbrpoz7a6njjm5gxrgo2dhjbjo4mlfkeeycu',
@@ -825,7 +825,7 @@ export const MOCK_TRACKS: Track[] = [
     createdAt: '2023-08-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
   },
-  // --- Season 001 tracks (Bandcamp / streaming) — Real Season 1 tracklist ---
+  // --- Season 001 tracks (Bandcamp / streaming) - Real Season 1 tracklist ---
   {
     id: 'bandcamp-s001-01',
     title: 'Do It',
@@ -1255,7 +1255,7 @@ export const MOCK_TRACKS: Track[] = [
     id: 'yt-s002-trailer',
     title: 'Season 002 Trailer',
     slug: 's002-trailer',
-    description: 'Fridays at the Park — an onchain musical docuseries. Official Season 002 trailer.',
+    description: 'Fridays at the Park - an onchain musical docuseries. Official Season 002 trailer.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/EI07nvdCTDU/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/EI07nvdCTDU',
@@ -1275,9 +1275,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep1-video',
-    title: 'S002 Ep1 — WaveIQ, Baby Rose, Julius Rodriguez',
+    title: 'S002 Ep1 - WaveIQ, Baby Rose, Julius Rodriguez',
     slug: 's002-ep1-video',
-    description: 'Season 002 Episode 1 — live studio session with WaveIQ, Baby Rose, Julius Rodriguez, and Georgia Anne Muldrow.',
+    description: 'Season 002 Episode 1 - live studio session with WaveIQ, Baby Rose, Julius Rodriguez, and Georgia Anne Muldrow.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/B63V0BHA2aM/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/B63V0BHA2aM',
@@ -1297,9 +1297,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep2-video',
-    title: 'S002 Ep2 — Ray Barbee',
+    title: 'S002 Ep2 - Ray Barbee',
     slug: 's002-ep2-video',
-    description: 'Season 002 Episode 2 — live session with Ray Barbee.',
+    description: 'Season 002 Episode 2 - live session with Ray Barbee.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/q-jxAGII-K8/hqdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/q-jxAGII-K8',
@@ -1316,7 +1316,7 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep3-video',
-    title: 'S002 Ep3 — Lyrah, MoRuf, Ti Steele',
+    title: 'S002 Ep3 - Lyrah, MoRuf, Ti Steele',
     slug: 's002-ep3-video',
     description: 'Fridays at the Park Season 002 Episode 3 with Lyrah, MoRuf, Ti Steele.',
     mediaType: MediaType.VIDEO,
@@ -1337,9 +1337,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep4-video',
-    title: 'S002 Ep4 — Honduras',
+    title: 'S002 Ep4 - Honduras',
     slug: 's002-ep4-video',
-    description: 'Season 002 Episode 4 — special episode recorded in Honduras with Chia Casanova, Canelo, Nevada Tyler, and Jonathan Alcaron.',
+    description: 'Season 002 Episode 4 - special episode recorded in Honduras with Chia Casanova, Canelo, Nevada Tyler, and Jonathan Alcaron.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/7EiDUqgbLfI/sddefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/7EiDUqgbLfI',
@@ -1358,9 +1358,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep5-video',
-    title: 'S002 Ep5 — Jesse Boykins, Chloe Angelides, Leo Pastel',
+    title: 'S002 Ep5 - Jesse Boykins, Chloe Angelides, Leo Pastel',
     slug: 's002-ep5-video',
-    description: 'Season 002 Episode 5 — live session with Jesse Boykins, Chloe Angelides, and Leo Pastel.',
+    description: 'Season 002 Episode 5 - live session with Jesse Boykins, Chloe Angelides, and Leo Pastel.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/Kfa3tPEdnns/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/Kfa3tPEdnns',
@@ -1379,9 +1379,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s002-ep6-video',
-    title: 'S002 Ep6 — FWB Fest 2024',
+    title: 'S002 Ep6 - FWB Fest 2024',
     slug: 's002-ep6-video',
-    description: 'Season 002 Episode 6 — recorded live at FWB Fest 2024 with friends of The Park.',
+    description: 'Season 002 Episode 6 - recorded live at FWB Fest 2024 with friends of The Park.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/laPE4iv7gwU/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/laPE4iv7gwU',
@@ -1401,9 +1401,9 @@ export const MOCK_TRACKS: Track[] = [
   // --- Season 003 (YouTube) ---
   {
     id: 'yt-s003-vale',
-    title: 'S003 — VALÉ',
+    title: 'S003 - VALÉ',
     slug: 's003-vale',
-    description: 'Season 003 — VALÉ. The opening episode of Season 003 on the Fridays at the Park YouTube channel.',
+    description: 'Season 003 - VALÉ. The opening episode of Season 003 on the Fridays at the Park YouTube channel.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/mtOP9cPQhwA/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/mtOP9cPQhwA',
@@ -1420,9 +1420,9 @@ export const MOCK_TRACKS: Track[] = [
   // --- Season 001 Video Episodes (YouTube) ---
   {
     id: 'yt-s001-ep1-video',
-    title: 'S001 Ep1 — TOBi',
+    title: 'S001 Ep1 - TOBi',
     slug: 's001-ep1-video',
-    description: 'Season 001 Episode 1 — live session with TOBi.',
+    description: 'Season 001 Episode 1 - live session with TOBi.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/J9bD8hMfg-A/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/J9bD8hMfg-A',
@@ -1439,9 +1439,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s001-ep2-video',
-    title: 'S001 Ep2 — Chloe Angelides, Haleek, Syd B',
+    title: 'S001 Ep2 - Chloe Angelides, Haleek, Syd B',
     slug: 's001-ep2-video',
-    description: 'Season 001 Episode 2 — live session with Chloe Angelides, Haleek Maul, and syd B.',
+    description: 'Season 001 Episode 2 - live session with Chloe Angelides, Haleek Maul, and syd B.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/3ctP1WUfc3c/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/3ctP1WUfc3c',
@@ -1458,9 +1458,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s001-ep3-video',
-    title: 'S001 Ep3 — VERITE',
+    title: 'S001 Ep3 - VERITE',
     slug: 's001-ep3-video',
-    description: 'Season 001 Episode 3 — live session with VERITE.',
+    description: 'Season 001 Episode 3 - live session with VERITE.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/kX3pBG_hb7Q/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/kX3pBG_hb7Q',
@@ -1477,9 +1477,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s001-ep4-video',
-    title: 'S001 Ep4 — Ricky Lake',
+    title: 'S001 Ep4 - Ricky Lake',
     slug: 's001-ep4-video',
-    description: 'Season 001 Episode 4 — live session with Ricky Lake.',
+    description: 'Season 001 Episode 4 - live session with Ricky Lake.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/nH_kIYhrPyA/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/nH_kIYhrPyA',
@@ -1496,9 +1496,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s001-ep5-video',
-    title: 'S001 Ep5 — Niia',
+    title: 'S001 Ep5 - Niia',
     slug: 's001-ep5-video',
-    description: 'Season 001 Episode 5 — live session with Niia.',
+    description: 'Season 001 Episode 5 - live session with Niia.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/CtUTzjphqQg/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/CtUTzjphqQg',
@@ -1515,9 +1515,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'yt-s001-ep6-video',
-    title: 'S001 Ep6 — Dahi',
+    title: 'S001 Ep6 - Dahi',
     slug: 's001-ep6-video',
-    description: 'Season 001 Episode 6 — live session with Dahi.',
+    description: 'Season 001 Episode 6 - live session with Dahi.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://i.ytimg.com/vi/0UnikR2vI2Q/maxresdefault.jpg',
     videoUrl: 'https://www.youtube.com/embed/0UnikR2vI2Q',
@@ -1809,7 +1809,7 @@ export const MOCK_TRACKS: Track[] = [
   // --- Onchain: becky v2 short film (Token 4 on becky v2 contract) ---
   {
     id: 'zora-becky-v2-film',
-    title: 'Becky v2 — The Short Film',
+    title: 'Becky v2 - The Short Film',
     slug: 'becky-v2-short-film',
     description: 'The short music film for becky v2.',
     mediaType: MediaType.VIDEO,
@@ -2480,7 +2480,7 @@ export const MOCK_TRACKS: Track[] = [
     updatedAt: '2022-10-01T00:00:00Z',
   },
   // ─── FRIDAY PRESS (Zora 1155 on Base, contract 0xa17cb8...c2deba) ───
-  // Editorial series — physical newsprints minted as onchain artifacts.
+  // Editorial series - physical newsprints minted as onchain artifacts.
   // All metadata resolved from on-chain uri(tokenId) → IPFS metadata.
   // The animation_url for each is the PDF of the printed issue.
   {
@@ -2518,7 +2518,7 @@ export const MOCK_TRACKS: Track[] = [
     id: 'zora-friday-press-pressing-001',
     title: 'FRIDAY PRESS Pressing 001',
     slug: 'friday-press-pressing-001',
-    description: '🗞 EXTRA! EXTRA!! Hot off the press for NFTNYC. An onchain artifact of FRIDAY PRESS pressing 001 — a celebration of the limited edition newsprint available during NFTNYC at the IRL newsstand on 42nd St and Madison Ave, New York City, Friday, April 5th, 2024. Pressing 001 showcases The Park DAO\'s journey IRL and onchain, recent travels to Honduras, Trevor Traynor\'s NEWSSTANDS, floral art by Errorgardener, reflections from Chris Carella on Purple, and Iman Europe with C.Y. Lee exploring the artist–collector relationship via Iman\'s track "Masterpiece".',
+    description: '🗞 EXTRA! EXTRA!! Hot off the press for NFTNYC. An onchain artifact of FRIDAY PRESS pressing 001 - a celebration of the limited edition newsprint available during NFTNYC at the IRL newsstand on 42nd St and Madison Ave, New York City, Friday, April 5th, 2024. Pressing 001 showcases The Park DAO\'s journey IRL and onchain, recent travels to Honduras, Trevor Traynor\'s NEWSSTANDS, floral art by Errorgardener, reflections from Chris Carella on Purple, and Iman Europe with C.Y. Lee exploring the artist–collector relationship via Iman\'s track "Masterpiece".',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://dweb.link/ipfs/bafybeiacsg5p2p5qnttexbj7uvuej2bpxxxwvckfevb3nncoz2tdrax5ta',
     videoUrl: 'https://dweb.link/ipfs/bafybeicw62qri73ir5ihe5vsa5splzvl7hqpb54fxack37gf5cimzliiqq',
@@ -2550,7 +2550,7 @@ export const MOCK_TRACKS: Track[] = [
     id: 'zora-friday-press-pressing-002',
     title: 'FRIDAY PRESS Pressing 002',
     slug: 'friday-press-pressing-002',
-    description: '🗞 EXTRA! EXTRA!! Hot off the press for FWB FEST 2024 "FIND YOUR FLOCK" in the woods. An artifact of FRIDAY PRESS pressing 002 — a limited edition newsprint available during FWB Fest in Idyllwild, California at an IRL newsbox at The Park Experience on Friday, August 2nd, 2024. Pressing 002 showcases The Park DAO\'s journey from Coachella, Nashville, Capitol Hill, EDCON, and more. Featuring Valerie G Taylor on The Park as a music collective, TK Rhodes\' new song "Summer in Springtime," The Lens of Amanda Lopez, MoRuf\'s journey from Jersey to LA, and original artwork by Ari Klevecz, The Mad Scientist.',
+    description: '🗞 EXTRA! EXTRA!! Hot off the press for FWB FEST 2024 "FIND YOUR FLOCK" in the woods. An artifact of FRIDAY PRESS pressing 002 - a limited edition newsprint available during FWB Fest in Idyllwild, California at an IRL newsbox at The Park Experience on Friday, August 2nd, 2024. Pressing 002 showcases The Park DAO\'s journey from Coachella, Nashville, Capitol Hill, EDCON, and more. Featuring Valerie G Taylor on The Park as a music collective, TK Rhodes\' new song "Summer in Springtime," The Lens of Amanda Lopez, MoRuf\'s journey from Jersey to LA, and original artwork by Ari Klevecz, The Mad Scientist.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://dweb.link/ipfs/bafybeieiudkzb44msonh5swemarefkue6liwwqe7ff3mbolyonpeouhyve',
     videoUrl: 'https://dweb.link/ipfs/bafybeigrl7i6rlp5e3gvbbkrjobxjc6zh35ibpmvvdm66whxc2fbf5lstm',
@@ -2579,14 +2579,14 @@ export const MOCK_TRACKS: Track[] = [
     updatedAt: '2026-05-25T00:00:00Z',
   },
   // ─── MUSIC VIDEOS (Zora 1155 on Base) ───
-  // Order matters here — user-curated sequence: Happy Friday → Onchain
+  // Order matters here - user-curated sequence: Happy Friday → Onchain
   // Summer → Crash → Becky (lyric video wall) → Becky (short music film).
   // getMockMusicVideoTracks() preserves catalog order, not release-date
   // sort, because this sequence is editorial.
   // Created by HVDSON + The Park for the FWB Fest 2024 live video wall.
   {
     id: 'zora-mv-happy-friday',
-    title: 'Happy Friday — Lyric Video Wall',
+    title: 'Happy Friday - Lyric Video Wall',
     slug: 'happy-friday-lyric-video',
     description: 'Video created by HVDSON at The Park for FWB FEST 2024 Live Video Wall ⌐Ⓗ-Ⓕ',
     mediaType: MediaType.VIDEO,
@@ -2611,7 +2611,7 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'zora-mv-onchain-summer',
-    title: 'Onchain Summer — Lyric Video Wall',
+    title: 'Onchain Summer - Lyric Video Wall',
     slug: 'onchain-summer-lyric-video',
     description: 'Created by HVDSON and The Park for FWB Fest 2024 live stage video wall ⌐Ⓗ-Ⓕ',
     mediaType: MediaType.VIDEO,
@@ -2636,7 +2636,7 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'zora-mv-crash',
-    title: 'CRASH — Lyric Video',
+    title: 'CRASH - Lyric Video',
     slug: 'crash-lyric-video',
     description: 'Video created by HVDSON and The Park for FWB FEST 2024 Live Video Wall ⌐Ⓗ-Ⓕ. Song for the world\'s internet native airline ✈️ 747 Airlines. Made with friends on a Friday.',
     mediaType: MediaType.VIDEO,
@@ -2661,7 +2661,7 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'zora-mv-becky-lyric',
-    title: 'Becky v2 — Lyric Video Wall',
+    title: 'Becky v2 - Lyric Video Wall',
     slug: 'becky-v2-lyric-video',
     description: 'Video created by HVDSON + Schwento Crew at The Park for FWB FEST 2024 Live Video Wall ⌐Ⓗ-Ⓕ. Videographer/Director: IVY league Collective Team (Liper, Pepah Arnold, Essie, Gyagenda).',
     mediaType: MediaType.VIDEO,
@@ -2690,9 +2690,9 @@ export const MOCK_TRACKS: Track[] = [
   },
   {
     id: 'zora-mv-becky-shortfilm',
-    title: 'Becky v2 — The Short Music Film',
+    title: 'Becky v2 - The Short Music Film',
     slug: 'becky-v2-short-music-film',
-    description: 'Becky v2 — the short music film. Written and directed by Daniel Nuwagaba (Danny Shots XL), edited by Baryaija Arnold. Starring Gorreti as Becky, Elvis Okello as Becky\'s. Music performance by Shwento + The Park.',
+    description: 'Becky v2 - the short music film. Written and directed by Daniel Nuwagaba (Danny Shots XL), edited by Baryaija Arnold. Starring Gorreti as Becky, Elvis Okello as Becky\'s. Music performance by Shwento + The Park.',
     mediaType: MediaType.VIDEO,
     coverImage: 'https://dweb.link/ipfs/bafybeid7zwwrfqrdhpfbrlrqyzflejl4vqendsffwgory6rlrrd4avwqnq',
     videoUrl: 'https://dweb.link/ipfs/bafybeihjdpuwuuk5s2hpxadimuewot6ddvmnrr3t4hp7ogghmyy5kwhdpq',
@@ -2722,7 +2722,7 @@ export const MOCK_TRACKS: Track[] = [
   // ─── ZORA @thepark CONTENT COINS (Base) ───
   // Full catalog crawled from zora.co/@thepark via the Zora Coins SDK API
   // (api-sdk.zora.engineering, profileCoins query). 129 coins, newest
-  // first. These are Zora's content-coin drops — studio sessions, live
+  // first. These are Zora's content-coin drops - studio sessions, live
   // moments, music videos, and photos. Tagged series:'zora-coin' so they
   // surface in the All Onchain grid (getMockTracksByPlatform). Each mint
   // URL preserves the house referrer. Covers + video via dweb.link.
@@ -6022,7 +6022,7 @@ export const MOCK_TRACKS: Track[] = [
     id: 'sound-pbj',
     title: 'PB&J',
     slug: 'pb-and-j',
-    description: 'The Park feat. G Flip — a musical genesis onchain moment. Sparked by convos about Peanut Butter & Jelly at Fridays at The Park, this jam explored philosophizing with no reservations, sparked by the love of a great drum beat.',
+    description: 'The Park feat. G Flip - a musical genesis onchain moment. Sparked by convos about Peanut Butter & Jelly at Fridays at The Park, this jam explored philosophizing with no reservations, sparked by the love of a great drum beat.',
     mediaType: MediaType.AUDIO,
     coverImage: 'https://arweave.net/0j0Gjyfq55prtmqGC89WM4i-S8hrbW41rpTaE44HMe8',
     coverImageSmall: 'https://arweave.net/0j0Gjyfq55prtmqGC89WM4i-S8hrbW41rpTaE44HMe8',
@@ -6465,7 +6465,7 @@ export function getMockArtist(slug: string): Artist | undefined {
 
 // ─── Series filters ───
 // FRIDAY PRESS is The Park's onchain publication series on Zora
-// (https://zora.co/@thepark — visible as the "friday-press" tab on
+// (https://zora.co/@thepark - visible as the "friday-press" tab on
 // their profile). Tracks/artifacts are tagged with `series:
 // 'friday-press'` in MOCK_TRACKS once their Zora collect URLs +
 // on-chain metadata are wired in. Until then this returns an empty
@@ -6475,7 +6475,7 @@ export function getMockFridayPressTracks(): Track[] {
     .sort((a, b) => new Date(b.releaseDate || 0).getTime() - new Date(a.releaseDate || 0).getTime());
 }
 
-// Music videos preserve catalog order — NOT date-sorted — because the
+// Music videos preserve catalog order - NOT date-sorted - because the
 // user-curated sequence (Happy Friday → Onchain Summer → Crash → Becky)
 // is editorially intentional. Just filter and return as-found in the
 // MOCK_TRACKS array.
@@ -6487,7 +6487,7 @@ export function getMockTracksByPlatform(platform: string): Track[] {
   if (platform === 'onchain') {
     return MOCK_TRACKS.filter(t =>
       [Platform.ZORA, Platform.CATALOG, Platform.SOUND_XYZ, Platform.HIGHLIGHT].includes(t.platform) &&
-      // FRIDAY PRESS + Music Videos have their own dedicated tabs — keep
+      // FRIDAY PRESS + Music Videos have their own dedicated tabs - keep
       // them out of the main grid.
       t.series !== 'friday-press' &&
       t.series !== 'music-videos' &&
@@ -6501,7 +6501,7 @@ export function getMockTracksByPlatform(platform: string): Track[] {
 
 // The /episodes page only surfaces S001/S002 episodes that have a public
 // YouTube embed. IPFS-only episodes (S002 Ep4 Honduras, Ep5 Superchain,
-// Ep6 FWB Fest 2024) are hidden until YouTube URLs are provided — they
+// Ep6 FWB Fest 2024) are hidden until YouTube URLs are provided - they
 // stay in the catalog for direct track-detail / search hits.
 const ALLOWED_EPISODE_SEASONS = new Set(['S001', 'S002', 'S003']);
 const isYouTubeEmbed = (url?: string) => !!url && url.includes('youtube.com/embed/');
@@ -6550,7 +6550,7 @@ export function searchMockData(query: string) {
 // ===== CURATED PLAYLISTS =====
 //
 // Editorial playlists of onchain audio. Each one is a curated lens onto the
-// existing MOCK_TRACKS catalog — no extra data, just a slug + ordering. The
+// existing MOCK_TRACKS catalog - no extra data, just a slug + ordering. The
 // /onchain page exposes them as a horizontal rail so listeners can dive into
 // themed listening sessions instead of scrolling the raw track grid.
 
@@ -6568,7 +6568,7 @@ export const MOCK_PLAYLISTS: Playlist[] = [
   {
     slug: 'onchain-essentials',
     title: 'Onchain Essentials',
-    description: 'The flagship Fridays at the Park onchain releases — the front door for anyone new to The Park.',
+    description: 'The flagship Fridays at the Park onchain releases - the front door for anyone new to The Park.',
     emoji: '◨-◨',
     trackIds: [
       'zora-onchain-summer',
@@ -6583,7 +6583,7 @@ export const MOCK_PLAYLISTS: Playlist[] = [
   {
     slug: 'season-002',
     title: 'Season 002',
-    description: 'Every Season 002 onchain audio drop, in release order — from "Last Straw" to "Right Here, Right Noun".',
+    description: 'Every Season 002 onchain audio drop, in release order - from "Last Straw" to "Right Here, Right Noun".',
     emoji: '⌐Ⓗ-Ⓕ',
     trackIds: [
       'zora-s002-last-straw',
@@ -6612,7 +6612,7 @@ export const MOCK_PLAYLISTS: Playlist[] = [
   {
     slug: 'the-park-studio',
     title: 'The Park Studio',
-    description: 'The signature sound — Tim Anderson + WaveIQ at the boards. The team that shaped Season 002.',
+    description: 'The signature sound - Tim Anderson + WaveIQ at the boards. The team that shaped Season 002.',
     emoji: '🎚️',
     trackIds: [
       'zora-s002-last-straw',
@@ -6638,7 +6638,7 @@ export const MOCK_PLAYLISTS: Playlist[] = [
   {
     slug: 'dao-anthems',
     title: 'DAO Anthems',
-    description: 'The tracks made for the DAO — daily auctions, governance, and the Happy Friday meme onchain.',
+    description: 'The tracks made for the DAO - daily auctions, governance, and the Happy Friday meme onchain.',
     emoji: '🗳️',
     trackIds: [
       'zora-the-park-dao',
@@ -6658,7 +6658,7 @@ export const MOCK_PLAYLISTS: Playlist[] = [
     title: 'Jazz & Instrumentals',
     description: 'The instrumental side of The Park. Jazz keys, lo-fi beats, and beat tape moments.',
     emoji: '🎹',
-    // Filtered dynamically below — placeholder so the slug exists at module
+    // Filtered dynamically below - placeholder so the slug exists at module
     // scope; the getMockPlaylist() helper resolves the real list.
     trackIds: [],
   },

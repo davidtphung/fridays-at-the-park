@@ -42,7 +42,7 @@ export function PlaylistSheet({ slug, onClose }: PlaylistSheetProps) {
     if (!slug) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
-    // Lock body scroll while sheet is open — prevents background bleed.
+    // Lock body scroll while sheet is open - prevents background bleed.
     document.body.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', onKey);
@@ -93,7 +93,7 @@ export function PlaylistSheet({ slug, onClose }: PlaylistSheetProps) {
     <AnimatePresence>
       {slug && playlist && (
         <>
-          {/* Scrim — clicking dismisses the sheet */}
+          {/* Scrim - clicking dismisses the sheet */}
           <motion.div
             key="scrim"
             initial={{ opacity: 0 }}
@@ -118,7 +118,7 @@ export function PlaylistSheet({ slug, onClose }: PlaylistSheetProps) {
             aria-label={`Playlist: ${playlist.title}`}
             style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
           >
-            {/* Drag handle — visual hint that this dismisses */}
+            {/* Drag handle - visual hint that this dismisses */}
             <div className="flex justify-center pt-2 sm:hidden">
               <div className="w-10 h-1 rounded-full bg-text-secondary/30" aria-hidden="true" />
             </div>

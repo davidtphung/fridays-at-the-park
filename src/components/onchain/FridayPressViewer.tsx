@@ -7,7 +7,7 @@ import { Track } from '@/types/track';
 import { fastIpfsUrl } from '@/lib/fast-ipfs';
 
 interface FridayPressViewerProps {
-  /** All Friday Press tracks — used so the viewer can navigate between issues. */
+  /** All Friday Press tracks - used so the viewer can navigate between issues. */
   tracks: Track[];
   /** ID of the currently-open issue, or null when the viewer is closed. */
   openId: string | null;
@@ -18,7 +18,7 @@ interface FridayPressViewerProps {
 /**
  * Full-bleed PDF viewer for FRIDAY PRESS issues. Renders an iframe pointing
  * at the IPFS-hosted PDF (via dweb.link gateway) so the browser's native
- * PDF renderer handles every page — pagination, zoom, search, print, all
+ * PDF renderer handles every page - pagination, zoom, search, print, all
  * for free.
  *
  * Why iframe + native renderer instead of pdf.js: pdf.js would add ~200KB
@@ -57,7 +57,7 @@ export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: Frida
   // PDF lives in track.videoUrl (videoMime: 'application/pdf').
   // fastIpfsUrl rewrites pinata → dweb.link if needed.
   const pdfUrl = fastIpfsUrl(current.videoUrl || '');
-  // `#view=FitH` is a PDF Open Parameter most native renderers respect —
+  // `#view=FitH` is a PDF Open Parameter most native renderers respect -
   // fits the page width to the viewport for the first paint.
   const iframeSrc = pdfUrl ? `${pdfUrl}#view=FitH&toolbar=1&navpanes=0` : '';
 
@@ -128,7 +128,7 @@ export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: Frida
           </div>
         </div>
 
-        {/* Pager — prev / next between issues */}
+        {/* Pager - prev / next between issues */}
         <div className="flex items-center justify-center gap-2 px-4 py-2 border-b border-white/10 shrink-0">
           <button
             onClick={() => hasPrev && onChangeId(tracks[currentIndex - 1].id)}
@@ -150,13 +150,13 @@ export function FridayPressViewer({ tracks, openId, onClose, onChangeId }: Frida
           </button>
         </div>
 
-        {/* PDF iframe — flex-1 to take all remaining height */}
+        {/* PDF iframe - flex-1 to take all remaining height */}
         <div className="flex-1 relative bg-[#525659]">
           {pdfUrl ? (
             <iframe
               key={current.id}
               src={iframeSrc}
-              title={`${current.title} — PDF`}
+              title={`${current.title} - PDF`}
               className="absolute inset-0 w-full h-full border-0"
               sandbox="allow-scripts allow-same-origin allow-downloads allow-popups"
               referrerPolicy="strict-origin-when-cross-origin"

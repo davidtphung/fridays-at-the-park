@@ -27,7 +27,7 @@ export function AlbumCard({ album, onClick }: AlbumCardProps) {
       <div className="relative aspect-square rounded-card overflow-hidden bg-bg-tertiary mb-3 shadow-lg group-hover:shadow-xl transition-shadow">
         <Image
           src={album.coverImage}
-          alt={`${album.name} — album cover`}
+          alt={`${album.name} - album cover`}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"

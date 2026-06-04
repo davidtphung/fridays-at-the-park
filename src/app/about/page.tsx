@@ -5,7 +5,7 @@ import { Platform } from '@/types/platform';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'About The Park — a music collective producing original music with friends onchain every Friday.',
+  description: 'About The Park - a music collective producing original music with friends onchain every Friday.',
 };
 
 export default function AboutPage() {
@@ -26,7 +26,7 @@ export default function AboutPage() {
         </p>
 
         <p className="text-text-secondary leading-relaxed">
-          Our music lives across the internet — on Zora, Catalog, Sound.xyz, Bandcamp, YouTube,
+          Our music lives across the internet - on Zora, Catalog, Sound.xyz, Bandcamp, YouTube,
           Spotify, and Apple Music. This site brings it all together in one place, making it easy
           to discover, listen to, and collect everything from The Park.
         </p>

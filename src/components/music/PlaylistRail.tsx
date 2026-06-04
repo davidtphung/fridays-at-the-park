@@ -22,7 +22,7 @@ interface PlaylistRailProps {
  *  - Tap the round play button on the cover → immediately plays the
  *    playlist's first track and queues the rest (Apple Music behavior).
  *
- * Separating "explore" from "play" matches Apple Music + Spotify HIG —
+ * Separating "explore" from "play" matches Apple Music + Spotify HIG -
  * users who already know they want to play don't have to dismiss a sheet,
  * and users who want to browse can drill in without the audio jumping.
  */
@@ -77,7 +77,7 @@ export function PlaylistRail({ playlists }: PlaylistRailProps) {
                   isCurrentPlaylist ? 'border-accent/50 shadow-lg shadow-accent/10' : 'border-border hover:border-accent/30'
                 }`}
               >
-                {/* Card body — click opens the sheet */}
+                {/* Card body - click opens the sheet */}
                 <button
                   type="button"
                   onClick={() => setOpenSlug(pl.slug)}
@@ -127,7 +127,7 @@ export function PlaylistRail({ playlists }: PlaylistRailProps) {
                   </div>
                 </button>
 
-                {/* Floating play button — separate hit target. Apple Music
+                {/* Floating play button - separate hit target. Apple Music
                     pattern: card opens detail, play button plays now. */}
                 <button
                   type="button"

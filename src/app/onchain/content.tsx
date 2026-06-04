@@ -62,7 +62,7 @@ export function OnchainContent() {
     <>
       {/* ─── Tab strip ───
           Switches between the full onchain catalog and the FRIDAY PRESS
-          editorial series. Same /onchain URL — no route change — so the
+          editorial series. Same /onchain URL - no route change - so the
           GlobalPlayer's audio + queue + scroll position stays untouched. */}
       <div
         role="tablist"
@@ -158,7 +158,7 @@ export function OnchainContent() {
 }
 
 /**
- * Music Videos — onchain video drops with inline press-to-play playback.
+ * Music Videos - onchain video drops with inline press-to-play playback.
  * The grid uses dweb.link gateway URLs so first-byte is ~250 ms; clicking
  * play swaps the poster card for a real <video> element with `autoplay`.
  */
@@ -178,7 +178,7 @@ function MusicVideosSection({ tracks }: { tracks: ReturnType<typeof getMockMusic
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-text-primary leading-tight">Music Videos</h2>
             <p className="text-sm text-text-secondary mt-2 leading-relaxed">
-              Onchain music videos and lyric video walls. Press play — they stream from a fast
+              Onchain music videos and lyric video walls. Press play - they stream from a fast
               IPFS gateway so first frame lands in under a second.
             </p>
           </div>
@@ -203,7 +203,7 @@ function MusicVideosSection({ tracks }: { tracks: ReturnType<typeof getMockMusic
 }
 
 /**
- * FRIDAY PRESS — The Park's onchain publication series on Zora.
+ * FRIDAY PRESS - The Park's onchain publication series on Zora.
  * Renders the resolved artifacts when present; otherwise shows an inviting
  * empty state with the canonical Zora link so the user can mint directly
  * while we wait on a proper catalog crawl.
@@ -224,7 +224,7 @@ function FridayPressSection({ tracks }: { tracks: ReturnType<typeof getMockFrida
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-text-primary leading-tight">FRIDAY PRESS</h2>
             <p className="text-sm text-text-secondary mt-2 leading-relaxed">
-              The Park&apos;s onchain publication — issues, notes, broadsides, and ephemera minted on Zora.
+              The Park&apos;s onchain publication - issues, notes, broadsides, and ephemera minted on Zora.
               Each artifact is a moment in the cadence of every Friday.
             </p>
             <a
@@ -249,7 +249,7 @@ function FridayPressSection({ tracks }: { tracks: ReturnType<typeof getMockFrida
           </h3>
           <p className="text-sm text-text-secondary max-w-md mx-auto mt-2 leading-relaxed">
             The catalog crawl needs Zora API access to resolve every issue. Browse them directly on
-            Zora for now — they&apos;ll surface here automatically once the catalog is populated.
+            Zora for now - they&apos;ll surface here automatically once the catalog is populated.
           </p>
           <a
             href="https://zora.co/@thepark"

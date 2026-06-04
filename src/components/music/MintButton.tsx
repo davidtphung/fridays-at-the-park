@@ -27,7 +27,7 @@ export function MintButton({ track, size = 'md' }: MintButtonProps) {
         window.open(track.mintUrl!, '_blank', 'noopener,noreferrer');
       }}
     >
-      {label} {price !== 'Free' && `— ${price}`}
+      {label} {price !== 'Free' && `- ${price}`}
     </Button>
   );
 }

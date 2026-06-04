@@ -118,7 +118,7 @@ function EpisodeCoverFlow({
         style={{ perspective: '800px' }}
         tabIndex={0}
         role="listbox"
-        aria-label="Episode cover flow — use arrow keys to browse"
+        aria-label="Episode cover flow - use arrow keys to browse"
       >
         {/* Edge fade mask */}
         <div
@@ -167,7 +167,7 @@ function EpisodeCoverFlow({
               key={episode.id}
               role="option"
               aria-selected={isCenter}
-              aria-label={`${episode.title}${episode.season ? ` — ${formatSeasonEpisode(episode.season, episode.episode)}` : ''}`}
+              aria-label={`${episode.title}${episode.season ? ` - ${formatSeasonEpisode(episode.season, episode.episode)}` : ''}`}
               className="absolute left-1/2 top-1/2 cursor-pointer"
               style={{
                 marginLeft: '-140px', // half of cover width
@@ -236,7 +236,7 @@ function EpisodeCoverFlow({
                 )}
               </div>
 
-              {/* Reflection — Apple signature effect */}
+              {/* Reflection - Apple signature effect */}
               <div
                 className="relative w-[280px] h-[50px] sm:w-[320px] sm:h-[55px] lg:w-[360px] lg:h-[65px] mt-[2px] overflow-hidden rounded-b-xl opacity-25"
                 aria-hidden="true"
@@ -479,7 +479,7 @@ export function EpisodesContent() {
                     poster={activeEpisode.coverImage}
                   />
                 ) : embed.type === 'image' ? (
-                  // Onchain still-image / GIF collectible — render as <img>; GIFs animate natively.
+                  // Onchain still-image / GIF collectible - render as <img>; GIFs animate natively.
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={embed.url}

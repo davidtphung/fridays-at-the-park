@@ -23,12 +23,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Fridays at the Park — Music Aggregator',
+    default: 'Fridays at the Park - Music Aggregator',
     template: '%s | Fridays at the Park',
   },
   description: 'A music discovery platform aggregating all music from The Park collective. Onchain music, Bandcamp, episodes, and more.',
   openGraph: {
-    title: 'Fridays at the Park — Music Aggregator',
+    title: 'Fridays at the Park - Music Aggregator',
     description: 'Discover music from The Park collective across onchain platforms, Bandcamp, YouTube, and streaming.',
     type: 'website',
     siteName: 'Fridays at the Park',
@@ -85,7 +85,7 @@ export default function RootLayout({
           {/* EmbedChrome reads ?embed=1 / ?embed=true from the URL on the client
               and toggles a `data-embed="1"` attribute on <html>. CSS in
               globals.css hides .embed-hide elements when that attribute is
-              present — perfect for hosting inside fridaysatthepark.org. */}
+              present - perfect for hosting inside fridaysatthepark.org. */}
           <EmbedChrome />
           <SkipNav />
           <div className="embed-hide"><Header /></div>

@@ -18,7 +18,7 @@ interface MusicVideoGridProps {
  * with `autoplay` and starts streaming. dweb.link gateway keeps first-byte
  * to ~250 ms (vs Pinata's 4.8 s) so playback is effectively instant.
  *
- * Only one card plays at a time — selecting another auto-pauses the
+ * Only one card plays at a time - selecting another auto-pauses the
  * previous via React state.
  */
 export function MusicVideoGrid({ tracks }: MusicVideoGridProps) {
@@ -85,7 +85,7 @@ function MusicVideoCard({ track, isPlaying, onPlay, onPause }: CardProps) {
             // The HTML `pause` event fires during scrubbing/seeking (browsers
             // pause briefly while seeking, then resume) and when entering or
             // exiting fullscreen on some platforms. Wiring it would unmount
-            // the <video> on every scrub — kicking the user out of fullscreen
+            // the <video> on every scrub - kicking the user out of fullscreen
             // mid-skip. The inline pause/close button in the card header is
             // the explicit signal to return to the poster, and the parent's
             // "only one card plays at a time" useEffect uses imperative
@@ -97,7 +97,7 @@ function MusicVideoCard({ track, isPlaying, onPlay, onPause }: CardProps) {
           <>
             <Image
               src={track.coverImage}
-              alt={`${track.title} — poster`}
+              alt={`${track.title} - poster`}
               fill
               className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
