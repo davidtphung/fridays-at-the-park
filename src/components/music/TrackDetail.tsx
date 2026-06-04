@@ -6,6 +6,7 @@ import { Play, Pause } from 'lucide-react';
 import { Track } from '@/types/track';
 import { Chain, MediaType, PLATFORM_LABELS } from '@/types/platform';
 import { fastIpfsUrl } from '@/lib/fast-ipfs';
+import { HlsVideo } from '@/components/media/HlsVideo';
 import { usePlayerStore } from '@/stores/playerStore';
 import { Badge } from '@/components/ui/Badge';
 import { CopyButton } from '@/components/ui/CopyButton';
@@ -23,9 +24,11 @@ export function TrackDetail({ track }: TrackDetailProps) {
   const isCurrentTrack = currentTrack?.id === track.id;
   const artistNames = track.artists.map(a => a.artist.name).join(', ');
   // Zora content coins (and any VIDEO track with a direct media URL) stream
-  // inline here. We use the dweb.link gateway for fast first-byte.
-  const inlineVideoUrl =
-    track.mediaType === MediaType.VIDEO && track.videoUrl ? fastIpfsUrl(track.videoUrl) : '';
+  // inline here. Prefer the Cloudflare Stream HLS manifest (fast adaptive
+  // start); fall back to the IPFS progressive file via dweb.link.
+  const isInlineVideo = track.mediaType === MediaType.VIDEO && !!(track.videoUrl || track.hlsUrl);
+  const inlineHls = track.hlsUrl || '';
+  const inlineFallback = track.videoUrl ? fastIpfsUrl(track.videoUrl) : '';
 
   const handlePlay = () => {
     if (isCurrentTrack) {
@@ -94,13 +97,13 @@ export function TrackDetail({ track }: TrackDetailProps) {
       {/* Actions and details */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* Inline video player - Zora content coins / video drops */}
-        {inlineVideoUrl && (
+        {isInlineVideo && (
           <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-border/50">
-            <video
-              src={inlineVideoUrl}
+            <HlsVideo
+              hlsUrl={inlineHls}
+              fallbackUrl={inlineFallback}
               poster={track.coverImage}
               controls
-              playsInline
               preload="metadata"
               className="absolute inset-0 w-full h-full object-contain"
               aria-label={`${track.title} by ${artistNames}`}
