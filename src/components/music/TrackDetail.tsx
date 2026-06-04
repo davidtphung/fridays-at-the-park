@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Play, Pause } from 'lucide-react';
 import { Track } from '@/types/track';
-import { Chain, PLATFORM_LABELS } from '@/types/platform';
+import { Chain, MediaType, PLATFORM_LABELS } from '@/types/platform';
+import { fastIpfsUrl } from '@/lib/fast-ipfs';
 import { usePlayerStore } from '@/stores/playerStore';
 import { Badge } from '@/components/ui/Badge';
 import { CopyButton } from '@/components/ui/CopyButton';
@@ -21,6 +22,10 @@ export function TrackDetail({ track }: TrackDetailProps) {
   const { currentTrack, isPlaying, play, togglePlay } = usePlayerStore();
   const isCurrentTrack = currentTrack?.id === track.id;
   const artistNames = track.artists.map(a => a.artist.name).join(', ');
+  // Zora content coins (and any VIDEO track with a direct media URL) stream
+  // inline here. We use the dweb.link gateway for fast first-byte.
+  const inlineVideoUrl =
+    track.mediaType === MediaType.VIDEO && track.videoUrl ? fastIpfsUrl(track.videoUrl) : '';
 
   const handlePlay = () => {
     if (isCurrentTrack) {
@@ -88,6 +93,21 @@ export function TrackDetail({ track }: TrackDetailProps) {
 
       {/* Actions and details */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-8 space-y-8">
+        {/* Inline video player — Zora content coins / video drops */}
+        {inlineVideoUrl && (
+          <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-border/50">
+            <video
+              src={inlineVideoUrl}
+              poster={track.coverImage}
+              controls
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 w-full h-full object-contain"
+              aria-label={`${track.title} by ${artistNames}`}
+            />
+          </div>
+        )}
+
         {/* Action buttons */}
         <div className="flex items-center gap-3 flex-wrap">
           {track.audioUrl && (
