@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Layers, Link2, Boxes, ArrowUpRight, Info } from 'lucide-react';
+import { Users, Sparkles, Link2, Boxes, ArrowUpRight, Info } from 'lucide-react';
 
 interface PlatformRow {
   key: string;
@@ -23,7 +23,7 @@ interface CollectionRow {
 interface OpenSeaRow { slug: string; label: string; wallets: number; url: string }
 interface CollectorData {
   generatedAt: string;
-  headline: { uniqueWallets: number; baseWallets?: number; collections: number; chains: number; platforms: number };
+  headline: { uniqueWallets: number; baseWallets?: number; totalMints?: number; collections: number; chains: number; platforms: number };
   chains: { name: string; note: string }[];
   platforms: PlatformRow[];
   openseaCollections: OpenSeaRow[];
@@ -116,8 +116,8 @@ export function CollectorMap() {
         {[
           { icon: Users, label: 'Unique wallets', value: fmt(data.headline.uniqueWallets), color: 'text-accent' },
           { icon: Link2, label: 'On Base (Coinbase L2)', value: data.headline.baseWallets != null ? fmt(data.headline.baseWallets) : '-', color: 'text-chain-base' },
-          { icon: Boxes, label: 'Collections', value: fmt(data.headline.collections), color: 'text-success' },
-          { icon: Layers, label: 'Platforms', value: 'Zora · Sound · Catalog · Nouns', color: 'text-text-primary', small: true },
+          { icon: Sparkles, label: 'Total mints', value: data.headline.totalMints != null ? fmt(data.headline.totalMints) : fmt(data.headline.collections), color: 'text-success' },
+          { icon: Boxes, label: 'Collections', value: fmt(data.headline.collections), color: 'text-text-primary' },
         ].map((s, i) => (
           <motion.div
             key={s.label}
@@ -130,7 +130,7 @@ export function CollectorMap() {
               <s.icon size={15} className={s.color} />
               <span className="text-[10px] uppercase tracking-widest text-text-secondary font-medium">{s.label}</span>
             </div>
-            <p className={`font-bold text-text-primary ${s.small ? 'text-sm leading-snug' : 'text-2xl tabular-nums'}`}>{s.value}</p>
+            <p className="font-bold text-text-primary text-2xl tabular-nums">{s.value}</p>
           </motion.div>
         ))}
       </div>
