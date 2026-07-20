@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Newspaper, Sparkles, Film } from 'lucide-react';
+import { Newspaper, Sparkles, Film, Users } from 'lucide-react';
 import { TrackGrid } from '@/components/music/TrackGrid';
 import { FilterBar } from '@/components/music/FilterBar';
 import { PlaylistRail } from '@/components/music/PlaylistRail';
 import { MusicVideoGrid } from '@/components/music/MusicVideoGrid';
 import { FridayPressGrid } from '@/components/onchain/FridayPressGrid';
+import { CollectorMap } from '@/components/onchain/CollectorMap';
 import {
   getMockTracksByPlatform,
   getSeasons,
@@ -15,7 +16,7 @@ import {
   getMockMusicVideoTracks,
 } from '@/lib/mock-data';
 
-type Tab = 'all' | 'music-videos' | 'friday-press';
+type Tab = 'all' | 'music-videos' | 'friday-press' | 'collectors';
 
 export function OnchainContent() {
   const [tab, setTab] = useState<Tab>('all');
@@ -129,6 +130,20 @@ export function OnchainContent() {
             </span>
           )}
         </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'collectors'}
+          onClick={() => setTab('collectors')}
+          className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-150 active:scale-[0.97] flex items-center gap-1.5 min-h-[40px] ${
+            tab === 'collectors'
+              ? 'bg-accent text-bg-primary'
+              : 'bg-bg-tertiary text-text-secondary hover:text-text-primary'
+          }`}
+        >
+          <Users size={14} aria-hidden="true" />
+          Collectors
+        </button>
       </div>
 
       {tab === 'all' && (
@@ -153,6 +168,7 @@ export function OnchainContent() {
       )}
       {tab === 'music-videos' && <MusicVideosSection tracks={musicVideoTracks} />}
       {tab === 'friday-press' && <FridayPressSection tracks={fridayPressTracks} />}
+      {tab === 'collectors' && <CollectorMap />}
     </>
   );
 }
