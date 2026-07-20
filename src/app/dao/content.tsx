@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Wallet, Vote, Hash, Box, ArrowUpRight } from 'lucide-react';
+import { TokenGallery } from '@/components/dao/TokenGallery';
 
 const DAO_DATA = {
   name: 'the park dao',
@@ -258,6 +259,9 @@ export function DAOContent() {
           </p>
         </div>
       </motion.div>
+
+      {/* Full token collection: every minted token, its holder, and contract metadata */}
+      <TokenGallery />
     </div>
   );
 }
