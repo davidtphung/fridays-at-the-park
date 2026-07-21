@@ -16,7 +16,7 @@ interface LegacyData {
     base: { type: string; balanceEth: number; nonce: number };
     linkedWallets: { label: string; address: string; role: string }[];
   };
-  stats: { label: string; value: number }[];
+  stats: { label: string; value: number; suffix?: string }[];
   genesis: { name: string; symbol: string; address: string; chain: string; type: string; date: string; note: string; explorer: string };
   portfolio: PortfolioGroup[];
   timeline: TimelineEvent[];
@@ -71,7 +71,7 @@ export function LegacyView() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
           {data.stats.map((s) => (
             <div key={s.label} className="rounded-2xl border border-border bg-bg-primary/40 px-4 py-3">
-              <p className="text-2xl sm:text-3xl font-bold text-text-primary tabular-nums">{fmt(s.value)}</p>
+              <p className="text-2xl sm:text-3xl font-bold text-text-primary tabular-nums">{fmt(s.value)}{s.suffix ?? ''}</p>
               <p className="text-[11px] uppercase tracking-wider text-text-secondary mt-0.5">{s.label}</p>
             </div>
           ))}

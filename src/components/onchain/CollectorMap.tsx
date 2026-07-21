@@ -23,7 +23,7 @@ interface CollectionRow {
 interface OpenSeaRow { slug: string; label: string; wallets: number; url: string }
 interface CollectorData {
   generatedAt: string;
-  headline: { uniqueWallets: number; baseWallets?: number; totalMints?: number; collections: number; chains: number; platforms: number };
+  headline: { uniqueWallets: number; baseWallets?: number; walletsLowerBound?: boolean; itemsMinted?: number; collections: number; chains: number; platforms: number };
   chains: { name: string; note: string }[];
   platforms: PlatformRow[];
   openseaCollections: OpenSeaRow[];
@@ -74,6 +74,7 @@ export function CollectorMap() {
   }
 
   const maxCollectors = Math.max(...data.topCollections.map((c) => c.collectors));
+  const plus = data.headline.walletsLowerBound ? '+' : '';
 
   return (
     <div className="space-y-8">
@@ -85,7 +86,7 @@ export function CollectorMap() {
       >
         <p className="text-xs uppercase tracking-widest text-accent font-semibold mb-2">Onchain collector map</p>
         <div className="flex flex-wrap items-end gap-x-4 gap-y-1">
-          <span className="text-5xl sm:text-6xl font-bold text-text-primary tabular-nums">{fmt(data.headline.uniqueWallets)}</span>
+          <span className="text-5xl sm:text-6xl font-bold text-text-primary tabular-nums">{fmt(data.headline.uniqueWallets)}{plus}</span>
           <span className="text-lg text-text-secondary mb-1">unique wallets</span>
         </div>
         <p className="text-sm text-text-secondary mt-3 max-w-2xl leading-relaxed">
@@ -96,7 +97,7 @@ export function CollectorMap() {
           {data.headline.baseWallets != null && (
             <>
               {' '}
-              <strong className="text-chain-base">{fmt(data.headline.baseWallets)}</strong> of them are on Base
+              <strong className="text-chain-base">{fmt(data.headline.baseWallets)}{plus}</strong> of them are on Base
               (Coinbase L2), where nearly the entire community lives.
             </>
           )}
@@ -114,9 +115,9 @@ export function CollectorMap() {
       {/* Quick stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { icon: Users, label: 'Unique wallets', value: fmt(data.headline.uniqueWallets), color: 'text-accent' },
-          { icon: Link2, label: 'On Base (Coinbase L2)', value: data.headline.baseWallets != null ? fmt(data.headline.baseWallets) : '-', color: 'text-chain-base' },
-          { icon: Sparkles, label: 'Total mints', value: data.headline.totalMints != null ? fmt(data.headline.totalMints) : fmt(data.headline.collections), color: 'text-success' },
+          { icon: Users, label: 'Unique wallets', value: fmt(data.headline.uniqueWallets) + plus, color: 'text-accent' },
+          { icon: Link2, label: 'On Base (Coinbase L2)', value: data.headline.baseWallets != null ? fmt(data.headline.baseWallets) + plus : '-', color: 'text-chain-base' },
+          { icon: Sparkles, label: 'Items minted', value: data.headline.itemsMinted != null ? fmt(data.headline.itemsMinted) : fmt(data.headline.collections), color: 'text-success' },
           { icon: Boxes, label: 'Collections', value: fmt(data.headline.collections), color: 'text-text-primary' },
         ].map((s, i) => (
           <motion.div
