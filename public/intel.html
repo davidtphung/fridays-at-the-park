@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Park · Onchain Intelligence</title>
+<style>
+  :root{
+    --ground:#0e100e; --surface:#171a17; --surface-2:#1e221d; --surface-1:#1a1a19;
+    --ink:#f2f4ef; --ink-2:#a9b0a3; --ink-3:#727a6d;
+    --border:rgba(255,255,255,.09); --border-2:rgba(255,255,255,.14);
+    --data:#3987e5; --data-2:#6da7ec; --data-3:#1c5cab;      /* Base / Coinbase blue */
+    --accent:#5fcf87;                                          /* The Park green (UI only) */
+    --c1:#3987e5; --c2:#199e70; --c3:#c98500; --c4:#d55181;    /* validated categorical */
+    --good:#3bbb6b; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 30px rgba(0,0,0,.28);
+    --maxw:1120px;
+  }
+  :root[data-theme="light"]{
+    --ground:#f7f6f1; --surface:#ffffff; --surface-2:#f1f0ea; --surface-1:#fcfcfb;
+    --ink:#12140f; --ink-2:#565a4f; --ink-3:#8a8d80;
+    --border:rgba(20,25,15,.10); --border-2:rgba(20,25,15,.18);
+    --data:#2a78d6; --data-2:#5a9bea; --data-3:#184f95;
+    --accent:#1f9e5c; --c1:#2a78d6; --c2:#1baf7a; --c3:#a8730a; --c4:#c2506f;
+    --good:#1f9e5c; --shadow:0 1px 2px rgba(30,40,20,.06),0 10px 30px rgba(30,40,20,.08);
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme]){
+      --ground:#f7f6f1; --surface:#ffffff; --surface-2:#f1f0ea; --surface-1:#fcfcfb;
+      --ink:#12140f; --ink-2:#565a4f; --ink-3:#8a8d80;
+      --border:rgba(20,25,15,.10); --border-2:rgba(20,25,15,.18);
+      --data:#2a78d6; --data-2:#5a9bea; --data-3:#184f95;
+      --accent:#1f9e5c; --c1:#2a78d6; --c2:#1baf7a; --c3:#a8730a; --c4:#c2506f;
+      --good:#1f9e5c; --shadow:0 1px 2px rgba(30,40,20,.06),0 10px 30px rgba(30,40,20,.08);
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(1200px 500px at 80% -10%, color-mix(in srgb,var(--data) 14%, transparent), transparent 60%),
+      var(--ground);
+    color:var(--ink);
+    font-family:"Inter var",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .num{font-variant-numeric:tabular-nums}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  a{color:var(--data);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);
+    background:color-mix(in srgb,var(--ground) 82%, transparent);border-bottom:1px solid var(--border)}
+  .topbar{display:flex;align-items:center;gap:14px;height:58px}
+  .logo{width:22px;height:22px;border-radius:7px;background:radial-gradient(circle at 32% 30%,#fff,var(--accent) 55%,#0a3a22);flex:0 0 auto;box-shadow:0 0 0 1px var(--border)}
+  .brand{font-weight:650;letter-spacing:-.01em}
+  .brand small{display:block;font-weight:450;font-size:11px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+  .spacer{flex:1}
+  .toggle{border:1px solid var(--border-2);background:var(--surface);color:var(--ink-2);border-radius:999px;
+    padding:7px 12px;font-size:12.5px;cursor:pointer;display:flex;gap:7px;align-items:center}
+  .toggle:hover{color:var(--ink);border-color:var(--data)}
+
+  .hero{padding:52px 0 30px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:clamp(30px,5vw,50px);line-height:1.02;letter-spacing:-.03em;margin:14px 0 0;text-wrap:balance;max-width:16ch}
+  h1 .hl{color:var(--data)}
+  .lede{color:var(--ink-2);max-width:60ch;margin-top:16px;font-size:16px}
+  .lede b{color:var(--ink);font-weight:600}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--shadow)}
+  .kpi .v{font-size:clamp(26px,3.4vw,38px);font-weight:700;letter-spacing:-.03em;line-height:1}
+  .kpi .l{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-top:9px}
+  .kpi .d{font-size:12px;color:var(--ink-2);margin-top:6px}
+  .kpi.hero-k .v{color:var(--data)}
+
+  section.blk{padding:26px 0}
+  .h2{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
+  .h2 h2{font-size:19px;letter-spacing:-.02em;margin:0}
+  .h2 .k{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+  .sub{color:var(--ink-2);font-size:13.5px;margin:0 0 18px;max-width:74ch}
+  .sub b{color:var(--ink)}
+
+  .grid2{display:grid;grid-template-columns:1.35fr .9fr;gap:16px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 3px;font-size:14.5px;letter-spacing:-.01em}
+  .card .cs{color:var(--ink-3);font-size:12px;margin:0 0 14px}
+
+  .bars{display:flex;flex-direction:column;gap:9px}
+  .brow{display:flex;flex-direction:column;gap:4px}
+  .blabel{display:flex;justify-content:space-between;gap:8px;font-size:12.5px}
+  .blabel .nm{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .blabel .vl{color:var(--ink-2);flex:0 0 auto}
+  .btrack{height:9px;border-radius:6px;background:var(--surface-2);overflow:hidden}
+  .bfill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--data-3),var(--data));min-width:5px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+
+  .toggles{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:3px;gap:2px;margin-bottom:14px}
+  .toggles button{border:0;background:transparent;color:var(--ink-3);font-size:12px;padding:5px 11px;border-radius:999px;cursor:pointer}
+  .toggles button[aria-pressed="true"]{background:var(--data);color:#fff}
+
+  .cols{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:8px}
+  .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;justify-content:flex-end;height:100%}
+  .cbar{width:100%;max-width:44px;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg,var(--data),var(--data-3));min-height:3px;transition:height .7s cubic-bezier(.2,.8,.2,1)}
+  .col .cv{font-size:11.5px;color:var(--ink);font-weight:600}
+  .col .cl{font-size:10.5px;color:var(--ink-3);text-align:center;line-height:1.15}
+
+  .spark{display:flex;align-items:flex-end;gap:3px;height:64px}
+  .spark i{flex:1;background:var(--data);border-radius:2px 2px 0 0;opacity:.85;min-height:2px}
+
+  .stat-tiles{display:flex;flex-direction:column;gap:11px}
+  .st{display:flex;align-items:center;gap:12px}
+  .st .big{font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--data);min-width:74px}
+  .st .tx{font-size:12.8px;color:var(--ink-2)}
+  .st .tx b{color:var(--ink)}
+
+  .list{display:flex;flex-direction:column}
+  .li{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)}
+  .li:first-child{border-top:0}
+  .li .rk{width:18px;color:var(--ink-3);font-size:12px}
+  .li .nm{flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .li .vv{font-size:13px;color:var(--ink);font-weight:600}
+  .li .mini{width:60px;height:6px;border-radius:4px;background:var(--surface-2);overflow:hidden;flex:0 0 auto}
+  .li .mini i{display:block;height:100%;background:var(--data);border-radius:4px}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--ink-3)}
+
+  .case{background:linear-gradient(135deg,color-mix(in srgb,var(--data) 16%,var(--surface)),var(--surface) 60%);
+    border:1px solid var(--border-2);border-radius:20px;padding:30px;margin-top:6px}
+  .case .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--data-2);
+    background:color-mix(in srgb,var(--data) 20%,transparent);border:1px solid color-mix(in srgb,var(--data) 40%,transparent);
+    padding:5px 11px;border-radius:999px;font-weight:600;letter-spacing:.02em}
+  .case h2{font-size:clamp(22px,3vw,30px);letter-spacing:-.025em;margin:16px 0 0;max-width:24ch;text-wrap:balance}
+  .case p.thesis{color:var(--ink-2);max-width:66ch;margin:14px 0 0;font-size:15px}
+  .case p.thesis b{color:var(--ink)}
+  .signals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+  .sig{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px}
+  .sig .sv{font-size:23px;font-weight:700;color:var(--data);letter-spacing:-.02em}
+  .sig .sl{font-size:12px;color:var(--ink);margin-top:4px;font-weight:600}
+  .sig .sd{font-size:12px;color:var(--ink-3);margin-top:3px;line-height:1.4}
+  .ask{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ask h4{margin:0 0 8px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .ask ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:13.5px}
+  .ask li{margin:6px 0}
+
+  details.tbl{margin-top:14px}
+  details.tbl summary{cursor:pointer;color:var(--ink-3);font-size:12px;list-style:none}
+  details.tbl summary::-webkit-details-marker{display:none}
+  details.tbl summary::before{content:"▸ ";color:var(--ink-3)}
+  details.tbl[open] summary::before{content:"▾ "}
+  table{border-collapse:collapse;width:100%;margin-top:10px;font-size:12.5px}
+  th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border)}
+  th{color:var(--ink-3);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  td.n{text-align:right;font-variant-numeric:tabular-nums}
+
+  footer{border-top:1px solid var(--border);margin-top:30px;padding:24px 0 60px;color:var(--ink-3);font-size:12px}
+  footer b{color:var(--ink-2)}
+
+  .tip{position:fixed;pointer-events:none;z-index:60;background:var(--surface-2);border:1px solid var(--border-2);
+    border-radius:9px;padding:8px 11px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(4px);
+    transition:opacity .12s;max-width:240px}
+  .tip.on{opacity:1;transform:none}
+  .tip .tt{font-weight:650;margin-bottom:2px}
+  .tip .tr{color:var(--ink-2);display:flex;justify-content:space-between;gap:16px}
+
+  @media (max-width:820px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .grid2,.signals,.ask{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  :focus-visible{outline:2px solid var(--data);outline-offset:2px;border-radius:6px}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap topbar">
+  <div class="logo" aria-hidden="true"></div>
+  <div class="brand">The Park · Onchain Intelligence<small>Fridays at the Park — internal review</small></div>
+  <div class="spacer"></div>
+  <button class="toggle" id="themeBtn" aria-label="Toggle theme"><span id="themeIcon">◐</span><span id="themeTxt">Theme</span></button>
+</div></header>
+
+<main>
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Onchain review · snapshot Jul 20 2026</div>
+    <h1>A community of <span class="hl">56,446+</span> wallets, built almost entirely on Base.</h1>
+    <p class="lede">Every mint The Park and Fridays at the Park have released across Ethereum, Base, and Zora, reviewed in one place: <b>153,582 items minted</b> across <b>166 collections</b>, held by tens of thousands of distinct wallets. <b>99%</b> of that community lives on Base, Coinbase's L2.</p>
+    <div class="kpis">
+      <div class="kpi hero-k"><div class="v num">56,446<span style="color:var(--accent)">+</span></div><div class="l">Unique wallets</div><div class="d">deduplicated · verified lower bound</div></div>
+      <div class="kpi"><div class="v num">153,582</div><div class="l">Items minted</div><div class="d">authoritative, full history</div></div>
+      <div class="kpi"><div class="v num">166</div><div class="l">Collections</div><div class="d">coins, editions, DAO</div></div>
+      <div class="kpi"><div class="v num">99%</div><div class="l">On Base (Coinbase L2)</div><div class="d">56,036 of 56,446 wallets</div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="h2"><h2>Where they minted from</h2><span class="k">top collections</span></div>
+    <p class="sub">Two flagship open editions carry most of the volume: <b>Lasso</b> and <b>Fridays at the Park Season 002</b>. Toggle between items minted and the unique wallets that minted them.</p>
+    <div class="card">
+      <div class="toggles" role="group" aria-label="Metric">
+        <button id="mItems" aria-pressed="true">Items minted</button>
+        <button id="mMinters" aria-pressed="false">Unique minters</button>
+      </div>
+      <div class="bars" id="collBars"></div>
+      <details class="tbl"><summary>Data table</summary><div id="collTable"></div></details>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="h2"><h2>Where the community lives</h2><span class="k">chain &amp; platform</span></div>
+    <p class="sub">Base is not just the biggest chain, it is effectively the entire footprint. Within Base, mints split across open editions, a content-coin economy, a creator coin, and a Nouns-style DAO.</p>
+    <div class="grid2">
+      <div class="card"><h3>Wallets by chain of activity</h3><p class="cs">distinct wallets active on each network</p><div class="bars" id="chainBars"></div></div>
+      <div class="card"><h3>Base activity by product</h3><p class="cs">wallets per surface (minters or holders)</p><div class="bars" id="platBars"></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="h2"><h2>Engagement &amp; retention</h2><span class="k">how sticky is the community</span></div>
+    <p class="sub">Most wallets mint once, but a durable core comes back drop after drop, and the governance layer is almost perfectly retained.</p>
+    <div class="grid2">
+      <div class="card"><h3>Repeat minting</h3><p class="cs">how many Base editions each wallet minted</p><div class="cols" id="engCols"></div></div>
+      <div class="card"><h3>The loyal core</h3><p class="cs">cross-product retention signals</p>
+        <div class="stat-tiles">
+          <div class="st"><div class="big num">7,959</div><div class="tx"><b>repeat minters</b> came back for 2+ editions (14% of all edition minters)</div></div>
+          <div class="st"><div class="big num">98%</div><div class="tx"><b>132 of 135 DAO members</b> also minted an edition, the most engaged cohort</div></div>
+          <div class="st"><div class="big num">522</div><div class="tx"><b>creator-coin holders</b> are also edition minters, linking coin economy to drops</div></div>
+          <div class="st"><div class="big num">118</div><div class="tx"><b>superfans</b> minted 6 or more separate drops</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="h2"><h2>A steady creative cadence</h2><span class="k">content coins per month</span></div>
+    <p class="sub">Beyond the big drops, The Park ships small content coins almost every week, 137 in 18 months, turning each Friday into a tradable moment. Peak: 18 coins in Aug 2025 (Onchain Summer season).</p>
+    <div class="card"><div class="spark" id="growthSpark" aria-hidden="true"></div>
+      <div class="legend"><span>Feb 2025</span><span class="spacer"></span><span>Jul 2026</span></div></div>
+  </section>
+
+  <section class="blk">
+    <div class="grid2">
+      <div class="card"><h3>Top content coins</h3><p class="cs">by unique holders</p><div class="list" id="coinList"></div></div>
+      <div class="card"><h3>Top DAO holders</h3><p class="cs">the park dao · Nouns Builder on Base</p><div class="list" id="daoList"></div></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="case">
+      <span class="badge">◆ The case for Coinbase</span>
+      <h2>The Park is a music-and-art public good, and it already runs on Base.</h2>
+      <p class="thesis">No migration, no incentive to relocate, no speculative promise: <b>99% of a 56,000+ wallet community</b> and <b>153,000+ mints</b> are already native to Base. The Park has quietly become one of the most consistent onchain music engines on Coinbase's L2, releasing culture as a public good, funded by a self-sustaining DAO. Support here compounds an existing flywheel rather than betting on a new one.</p>
+      <div class="signals">
+        <div class="sig"><div class="sv num">99%</div><div class="sl">Base-native</div><div class="sd">56,036 of 56,446 wallets are active on Base, not ported from elsewhere.</div></div>
+        <div class="sig"><div class="sv num">1,650</div><div class="sl">Onchain Summer collectors</div><div class="sd">A drop made for Coinbase's flagship event, plus FWB Fest activations.</div></div>
+        <div class="sig"><div class="sv num">1,024</div><div class="sl">Creator-coin holders</div><div class="sd">A live coin economy on Base, distinct from the edition minters.</div></div>
+        <div class="sig"><div class="sv num">98%</div><div class="sl">DAO retention</div><div class="sd">Governance members are also collectors, real ownership not airdrop farming.</div></div>
+        <div class="sig"><div class="sv num">137</div><div class="sl">Coins in 18 months</div><div class="sd">A weekly creative cadence, durable content velocity on Base.</div></div>
+        <div class="sig"><div class="sv num">153,582</div><div class="sl">Total mints</div><div class="sd">Authoritative, read from each contract's on-chain supply.</div></div>
+      </div>
+      <div class="ask">
+        <div><h4>The ask</h4><ul>
+          <li>Base Ecosystem Fund / Coinbase grant to scale the studio and DAO treasury for artist payouts.</li>
+          <li>Co-marketing around Onchain Summer and Base creator programs, where The Park already delivers.</li>
+          <li>Featured placement for the creator coin and edition drops in Base / Coinbase Wallet surfaces.</li>
+        </ul></div>
+        <div><h4>What Coinbase gets</h4><ul>
+          <li>A proven, non-speculative culture engine keeping tens of thousands of wallets active on Base.</li>
+          <li>A repeatable template for music-as-public-good other creators can follow onto Base.</li>
+          <li>An authentic Onchain Summer story with real retention, not one-time mint spikes.</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer><div class="wrap">
+  <b>Data &amp; method.</b> Items minted (153,582) is authoritative, read from each Zora edition's on-chain <span class="mono">getTokenInfo().totalMinted</span> plus the Ethereum/Zora drops, the DAO, and the genesis contract. Unique wallets is a deduplicated <b>verified lower bound</b> (56,446+): a small number of long-tail minters on the largest open editions are not yet deduplicated, because public Base RPCs cap <span class="mono">eth_getLogs</span> and rate-limit full-history scans. Content-coin and DAO figures count current holders (Zora holder index). Sources: on-chain logs (Ethereum via mevblocker, Base via base.org, Zora via zora.energy), the Zora coins API, and direct contract reads. Snapshot 2026-07-20. Wallet <span class="mono">0x589F…0503</span> (thepark.eth).
+</div></footer>
+</main>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+const D = {
+  editions: [
+    {name:"Lasso",items:72249,minters:20798},
+    {name:"Fridays at the Park Season 002",items:52172,minters:28024},
+    {name:"Fridays at the Park Worldwide",items:18027,minters:12898},
+    {name:"Onchain Summer",items:2073,minters:1650},
+    {name:"snapshotlopes @ FWB 2024",items:1816,minters:163},
+    {name:"happy friday v2 / genesis",items:1581,minters:163},
+    {name:"the park based",items:1191,minters:32},
+    {name:"FRIDAY PRESS",items:742,minters:456},
+    {name:"the park experience @ FWB 2024",items:630,minters:243},
+    {name:"happy friday lyric video wall",items:542,minters:164},
+  ],
+  chains: [
+    {name:"Base (Coinbase L2)",v:56036,c:"var(--c1)"},
+    {name:"Ethereum",v:611,c:"var(--c2)"},
+    {name:"Zora",v:353,c:"var(--c3)"},
+  ],
+  platforms: [
+    {name:"Base open editions · minters",v:55125},
+    {name:"Content coins (136) · holders",v:503},
+    {name:"Creator coin · holders",v:1024},
+    {name:"Eth / Zora editions · minters",v:610},
+    {name:"The Park DAO · holders",v:135},
+  ],
+  eng: [{l:"1 drop",v:47166},{l:"2",v:7129},{l:"3",v:648},{l:"4-5",v:64},{l:"6+",v:118}],
+  growth: [2,5,7,10,9,12,18,9,11,6,6,7,6,5,10,6,4,3],
+  coins: [{n:"VALÉ AT THE PARK MOMENTS",v:180},{n:"Building the Studio",v:54},{n:"season 003 episode 1",v:42},{n:"yon at the park",v:42},{n:"neskas notes",v:21},{n:"rock bottom v2",v:19},{n:"24 HOURS V1",v:18},{n:"who's nails at the studio?",v:15}],
+  dao: [{n:"thepark.eth",v:76},{n:"0xe2e2...a2e1",v:61},{n:"0xhifi.eth",v:25},{n:"dddvvv.eth",v:21},{n:"timanderson.eth",v:21},{n:"derekgtaylor.eth",v:15},{n:"davidtphung.base.eth",v:12},{n:"joshlippi.eth",v:10}],
+};
+const months=["Feb 25","Mar 25","Apr 25","May 25","Jun 25","Jul 25","Aug 25","Sep 25","Oct 25","Nov 25","Dec 25","Jan 26","Feb 26","Mar 26","Apr 26","May 26","Jun 26","Jul 26"];
+const fmt = n => n.toLocaleString("en-US");
+
+// DOM builder (no innerHTML — all values are trusted constants)
+function h(tag, attrs, kids){
+  const e=document.createElement(tag);
+  if(attrs) for(const k in attrs){
+    if(k==="class") e.className=attrs[k];
+    else if(k==="text") e.textContent=attrs[k];
+    else if(k==="style") e.style.cssText=attrs[k];
+    else e.setAttribute(k,attrs[k]);
+  }
+  if(kids!=null) for(const c of [].concat(kids)) if(c!=null) e.append(c);
+  return e;
+}
+function clear(el){ while(el.firstChild) el.removeChild(el.firstChild); }
+
+const tip=document.getElementById("tip");
+function showTip(ev,title,rows){
+  clear(tip);
+  tip.append(h("div",{class:"tt",text:title}));
+  for(const r of rows) tip.append(h("div",{class:"tr"},[h("span",{text:r[0]}),h("span",{class:"num",text:r[1]})]));
+  tip.classList.add("on");
+  tip.style.left=Math.min(ev.clientX+14,innerWidth-tip.offsetWidth-10)+"px";
+  tip.style.top=Math.max(ev.clientY-10,10)+"px";
+}
+function hideTip(){tip.classList.remove("on");}
+
+function hbars(el, rows, key, unit){
+  const max=Math.max(...rows.map(r=>key?r[key]:r.v));
+  clear(el);
+  for(const r of rows){
+    const val=key?r[key]:r.v;
+    const fill=h("div",{class:"bfill",style:"width:0"+(r.c?";background:linear-gradient(90deg,color-mix(in srgb,"+r.c+" 55%,#0000)," +r.c+")":"")});
+    const row=h("div",{class:"brow"},[
+      h("div",{class:"blabel"},[h("span",{class:"nm",text:r.name}),h("span",{class:"vl num",text:fmt(val)+(unit?" "+unit:"")})]),
+      h("div",{class:"btrack"},[fill]),
+    ]);
+    el.append(row);
+    requestAnimationFrame(()=>{fill.style.width=(6+val/max*94)+"%";});
+    row.addEventListener("mousemove",ev=>showTip(ev,r.name,[[unit||"value",fmt(val)]]));
+    row.addEventListener("mouseleave",hideTip);
+  }
+}
+
+let metric="items";
+function renderColl(){
+  hbars(document.getElementById("collBars"), D.editions, metric, metric==="items"?"items":"wallets");
+  const tb=document.getElementById("collTable"); clear(tb);
+  const rows=D.editions.map(e=>h("tr",null,[h("td",{text:e.name}),h("td",{class:"n num",text:fmt(e.items)}),h("td",{class:"n num",text:fmt(e.minters)})]));
+  tb.append(h("table",null,[
+    h("thead",null,[h("tr",null,[h("th",{text:"Collection"}),h("th",{class:"n",text:"Items minted"}),h("th",{class:"n",text:"Unique minters"})])]),
+    h("tbody",null,rows),
+  ]));
+}
+function setPressed(){document.getElementById("mItems").setAttribute("aria-pressed",metric==="items");document.getElementById("mMinters").setAttribute("aria-pressed",metric==="minters");}
+document.getElementById("mItems").onclick=()=>{metric="items";setPressed();renderColl();};
+document.getElementById("mMinters").onclick=()=>{metric="minters";setPressed();renderColl();};
+
+function renderChains(){
+  hbars(document.getElementById("chainBars"), D.chains, null, "wallets");
+  hbars(document.getElementById("platBars"), D.platforms, null, "wallets");
+}
+
+function renderEng(){
+  const el=document.getElementById("engCols"); const max=Math.max(...D.eng.map(e=>e.v)); clear(el);
+  for(const e of D.eng){
+    const disp = e.v>=1000 ? (e.v/1000).toFixed(e.v>=10000?0:1)+"k" : String(e.v);
+    const bar=h("div",{class:"cbar",style:"height:0"});
+    const col=h("div",{class:"col"},[h("div",{class:"cv num",text:disp}),bar,h("div",{class:"cl",text:e.l})]);
+    el.append(col);
+    requestAnimationFrame(()=>{bar.style.height=(6+e.v/max*94)+"%";});
+    col.addEventListener("mousemove",ev=>showTip(ev,e.l+" minted",[["wallets",fmt(e.v)]]));
+    col.addEventListener("mouseleave",hideTip);
+  }
+}
+
+function renderGrowth(){
+  const el=document.getElementById("growthSpark"); const max=Math.max(...D.growth); clear(el);
+  D.growth.forEach((v,i)=>{
+    const b=h("i",{style:"height:"+(v/max*100)+"%"});
+    b.addEventListener("mousemove",ev=>showTip(ev,months[i],[["coins launched",String(v)]]));
+    b.addEventListener("mouseleave",hideTip);
+    el.append(b);
+  });
+}
+
+function renderList(id,rows){
+  const el=document.getElementById(id); const max=Math.max(...rows.map(r=>r.v)); clear(el);
+  rows.forEach((r,i)=>{
+    el.append(h("div",{class:"li"},[
+      h("span",{class:"rk num",text:String(i+1)}),
+      h("span",{class:"nm",text:r.n}),
+      h("span",{class:"mini"},[h("i",{style:"width:"+(r.v/max*100)+"%"})]),
+      h("span",{class:"vv num",text:fmt(r.v)}),
+    ]));
+  });
+}
+
+const root=document.documentElement;
+function applyTheme(t){root.setAttribute("data-theme",t);document.getElementById("themeIcon").textContent=t==="dark"?"☀":"☾";document.getElementById("themeTxt").textContent=t==="dark"?"Light":"Dark";}
+document.getElementById("themeBtn").onclick=()=>{const cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");applyTheme(cur==="dark"?"light":"dark");};
+applyTheme(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+
+renderColl(); renderChains(); renderEng(); renderGrowth();
+renderList("coinList",D.coins); renderList("daoList",D.dao);
+</script>
+
+</body>
+</html>
